@@ -7,7 +7,7 @@ CREATE DATABASE gametime;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
-  id int PRIMARY KEY,
+  id serial PRIMARY KEY,
   id_discord integer,
   username varchar(255),
   profile_photo_url varchar(255),
@@ -18,14 +18,14 @@ CREATE TABLE users (
 DROP TABLE IF EXISTS games;
 
 CREATE TABLE games (
-  id int PRIMARY KEY,
+  id serial PRIMARY KEY,
   name varchar(255)
 );
 
 DROP TABLE IF EXISTS scores;
 
 CREATE TABLE scores (
-  id int PRIMARY KEY,
+  id serial PRIMARY KEY,
   score int,
   id_user int,
   id_game int,
@@ -37,15 +37,15 @@ CREATE TABLE scores (
 DROP TABLE IF EXISTS channels;
 
 CREATE TABLE channels (
-  id int PRIMARY KEY,
+  id serial PRIMARY KEY,
   name varchar(255),
   updated_at timestamp
 );
 
-DROP TABLE IF EXISTS posts;
+DROP TABLE IF EXISTS threads;
 
-CREATE TABLE posts (
-  id int PRIMARY KEY,
+CREATE TABLE threads (
+  id serial PRIMARY KEY,
   text varchar(255),
   id_user int,
   id_channel int,
@@ -58,19 +58,19 @@ CREATE TABLE posts (
 DROP TABLE IF EXISTS replies;
 
 CREATE TABLE replies (
-  id int PRIMARY KEY,
+  id serial PRIMARY KEY,
   text varchar(255),
   id_user int,
-  id_post int,
+  id_thread int,
   created_at timestamp,
   FOREIGN KEY (id_user) REFERENCES users(id),
-  FOREIGN KEY (id_post) REFERENCES posts(id)
+  FOREIGN KEY (id_thread) REFERENCES threads(id)
 );
 
 DROP TABLE IF EXISTS articles;
 
 CREATE TABLE articles (
-  id int PRIMARY KEY,
+  id serial PRIMARY KEY,
   date timestamp,
   api_id int,
   authors varchar(255),
