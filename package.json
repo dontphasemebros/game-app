@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server/server.js",
+    "start": "nodemon server/server.js",
     "dev": "webpack --mode development && nodemon server/index.js",
     "build": "webpack --mode production",
     "test": "node test/appTests.js",
@@ -24,6 +24,8 @@
     "@babel/core": "^7.11.4",
     "@babel/preset-env": "^7.11.0",
     "@babel/preset-react": "^7.10.4",
+    "@typescript-eslint/eslint-plugin": "^4.0.0",
+    "@typescript-eslint/parser": "^4.0.0",
     "babel-loader": "^8.1.0",
     "eslint": "^7.7.0",
     "eslint-config-airbnb": "^18.2.0",
@@ -34,6 +36,7 @@
     "html-webpack-plugin": "^4.4.1",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.13",
+    "nodemon": "^2.0.4",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
