@@ -1,3 +1,6 @@
+// import dotenv module in this file
+require('dotenv').config();
+
 // import express module into file
 const express = require('express');
 
