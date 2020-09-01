@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const { Pool } = require('pg');
 // Client?
 
@@ -58,11 +57,14 @@ const getAddededUserCommand = `
 `;
 
 async function addUser(userObj) {
+  // start with idUser and convert to id_user here,
+  // i.e. as late as you can before the database, NOT in the server
   const {
-    id_discord, username, profile_photo_url, location, age,
+    idDiscord, username, profilePhotoUrl, location, age,
   } = userObj;
-  await pool.query(addUserCommand, [id_discord, username, profile_photo_url, location, age]);
-  let addedUser = await pool.query(getAddededUserCommand, [id_discord]);
+
+  await pool.query(addUserCommand, [idDiscord, username, profilePhotoUrl, location, age]);
+  let addedUser = await pool.query(getAddededUserCommand, [idDiscord]);
   addedUser = addedUser.rows;
   addedUser[0].scores = [];
   return addedUser;
