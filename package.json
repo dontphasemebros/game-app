@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon server/server.js",
     "dev": "webpack --mode development && nodemon server/server.js",
-    "build": "webpack --mode production",
+    "build": "webpack --mode production --watch",
     "test": "node test/apptests.spec.js",
     "pretest": "./node_modules/.bin/eslint --ignore-path .gitignore . --fix"
   },

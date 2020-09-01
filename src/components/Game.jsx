@@ -3,12 +3,14 @@ import Phaser from 'phaser';
 import PlayScene from '../Game/scenes/playScenes';
 import PreloadScene from '../Game/scenes/PreloadScene';
 import GameOverScene from '../Game/scenes/GameOver';
+import ChatRoom from './ChatRoom';
 
 const GamePage = () => {
   const config = {
     width: 800,
     height: 600,
     type: Phaser.AUTO,
+    parent: 'phaser-game',
     audio: {
       disableWebAudio: true,
     },
@@ -28,7 +30,10 @@ const GamePage = () => {
   game.scene.add('gameOver', GameOverScene);
   game.scene.start('preload');
   return (
-    <div />
+    <div>
+      <div id="phaser-game" style={{ float: 'left' }} />
+      <ChatRoom />
+    </div>
   );
 };
 
