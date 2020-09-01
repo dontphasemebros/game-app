@@ -48,8 +48,23 @@ dbRouter.post('/replies', (req, res) => {
 });
 
 dbRouter.post('/users', (req, res) => {
-  addUser();
-  res.send('POST user route working');
+  const {
+    idDiscord, username, profilePhotoUrl, location, age,
+  } = req.body;
+  const userObj = {
+    idDiscord,
+    username,
+    profilePhotoUrl,
+    location,
+    age,
+  };
+  addUser(userObj)
+    .then((success) => {
+      res.send(success);
+    })
+    .catch((err) => {
+      throw err;
+    });
 });
 
 module.exports = dbRouter;
