@@ -3,10 +3,10 @@ const { Pool } = require('pg');
 // Client?
 
 const pool = new Pool({
-  user: 'postgres',
+  user: process.env.DB_USER,
   host: 'localhost',
   database: 'gametime',
-  password: '',
+  password: process.env.DB_PASS,
 });
 
 const getUserCommand = `
