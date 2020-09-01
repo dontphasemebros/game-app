@@ -5,6 +5,8 @@ import {
 import NavBar from './Navbar';
 import SplashPage from './SplashPage';
 import GameTimeLogo from './GameTimeLogo';
+import GamePage from './Game';
+import Forum from './Forum';
 
 function App() {
   return (
@@ -18,10 +20,10 @@ function App() {
               HighScore
             </Route>
             <Route path="/game">
-              Game
+              <GamePage />
             </Route>
             <Route path="/forum">
-              Forum
+              <Forum />
             </Route>
             <Route path="/profile">
               PROFILE
