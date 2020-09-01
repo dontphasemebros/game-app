@@ -20,6 +20,8 @@ const getUserScoreCommand = `
   WHERE id_user = $1
 `;
 
+// takes a number representing the user's database ID (NOT the Discord ID)
+// returns array containing user object with a nested array of the user's scores
 const getUser = (id) => {
   let user;
   return pool.query(getUserCommand, [id])
@@ -56,9 +58,9 @@ const getAddededUserCommand = `
   WHERE id_discord = $1
 `;
 
+// takes an object with user properties: idDiscord, username, profilePhotoUrl, location, age
+// returns array containing newly created user object
 async function addUser(userObj) {
-  // start with idUser and convert to id_user here,
-  // i.e. as late as you can before the database, NOT in the server
   const {
     idDiscord, username, profilePhotoUrl, location, age,
   } = userObj;
