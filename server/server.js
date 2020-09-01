@@ -4,6 +4,9 @@ require('dotenv').config();
 // import express module into file
 const express = require('express');
 
+// import path module to serve static assets
+const path = require('path');
+
 // import express body-parser module
 const bodyParser = require('body-parser');
 
@@ -13,16 +16,13 @@ const cookieParser = require('cookie-parser');
 // create variable set to new express instance
 const app = express();
 
-// import path module to serve static assets
-const path = require('path');
-
 // utilize cookie-parser middleware from express framework
 app.use(cookieParser());
 
 // utilize body parser on incoming requests to server
 app.use(bodyParser.json());
 
-// utilize the urlencoder from express framework
+// utilize the urlencoded from express framework
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // require DB and API routers in server file to properly route request through server
@@ -53,9 +53,9 @@ const HTML_FILE = path.join(DIST_DIR, 'index.html');
 // middleware to server static files
 app.use(express.static(DIST_DIR));
 
-// A Test Route
-app.get('/test', (req, res) => {
-  res.send(dummyData); // used to test server
+// Create Test Routes
+app.get('/api', (req, res) => {
+  res.send(dummyData);
 });
 
 // route serving static files
