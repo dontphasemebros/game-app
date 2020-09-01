@@ -5,6 +5,7 @@ import {
 import NavBar from './Navbar';
 import SplashPage from './SplashPage';
 import GameTimeLogo from './GameTimeLogo';
+import Forum from './Forum';
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
               Game
             </Route>
             <Route path="/forum">
-              Forum
+              <Forum />
             </Route>
             <Route path="/profile">
               PROFILE
