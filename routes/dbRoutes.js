@@ -10,6 +10,15 @@ const { getUser, addUser } = require('../database/index');
 // Database Routes - all routes prefixed with '/'
 
 // GET routes
+
+/*
+* route - retrieves specific user information when given a user id number
+* use - uses "getUser" function to retrieve user information from DB
+* inputs - "getUser" receives as user id number
+* {Param} - id - deconstructed from req.body
+* returns - an object of user information from DB
+*/
+
 dbRouter.get('/users', (req, res) => {
   console.log('*******REQ*******', req.body);
   const { id } = req.body;
@@ -47,9 +56,33 @@ dbRouter.post('/replies', (req, res) => {
   res.send('POST replies route working');
 });
 
+/*
+* route - adds new user information to the db
+* use - uses "addUser" function to add new user information to DB
+* inputs - "addUser" receives an object of user information:
+*        userObj-- {}
+* {Param} -
+* returns -
+*/
+
 dbRouter.post('/users', (req, res) => {
-  addUser();
-  res.send('POST user route working');
+  const {
+    idDiscord, username, profilePhotoUrl, location, age,
+  } = req.body;
+  const userObj = {
+    idDiscord,
+    username,
+    profilePhotoUrl,
+    location,
+    age,
+  };
+  addUser(userObj)
+    .then((success) => {
+      res.send(success);
+    })
+    .catch((err) => {
+      throw err;
+    });
 });
 
 module.exports = dbRouter;
