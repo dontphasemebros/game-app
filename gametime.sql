@@ -6,7 +6,7 @@ CREATE DATABASE gametime;
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
-  id_discord BIGINT,
+  id_discord VARCHAR(255),
   username VARCHAR(255),
   profile_photo_url VARCHAR(510),
   location VARCHAR(255)

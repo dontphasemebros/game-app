@@ -11,22 +11,33 @@ const pool = new Pool({
 // returns array containing user object with a nested array of the user's scores
 async function getUser(idDiscord) {
   const getUserCommand = `
-    SELECT *
-    FROM users
+    SELECT
+      u.id AS "idUser",
+      u.id_discord AS "idDiscord",
+      u.username,
+      u.profile_photo_url AS "profilePhotoUrl",
+      u.location
+    FROM users AS u
     WHERE id_discord = $1
   `;
 
-  const getUserScoreCommand = `
-    SELECT *
-    FROM scores
+  const getUserScoresCommand = `
+    SELECT
+      s.id AS "idScore",
+      s.value,
+      s.id_user AS "idUser",
+      s.id_game AS "idGame",
+      s.created_at AS "createdAt"
+    FROM scores AS s
     WHERE id_user = $1
+    ORDER BY s.id_game, s.value DESC
   `;
 
   try {
     let user = await pool.query(getUserCommand, [idDiscord]);
     user = user.rows;
-    const idUser = user[0].id;
-    const scores = await pool.query(getUserScoreCommand, [idUser]);
+    const { idUser } = user[0];
+    const scores = await pool.query(getUserScoresCommand, [idUser]);
     if (scores) user[0].scores = scores.rows;
     return user;
   } catch (error) {
@@ -42,9 +53,14 @@ async function addUser(userObj) {
   } = userObj;
 
   const addUserCommand = `
-    INSERT INTO users (id_discord, username, profile_photo_url, location)
+    INSERT INTO users AS u (id_discord, username, profile_photo_url, location)
     VALUES ($1, $2, $3, $4)
-    RETURNING *;
+    RETURNING
+      u.id AS "idUser",
+      u.id_discord AS "idDiscord",
+      u.username,
+      u.profile_photo_url AS "profilePhotoUrl",
+      u.location
   `;
 
   try {
@@ -62,12 +78,22 @@ async function addUser(userObj) {
 // returns array of threads with user info and a nested array of thread replies
 async function getThreads(idChannel) {
   const getThreadsCommand = `
-    SELECT users.*, threads.*
-    FROM threads
-    LEFT JOIN users
-    ON threads.id_user = users.id
+    SELECT
+      t.id AS "idThread",
+      t.text,
+      t.id_channel AS "idChannel",
+      t.updated_at AS "updatedAt",
+      t.created_at AS "createdAt",
+      t.id_user AS "idUser",
+      u.id_discord AS "idDiscord",
+      u.username,
+      u.profile_photo_url AS "profilePhotoUrl",
+      u.location
+    FROM threads t
+    LEFT JOIN users u
+    ON t.id_user = u.id
     WHERE id_channel = $1
-    ORDER BY threads.created_at DESC, threads.id DESC
+    ORDER BY t.created_at DESC, t.id
   `;
 
   try {
@@ -75,12 +101,23 @@ async function getThreads(idChannel) {
     threads = threads.rows;
     const results = [];
     await Promise.all(threads.map(async (thread) => {
-      const threadId = thread.id;
+      const { idThread } = thread;
       const getRepliesCommand = `
-        SELECT *
-        FROM replies
-        WHERE id_thread = ${threadId}
-        ORDER BY created_at, id
+        SELECT
+          r.id AS "idReply",
+          r.text,
+          r.id_thread AS "idThread",
+          r.created_at AS "createdAt",
+          r.id_user AS "idUser",
+          u.id_discord AS "idDiscord",
+          u.username,
+          u.profile_photo_url AS "profilePhotoUrl",
+          u.location
+        FROM replies r
+        LEFT JOIN users u
+        ON r.id_user = u.id
+        WHERE id_thread = ${idThread}
+        ORDER BY r.created_at, r.id
       `;
       const replies = await pool.query(getRepliesCommand);
       const finishedThread = thread;
@@ -101,16 +138,37 @@ async function addThread(threadObj) {
   } = threadObj;
 
   const addThreadCommand = `
-    INSERT INTO threads (text, id_user, id_channel)
+    INSERT INTO threads AS t (text, id_user, id_channel)
     VALUES ($1, $2, $3)
-    RETURNING *;
+    RETURNING
+      t.id AS "idThread"
   `;
 
   try {
-    let thread = await pool.query(addThreadCommand, [text, idUser, idChannel]);
-    thread = thread.rows;
-    thread[0].replies = [];
-    return thread;
+    const thread = await pool.query(addThreadCommand, [text, idUser, idChannel]);
+    const { idThread } = thread.rows[0];
+    const getAddedThreadCommand = `
+      SELECT
+        t.id AS "idThread",
+        t.text,
+        t.id_channel AS "idChannel",
+        t.updated_at AS "updatedAt",
+        t.created_at AS "createdAt",
+        t.id_user AS "idUser",
+        u.id_discord AS "idDiscord",
+        u.username,
+        u.profile_photo_url AS "profilePhotoUrl",
+        u.location
+      FROM threads t
+      LEFT JOIN users u
+      ON t.id_user = u.id
+      WHERE t.id = ${idThread}
+      ORDER BY t.created_at DESC, t.id
+    `;
+    let addedThread = await pool.query(getAddedThreadCommand);
+    addedThread = addedThread.rows;
+    addedThread[0].replies = [];
+    return addedThread;
   } catch (error) {
     return console.error('COULD NOT ADD THREAD TO DATABASE', error);
   }
@@ -124,15 +182,34 @@ async function addReply(replyObj) {
   } = replyObj;
 
   const addReplyCommand = `
-    INSERT INTO replies (text, id_user, id_thread)
+    INSERT INTO replies AS r (text, id_user, id_thread)
     VALUES ($1, $2, $3)
-    RETURNING *;
+    RETURNING
+      r.id AS "idReply"
   `;
-
   try {
-    let reply = await pool.query(addReplyCommand, [text, idUser, idThread]);
-    reply = reply.rows;
-    return reply;
+    const reply = await pool.query(addReplyCommand, [text, idUser, idThread]);
+    const { idReply } = reply.rows[0];
+    const getRepliesCommand = `
+      SELECT
+        r.id AS "idReply",
+        r.text,
+        r.id_thread AS "idThread",
+        r.created_at AS "createdAt",
+        r.id_user AS "idUser",
+        u.id_discord AS "idDiscord",
+        u.username,
+        u.profile_photo_url AS "profilePhotoUrl",
+        u.location
+      FROM replies r
+      LEFT JOIN users u
+      ON r.id_user = u.id
+      WHERE r.id = ${idReply}
+      ORDER BY r.created_at, r.id
+    `;
+    let addedReply = await pool.query(getRepliesCommand);
+    addedReply = addedReply.rows;
+    return addedReply;
   } catch (error) {
     return console.error('COULD NOT ADD REPLY TO DATABASE', error);
   }
@@ -142,12 +219,21 @@ async function addReply(replyObj) {
 // returns array of scores with user info
 async function getScores(idGame) {
   const getScoresCommand = `
-    SELECT users.*, scores.*
-    FROM scores
-    LEFT JOIN users
-    ON scores.id_user = users.id
+    SELECT
+      s.id,
+      s.value,
+      s.id_game AS "idGame",
+      s.created_at AS "createdAt",
+      s.id_user AS "idUser",
+      u.id_discord AS "idDiscord",
+      u.username,
+      u.profile_photo_url AS "profilePhotoUrl",
+      u.location
+    FROM scores s
+    LEFT JOIN users u
+    ON s.id_user = u.id
     WHERE id_game = $1
-    ORDER BY scores.value DESC
+    ORDER BY s.value DESC
     LIMIT 10
   `;
 
@@ -168,15 +254,36 @@ async function addScore(scoreObj) {
   } = scoreObj;
 
   const addScoreCommand = `
-    INSERT INTO scores (value, id_user, id_game)
+    INSERT INTO scores AS s (value, id_user, id_game)
     VALUES ($1, $2, $3)
-    RETURNING *;
+    RETURNING
+      s.id AS "idScore"
   `;
 
   try {
-    let score = await pool.query(addScoreCommand, [value, idUser, idGame]);
-    score = score.rows;
-    return score;
+    const score = await pool.query(addScoreCommand, [value, idUser, idGame]);
+    const { idScore } = score.rows[0];
+    const getAddedScoreCommand = `
+      SELECT
+        s.id AS "idScore",
+        s.value,
+        s.id_game AS "idGame",
+        s.created_at AS "createdAt",
+        s.id_user AS "idUser",
+        u.id_discord AS "idDiscord",
+        u.username,
+        u.profile_photo_url AS "profilePhotoUrl",
+        u.location
+      FROM scores s
+      LEFT JOIN users u
+      ON s.id_user = u.id
+      WHERE s.id = ${idScore}
+      ORDER BY s.value DESC
+      LIMIT 10
+    `;
+    let addedScore = await pool.query(getAddedScoreCommand);
+    addedScore = addedScore.rows;
+    return addedScore;
   } catch (error) {
     return console.error('COULD NOT ADD SCORE TO DATABASE', error);
   }
