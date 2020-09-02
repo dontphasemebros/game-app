@@ -4,6 +4,9 @@ require('dotenv').config();
 // import express module into file
 const express = require('express');
 
+// import socket.io for live chat
+const socket = require('socket.io');
+
 // import path module to serve static assets
 const path = require('path');
 
@@ -64,6 +67,17 @@ app.get('/*', (req, res) => {
 });
 
 // set server to listen for events on PORT
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`This server only listens to:${port}`);
+});
+
+// Socket setup
+const io = socket(server);
+
+// establish socket on
+io.on('connection', (socket1) => {
+  socket1.emit('your id', socket1.id);
+  socket1.on('send message', (body) => {
+    io.emit('message', body);
+  });
 });

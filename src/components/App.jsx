@@ -7,32 +7,45 @@ import SplashPage from './SplashPage';
 import GameTimeLogo from './GameTimeLogo';
 import GamePage from './Game';
 import Forum from './Forum';
+import Chat from './Chat';
 
 function App() {
   return (
     <BrowserRouter>
       <div className="container">
         <GameTimeLogo />
-        <NavBar />
         <div className="row">
           <Switch>
+            <Route path="/chat">
+              <Chat />
+            </Route>
             <Route path="/highscore">
+              <NavBar />
               HighScore
             </Route>
             <Route path="/game">
+              <NavBar />
               <GamePage />
             </Route>
             <Route path="/forum">
+              <NavBar />
               <Forum />
             </Route>
             <Route path="/profile">
+              <NavBar />
               PROFILE
             </Route>
             <Route path="/404">
+              <NavBar />
               Not Found
             </Route>
             <Route path="/">
+              <NavBar />
               <SplashPage />
+            </Route>
+            <Route path="/loginFailure">
+              <NavBar />
+              Please Login With Valid Credentials
             </Route>
           </Switch>
         </div>

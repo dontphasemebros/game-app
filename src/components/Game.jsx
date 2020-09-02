@@ -3,7 +3,6 @@ import Phaser from 'phaser';
 import PlayScene from '../Game/scenes/playScenes';
 import PreloadScene from '../Game/scenes/PreloadScene';
 import GameOverScene from '../Game/scenes/GameOver';
-import ChatRoom from './ChatRoom';
 
 const GamePage = () => {
   const config = {
@@ -29,10 +28,18 @@ const GamePage = () => {
   game.scene.add('preload', PreloadScene);
   game.scene.add('gameOver', GameOverScene);
   game.scene.start('preload');
+
+  const handleSubmit = () => {
+    window.open('http://localhost:8080/chat', 'chat-window', 'height=500,width=500'); return false;
+  };
   return (
     <div>
-      <div id="phaser-game" style={{ float: 'left' }} />
-      <ChatRoom />
+      <br />
+      <div id="phaser-game" />
+      <br />
+      <form onSubmit={handleSubmit}>
+        <input type="submit" value="Chat" />
+      </form>
     </div>
   );
 };

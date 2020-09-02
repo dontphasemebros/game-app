@@ -95,7 +95,7 @@ export default class PlayScene extends Phaser.Scene {
       this.ship.setAcceleration(0);
     }
 
-    if (this.cursors.space.isDown) {
+    if (this.cursors.shift.isDown) {
       const shoot = this.shootsGroup.get();
       if (shoot) {
         shoot.fire(this.ship.x, this.ship.y, this.ship.rotation);
