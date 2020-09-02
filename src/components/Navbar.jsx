@@ -8,21 +8,21 @@ import {
  */
 const NavBar = () => (
   <Container>
-    <Navbar bg="dark" variant="dark" style={{ backgroundColor: '#ececec', maxHeight: '40px' }}>
+    <Navbar bg="dark" variant="dark">
       <Nav className="mr-auto">
-        <Navbar.Brand href="/" style={{ display: 'inline-block', marginRight: '90px', marginLeft: '120px' }}>
+        <Navbar.Brand href="/">
           <h3>GameTime</h3>
         </Navbar.Brand>
-        <Nav.Link href="/highscore" style={{ display: 'inline-block', marginRight: '90px' }}>
+        <Nav.Link href="/highscore">
           <h3>HighScore</h3>
         </Nav.Link>
-        <Nav.Link href="/game" style={{ display: 'inline-block', marginRight: '90px' }}>
+        <Nav.Link href="/game">
           <h3>Game</h3>
         </Nav.Link>
-        <Nav.Link href="/forum" style={{ display: 'inline-block', marginRight: '90px', marginBottom: '10px' }}>
+        <Nav.Link href="/forum">
           <h3>Forum</h3>
         </Nav.Link>
-        <Nav.Link href="/profile" style={{ display: 'inline-block', marginRight: '120px' }}>
+        <Nav.Link href="/profile">
           <h3>Profile</h3>
         </Nav.Link>
       </Nav>

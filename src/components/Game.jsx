@@ -9,6 +9,7 @@ const GamePage = () => {
     width: 800,
     height: 600,
     type: Phaser.AUTO,
+    parent: 'phaser-game',
     audio: {
       disableWebAudio: true,
     },
@@ -27,8 +28,19 @@ const GamePage = () => {
   game.scene.add('preload', PreloadScene);
   game.scene.add('gameOver', GameOverScene);
   game.scene.start('preload');
+
+  const handleSubmit = () => {
+    window.open('http://localhost:8080/chat', 'chat-window', 'height=500,width=500'); return false;
+  };
   return (
-    <div />
+    <div>
+      <br />
+      <div id="phaser-game" />
+      <br />
+      <form onSubmit={handleSubmit}>
+        <input type="submit" value="Chat" />
+      </form>
+    </div>
   );
 };
 
