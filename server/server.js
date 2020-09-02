@@ -13,6 +13,15 @@ const bodyParser = require('body-parser');
 // import cookie parser from express framework
 const cookieParser = require('cookie-parser');
 
+// import express-session module
+const session = require('express-session');
+
+// import passport module
+const passport = require('passport');
+
+// import DiscordStrategy authentication strategy
+const discordStrategy = require('../src/strategies/discordStrategy');
+
 // create variable set to new express instance
 const app = express();
 
@@ -39,6 +48,21 @@ const dummyData = {
   group: `${groupName}`,
   project: `${projectName}`,
 };
+
+//  initialize the express session
+app.use(session({
+  secret: 'some random secret',
+  cookie: {
+    maxAge: 60000 * 60 * 24, // one day max age
+  },
+  resave: true,
+  saveUninitialized: false,
+  name: 'discord.oauth2',
+}));
+
+// initialize passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 // use router to direct to dbRoutes file
 app.use('/', database);
@@ -67,3 +91,5 @@ app.get('/*', (req, res) => {
 app.listen(port, () => {
   console.log(`This server only listens to:${port}`);
 });
+
+module.exports = discordStrategy;
