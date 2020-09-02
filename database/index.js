@@ -8,7 +8,7 @@ const pool = new Pool({
   password: process.env.DB_PASS,
 });
 
-// takes a number representing the user's database ID (NOT the Discord ID)
+// takes a number representing the user's Discord ID (NOT the database ID)
 // returns array containing user object with a nested array of the user's scores
 async function getUser(idDiscord) {
   const getUserCommand = `
@@ -64,7 +64,7 @@ async function addUser(userObj) {
   }
 }
 
-// takes a number representing the channel ID
+// *****DOES NOT WORK YET***** takes a number representing the channel ID
 // returns array of threads with user info and a nested array of thread replies
 async function getThreads(id) {
   // console.log('ID IN GET THREADS: ', id);
@@ -87,13 +87,13 @@ async function getThreads(id) {
   try {
     let threads = await pool.query(getThreadsCommand, [id]);
     threads = threads.rows;
-    // for (let i = 0; i < threads.length; i++) {
-    // console.log(threads[i]);
-    // const threadId = threads[i].id;
-    // const replies = await pool.query(getRepliesCommand, [threadId]);
-    // threads[i].replies = replies.rows;
-    // }
-    // if (scores) user[0].scores = scores.rows;
+    // threads.forEach(async (thread) => {
+    //   console.log(thread.id);
+    //   const threadId = thread.id;
+    //   console.log('threadId: ', threadId);
+    //   const replies = await pool.query(getRepliesCommand, [threadId]);
+    //   thread.replies = replies.rows;
+    // });
     return threads;
   } catch (error) {
     return console.error('COULD NOT GET THREADS FROM DATABASE', error);
