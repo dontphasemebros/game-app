@@ -49,7 +49,7 @@ async function getUser(idDiscord) {
 }
 
 // takes an object with user properties: idDiscord (string), username, profilePhotoUrl, location
-// returns array containing newly created user object nested in an array
+// returns array containing newly created user object
 async function addUser(userObj) {
   const {
     idDiscord, username, profilePhotoUrl, location,
