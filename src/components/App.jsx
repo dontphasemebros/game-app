@@ -7,7 +7,11 @@ import SplashPage from './SplashPage';
 import GameTimeLogo from './GameTimeLogo';
 import GamePage from './Game';
 import Forum from './Forum';
-import ForumPage from './ForumPages';
+import GeneralDiscussion from './forum-pages/DiscussionPage';
+import Challenges from './forum-pages/Challenges';
+import Suggestions from './forum-pages/Suggestions';
+import GamerNews from './forum-pages/GamerNews';
+import Replies from './forum-pages/ForumReplies';
 
 function App() {
   return (
@@ -30,16 +34,19 @@ function App() {
               PROFILE
             </Route>
             <Route path="/discussion">
-              <ForumPage />
+              <GeneralDiscussion />
             </Route>
             <Route path="/challenges">
-              <ForumPage />
+              <Challenges />
             </Route>
             <Route path="/suggestions*">
-              <ForumPage />
+              <Suggestions />
             </Route>
             <Route path="/gamer-news">
-              <ForumPage />
+              <GamerNews />
+            </Route>
+            <Route path="/replies">
+              <Replies />
             </Route>
             <Route path="/404">
               Not Found
