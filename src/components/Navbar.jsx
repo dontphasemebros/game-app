@@ -25,6 +25,9 @@ const NavBar = () => (
         <Nav.Link href="/profile" style={{ display: 'inline-block', marginRight: '120px' }}>
           <h3>Profile</h3>
         </Nav.Link>
+        <Nav.Link href="/login" style={{ display: 'inline-block', marginRight: '120px' }}>
+          <h3>Login</h3>
+        </Nav.Link>
       </Nav>
     </Navbar>
   </Container>
