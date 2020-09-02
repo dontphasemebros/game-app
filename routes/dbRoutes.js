@@ -5,7 +5,15 @@ const express = require('express');
 const dbRouter = express.Router();
 
 // import database helper functions from ../database/index.js
-const { getUser, addUser } = require('../database/index');
+const {
+  getUser,
+  addUser,
+  getThreads,
+  addThread,
+  addReply,
+  getScores,
+  addScore,
+} = require('../database/index');
 
 // Database Routes - all routes prefixed with '/'
 
@@ -20,9 +28,8 @@ const { getUser, addUser } = require('../database/index');
 */
 
 dbRouter.get('/users', (req, res) => {
-  console.log('*******REQ*******', req.body);
-  const { id } = req.body;
-  getUser(id)
+  const { idDiscord } = req.body;
+  getUser(idDiscord)
     .then((foundUser) => {
       res.send(foundUser);
     })
@@ -32,27 +39,32 @@ dbRouter.get('/users', (req, res) => {
 });
 
 dbRouter.get('/threads', (req, res) => {
+  getThreads();
   res.send('GET threads DB route working');
 });
 
-dbRouter.get('/articles', (req, res) => {
-  res.send('GET articles route working');
-});
+// dbRouter.get('/articles', (req, res) => {
+//   res.send('GET articles route working');
+// });
 
 dbRouter.get('/scores', (req, res) => {
+  getScores();
   res.send('GET game-scores route working');
 });
 
 // POST routes
 dbRouter.post('/scores', (req, res) => {
+  addScore();
   res.send('POST game-scores route working');
 });
 
 dbRouter.post('/threads', (req, res) => {
+  addThread();
   res.send('POST threads route working');
 });
 
 dbRouter.post('/replies', (req, res) => {
+  addReply();
   res.send('POST replies route working');
 });
 
@@ -67,14 +79,13 @@ dbRouter.post('/replies', (req, res) => {
 
 dbRouter.post('/users', (req, res) => {
   const {
-    idDiscord, username, profilePhotoUrl, location, age,
+    id, username, avatar, locale,
   } = req.body;
   const userObj = {
-    idDiscord,
+    idDiscord: id,
     username,
-    profilePhotoUrl,
-    location,
-    age,
+    profilePhotoUrl: `https://cdn.discordapp.com/avatars/${id}/${avatar}.png`,
+    location: locale,
   };
   addUser(userObj)
     .then((success) => {

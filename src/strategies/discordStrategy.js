@@ -9,24 +9,26 @@ const { getUser, addUser } = require('../../database/index');
 
 // use passport serialize user middleware
 passport.serializeUser((user, done) => {
-  console.log(user);
+  // console.log('*******serialize user*******', user[0]);
   done(null, user);
 });
 
 // use passport deserialize user middleware
 passport.deserializeUser((user, done) => {
+  // console.log('*******deserialize user*******', user[0]);
+  // const { id } = user[0];
+  getUser(user[0].id_discord) // get user
+    .then((foundUser) => {
+      if (foundUser) {
+        done(null, foundUser);
+      } else {
+        console.log('no user with that id found');
+      }
+    })
+    .catch((error) => {
+      throw error;
+    });
   done(null, user);
-  // getUser(id) // get user
-  //   .then((user) => {
-  //     if (user) {
-  //       done(null, user);
-  //     } else {
-  //       console.log('no user with that id found');
-  //     }
-  //   })
-  //   .catch((error) => {
-  //     throw error;
-  //   });
 });
 
 // create new instance of passport Discord strategy
@@ -37,22 +39,36 @@ passport.use(new DiscordStrategy({
   callbackURL: process.env.DISCORD_CLIENT_REDIRECT,
   scope: ['identify', 'guilds'],
 }, (accessToken, refreshToken, profile, done) => {
-  getUser(profile.id)
-    .then((user) => {
-      if (user) {
-        done(null, user);
+  // console.log('*********PROFILE*********', profile); // the id is on the profile object
+  const {
+    id, username, avatar, locale,
+  } = profile;
+  getUser(id)
+    .then((gotUser) => {
+      // console.log('*******GOT USER*******', gotUser);
+      if (gotUser) {
+        done(null, gotUser);
       } else {
         addUser({
-          id: profile.id,
-          username: profile.username,
+          idDiscord: id,
+          username,
+          profilePhotoUrl: `https://cdn.discordapp.com/avatars/${id}/${avatar}.png`,
+          location: locale,
         })
           .then((newUser) => {
-            newUser.save();
+            // console.log('********NewUser********', newUser[0]);
+            // const {id_discord, username, profile_photo_url, location } = newUser[0];
+            // addUser({
+            //   idDiscord: newUser[0].id_discord,
+            //   username: newUser[0].username,
+            //   profilePhotoUrl: newUser[0].profile_photo_url,
+            //   location: newUser[0].location,
+            // }); // newUser.save is not a function
             done(null, newUser);
           });
       }
     })
     .catch((error) => {
-      console.log(error);
+      throw error;
     });
 }));
