@@ -7,6 +7,7 @@ import SplashPage from './SplashPage';
 import GameTimeLogo from './GameTimeLogo';
 import GamePage from './Game';
 import Forum from './Forum';
+import ForumPage from './ForumPages';
 
 function App() {
   return (
@@ -27,6 +28,18 @@ function App() {
             </Route>
             <Route path="/profile">
               PROFILE
+            </Route>
+            <Route path="/discussion">
+              <ForumPage />
+            </Route>
+            <Route path="/challenges">
+              <ForumPage />
+            </Route>
+            <Route path="/suggestions*">
+              <ForumPage />
+            </Route>
+            <Route path="/gamer-news">
+              <ForumPage />
             </Route>
             <Route path="/404">
               Not Found
