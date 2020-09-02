@@ -36,9 +36,12 @@ async function getUser(idDiscord) {
   try {
     let user = await pool.query(getUserCommand, [idDiscord]);
     user = user.rows;
-    const { idUser } = user[0];
-    const scores = await pool.query(getUserScoresCommand, [idUser]);
-    if (scores) user[0].scores = scores.rows;
+    console.log('USER: ', user);
+    if (user.length) {
+      const { idUser } = user[0];
+      const scores = await pool.query(getUserScoresCommand, [idUser]);
+      if (scores) user[0].scores = scores.rows;
+    }
     return user;
   } catch (error) {
     return console.error('COULD NOT GET USER FROM DATABASE', error);
