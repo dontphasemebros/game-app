@@ -10,23 +10,24 @@ const pool = new Pool({
 
 // takes a number representing the user's database ID (NOT the Discord ID)
 // returns array containing user object with a nested array of the user's scores
-async function getUser(id) {
+async function getUser(idDiscord) {
   const getUserCommand = `
-    SELECT users.*
+    SELECT *
     FROM users
-    WHERE id = $1
+    WHERE id_discord = $1
   `;
 
   const getUserScoreCommand = `
-    SELECT scores.*
+    SELECT *
     FROM scores
     WHERE id_user = $1
   `;
 
   try {
-    let user = await pool.query(getUserCommand, [id]);
-    const scores = await pool.query(getUserScoreCommand, [id]);
+    let user = await pool.query(getUserCommand, [idDiscord]);
     user = user.rows;
+    const idUser = user[0].id;
+    const scores = await pool.query(getUserScoreCommand, [idUser]);
     if (scores) user[0].scores = scores.rows;
     return user;
   } catch (error) {
@@ -63,7 +64,44 @@ async function addUser(userObj) {
   }
 }
 
+// takes a number representing the channel ID
+// returns array of threads with user info and a nested array of thread replies
+async function getThreads(id) {
+  // console.log('ID IN GET THREADS: ', id);
+  const getThreadsCommand = `
+    SELECT users.* as user, threads.*
+    FROM threads
+    LEFT JOIN users
+    ON threads.id_user = users.id
+    WHERE id_channel = $1
+    ORDER BY created_at DESC
+  `;
+
+  // const getRepliesCommand = `
+  //   SELECT *
+  //   FROM replies
+  //   WHERE id_thread = $2
+  //   ORDER BY created_at DESC
+  // `;
+
+  try {
+    let threads = await pool.query(getThreadsCommand, [id]);
+    threads = threads.rows;
+    // for (let i = 0; i < threads.length; i++) {
+    // console.log(threads[i]);
+    // const threadId = threads[i].id;
+    // const replies = await pool.query(getRepliesCommand, [threadId]);
+    // threads[i].replies = replies.rows;
+    // }
+    // if (scores) user[0].scores = scores.rows;
+    return threads;
+  } catch (error) {
+    return console.error('COULD NOT GET THREADS FROM DATABASE', error);
+  }
+}
+
 module.exports = {
   getUser,
   addUser,
+  getThreads,
 };
