@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const { Pool } = require('pg');
 // Client?
 
@@ -21,6 +20,8 @@ const getUserScoreCommand = `
   WHERE id_user = $1
 `;
 
+// takes a number representing the user's database ID (NOT the Discord ID)
+// returns array containing user object with a nested array of the user's scores
 const getUser = (id) => {
   let user;
   return pool.query(getUserCommand, [id])
@@ -32,7 +33,7 @@ const getUser = (id) => {
       user.scores = scores.rows;
       return user;
     })
-    .catch((err) => { throw err; });
+    .catch((err) => err);
 };
 
 // async function getUser(id) {
@@ -57,12 +58,15 @@ const getAddededUserCommand = `
   WHERE id_discord = $1
 `;
 
+// takes an object with user properties: idDiscord, username, profilePhotoUrl, location, age
+// returns array containing newly created user object
 async function addUser(userObj) {
   const {
-    id_discord, username, profile_photo_url, location, age,
+    idDiscord, username, profilePhotoUrl, location, age,
   } = userObj;
-  await pool.query(addUserCommand, [id_discord, username, profile_photo_url, location, age]);
-  let addedUser = await pool.query(getAddededUserCommand, [id_discord]);
+
+  await pool.query(addUserCommand, [idDiscord, username, profilePhotoUrl, location, age]);
+  let addedUser = await pool.query(getAddededUserCommand, [idDiscord]);
   addedUser = addedUser.rows;
   addedUser[0].scores = [];
   return addedUser;
