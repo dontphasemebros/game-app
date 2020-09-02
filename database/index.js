@@ -7,7 +7,7 @@ const pool = new Pool({
   password: process.env.DB_PASS,
 });
 
-// takes a number representing the user's Discord ID (NOT the database ID)
+// takes a *string* representing the user's Discord ID (NOT the database ID)
 // returns array containing user object with a nested array of the user's scores
 async function getUser(idDiscord) {
   const getUserCommand = `
@@ -36,16 +36,19 @@ async function getUser(idDiscord) {
   try {
     let user = await pool.query(getUserCommand, [idDiscord]);
     user = user.rows;
-    const { idUser } = user[0];
-    const scores = await pool.query(getUserScoresCommand, [idUser]);
-    if (scores) user[0].scores = scores.rows;
+    console.log('USER: ', user);
+    if (user.length) {
+      const { idUser } = user[0];
+      const scores = await pool.query(getUserScoresCommand, [idUser]);
+      if (scores) user[0].scores = scores.rows;
+    }
     return user;
   } catch (error) {
     return console.error('COULD NOT GET USER FROM DATABASE', error);
   }
 }
 
-// takes an object with user properties: idDiscord, username, profilePhotoUrl, location
+// takes an object with user properties: idDiscord (string), username, profilePhotoUrl, location
 // returns array containing newly created user object nested in an array
 async function addUser(userObj) {
   const {
@@ -75,7 +78,7 @@ async function addUser(userObj) {
 }
 
 // takes a number representing the channel ID
-// returns array of threads with user info and a nested array of thread replies
+// returns array of threads with user info and a nested array of thread replies with user info
 async function getThreads(idChannel) {
   const getThreadsCommand = `
     SELECT
@@ -131,7 +134,7 @@ async function getThreads(idChannel) {
 }
 
 // takes an object with thread properties: text, idUser, idChannel
-// returns array containing newly created thread object nested in an array
+// returns array containing newly created thread object with user info
 async function addThread(threadObj) {
   const {
     text, idUser, idChannel,
@@ -175,7 +178,7 @@ async function addThread(threadObj) {
 }
 
 // takes an object with reply properties: text, idUser, idThread
-// returns array containing newly created reply object nested in an array
+// returns array containing newly created reply object with user info
 async function addReply(replyObj) {
   const {
     text, idUser, idThread,
@@ -247,7 +250,7 @@ async function getScores(idGame) {
 }
 
 // takes an object with score properties: value, idUser, idGame
-// returns array containing newly created score object nested in an array
+// returns array containing newly created score object with user info
 async function addScore(scoreObj) {
   const {
     value, idUser, idGame,
