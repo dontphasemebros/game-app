@@ -1,5 +1,4 @@
 const { Pool } = require('pg');
-// Client?
 
 const pool = new Pool({
   user: process.env.DB_USER,
@@ -64,37 +63,38 @@ async function addUser(userObj) {
   }
 }
 
-// *****DOES NOT WORK YET***** takes a number representing the channel ID
+// takes a number representing the channel ID
 // returns array of threads with user info and a nested array of thread replies
 async function getThreads(id) {
-  // console.log('ID IN GET THREADS: ', id);
   const getThreadsCommand = `
     SELECT users.* as user, threads.*
     FROM threads
     LEFT JOIN users
     ON threads.id_user = users.id
     WHERE id_channel = $1
-    ORDER BY created_at DESC
+    ORDER BY created_at, threads.id
   `;
-
-  // const getRepliesCommand = `
-  //   SELECT *
-  //   FROM replies
-  //   WHERE id_thread = $2
-  //   ORDER BY created_at DESC
-  // `;
 
   try {
     let threads = await pool.query(getThreadsCommand, [id]);
     threads = threads.rows;
-    // threads.forEach(async (thread) => {
-    //   console.log(thread.id);
-    //   const threadId = thread.id;
-    //   console.log('threadId: ', threadId);
-    //   const replies = await pool.query(getRepliesCommand, [threadId]);
-    //   thread.replies = replies.rows;
-    // });
-    return threads;
+    const results = [];
+    await Promise.all(threads.map(async (thread) => {
+      console.log(thread.id);
+      const threadId = thread.id;
+      const getRepliesCommand = `
+        SELECT *
+        FROM replies
+        WHERE id_thread = ${threadId}
+        ORDER BY created_at, id
+      `;
+      const replies = await pool.query(getRepliesCommand);
+      console.log('replies: ', replies.rows);
+      const finishedThread = thread;
+      finishedThread.replies = replies.rows ? replies.rows : [];
+      results.push(finishedThread);
+    }));
+    return await results;
   } catch (error) {
     return console.error('COULD NOT GET THREADS FROM DATABASE', error);
   }
