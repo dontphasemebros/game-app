@@ -138,8 +138,32 @@ async function addReply(replyObj) {
   }
 }
 
+// takes an object with score properties: score, idUser, idGame
+// returns array containing newly created score object nested in an array
+async function addScore(scoreObj) {
+  const {
+    text, idUser, idGame,
+  } = scoreObj;
+
+  const addScoreCommand = `
+    INSERT INTO scores (text, id_user, id_game)
+    VALUES ($1, $2, $3)
+    RETURNING *;
+  `;
+
+  try {
+    let score = await pool.query(addScoreCommand, [text, idUser, idGame]);
+    score = score.rows;
+    return score;
+  } catch (error) {
+    return console.error('COULD NOT ADD USER TO DATABASE', error);
+  }
+}
+
+// ************************************************************************
 // TO DO WITH JAMES: remove age; reassign userObj = req.body, id => idDiscord, id => idChannel,
 // import new helpers, make helper destructuring into column
+// ************************************************************************
 
 module.exports = {
   getUser,
@@ -147,4 +171,5 @@ module.exports = {
   getThreads,
   addThread,
   addReply,
+  addScore,
 };
