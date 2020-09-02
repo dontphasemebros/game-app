@@ -9,7 +9,7 @@ CREATE TABLE users (
   id_discord BIGINT,
   username VARCHAR(255),
   profile_photo_url VARCHAR(510),
-  location VARCHAR(255),
+  location VARCHAR(255)
 );
 
 CREATE TABLE games (
@@ -19,7 +19,7 @@ CREATE TABLE games (
 
 CREATE TABLE scores (
   id SERIAL PRIMARY KEY,
-  score INT,
+  value INT,
   id_user INT,
   id_game INT,
   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
@@ -80,28 +80,28 @@ BEFORE UPDATE ON threads
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_TIMESTAMP();
 
-INSERT INTO users (id_discord, username, profile_photo_url, location) VALUES (12345, 'Ben', 'https://avatars1.githubusercontent.com/u/43221771?s=400&u=df8c77de50068df1e09041de441840cff350e47f&v=4', 'Mandeville', null);
-INSERT INTO users (id_discord, username, profile_photo_url, location) VALUES (23456, 'Grant', 'https://avatars0.githubusercontent.com/u/61560345?s=400&u=57f06ab214f93e0bb302a91e4258bbfe54746077&v=4', 'New Orleans', 36);
-INSERT INTO users (id_discord, username, profile_photo_url, location) VALUES (34567, 'James', 'https://avatars1.githubusercontent.com/u/57680469?s=400&u=58ab864ffb55ce45866c75fb05e1f6a8e8c6dfb1&v=4', 'MS', 36);
-INSERT INTO users (id_discord, username, profile_photo_url, location) VALUES (45678, 'Connor', 'https://avatars1.githubusercontent.com/u/60720268?s=400&u=2236cf34f7c8010753eea568f245a80d9bd77b03&v=4', 'NOLA', 26);
--- INSERT into users (id_discord, username, photo_url, location, age) VALUES (, '', '', '', '');
+INSERT INTO users (id_discord, username, profile_photo_url, location) VALUES (12345, 'Ben', 'https://avatars1.githubusercontent.com/u/43221771?s=400&u=df8c77de50068df1e09041de441840cff350e47f&v=4', 'Mandeville');
+INSERT INTO users (id_discord, username, profile_photo_url, location) VALUES (23456, 'Grant', 'https://avatars0.githubusercontent.com/u/61560345?s=400&u=57f06ab214f93e0bb302a91e4258bbfe54746077&v=4', 'New Orleans');
+INSERT INTO users (id_discord, username, profile_photo_url, location) VALUES (34567, 'James', 'https://avatars1.githubusercontent.com/u/57680469?s=400&u=58ab864ffb55ce45866c75fb05e1f6a8e8c6dfb1&v=4', 'MS');
+INSERT INTO users (id_discord, username, profile_photo_url, location) VALUES (45678, 'Connor', 'https://avatars1.githubusercontent.com/u/60720268?s=400&u=2236cf34f7c8010753eea568f245a80d9bd77b03&v=4', 'NOLA');
+-- INSERT into users (id_discord, username, photo_url, location) VALUES (, '', '', '');
 
 INSERT INTO games (name) VALUES ('spaceship laser blaster "pew pew pew" game');
 
-INSERT INTO scores (score, id_user, id_game) VALUES (37, 1, 1);
-INSERT INTO scores (score, id_user, id_game) VALUES (58, 1, 1);
-INSERT INTO scores (score, id_user, id_game) VALUES (34, 4, 1);
-INSERT INTO scores (score, id_user, id_game) VALUES (100, 4, 1);
-INSERT INTO scores (score, id_user, id_game) VALUES (99, 1, 1);
-INSERT INTO scores (score, id_user, id_game) VALUES (78, 4, 1);
-INSERT INTO scores (score, id_user, id_game) VALUES (48, 4, 1);
-INSERT INTO scores (score, id_user, id_game) VALUES (62, 3, 1);
-INSERT INTO scores (score, id_user, id_game) VALUES (17, 4, 1);
-INSERT INTO scores (score, id_user, id_game) VALUES (85, 1, 1);
-INSERT INTO scores (score, id_user, id_game) VALUES (36, 4, 1);
-INSERT INTO scores (score, id_user, id_game) VALUES (79, 1, 1);
-INSERT INTO scores (score, id_user, id_game) VALUES (96, 3, 1);
-INSERT INTO scores (score, id_user, id_game) VALUES (92, 1, 1);
+INSERT INTO scores (value, id_user, id_game) VALUES (37, 1, 1);
+INSERT INTO scores (value, id_user, id_game) VALUES (58, 1, 1);
+INSERT INTO scores (value, id_user, id_game) VALUES (34, 4, 1);
+INSERT INTO scores (value, id_user, id_game) VALUES (100, 4, 1);
+INSERT INTO scores (value, id_user, id_game) VALUES (99, 1, 1);
+INSERT INTO scores (value, id_user, id_game) VALUES (78, 4, 1);
+INSERT INTO scores (value, id_user, id_game) VALUES (48, 4, 1);
+INSERT INTO scores (value, id_user, id_game) VALUES (62, 3, 1);
+INSERT INTO scores (value, id_user, id_game) VALUES (17, 4, 1);
+INSERT INTO scores (value, id_user, id_game) VALUES (85, 1, 1);
+INSERT INTO scores (value, id_user, id_game) VALUES (36, 4, 1);
+INSERT INTO scores (value, id_user, id_game) VALUES (79, 1, 1);
+INSERT INTO scores (value, id_user, id_game) VALUES (96, 3, 1);
+INSERT INTO scores (value, id_user, id_game) VALUES (92, 1, 1);
 -- INSERT INTO scores (score, id_user, id_game) VALUES (, , );
 
 INSERT INTO channels (name) VALUES ('General Discussion');

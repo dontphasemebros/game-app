@@ -62,12 +62,12 @@ async function addUser(userObj) {
 // returns array of threads with user info and a nested array of thread replies
 async function getThreads(idChannel) {
   const getThreadsCommand = `
-    SELECT users.* as user, threads.*
+    SELECT users.*, threads.*
     FROM threads
     LEFT JOIN users
     ON threads.id_user = users.id
     WHERE id_channel = $1
-    ORDER BY created_at, threads.id
+    ORDER BY threads.created_at DESC, threads.id DESC
   `;
 
   try {
@@ -112,7 +112,7 @@ async function addThread(threadObj) {
     thread[0].replies = [];
     return thread;
   } catch (error) {
-    return console.error('COULD NOT ADD USER TO DATABASE', error);
+    return console.error('COULD NOT ADD THREAD TO DATABASE', error);
   }
 }
 
@@ -134,29 +134,51 @@ async function addReply(replyObj) {
     reply = reply.rows;
     return reply;
   } catch (error) {
-    return console.error('COULD NOT ADD USER TO DATABASE', error);
+    return console.error('COULD NOT ADD REPLY TO DATABASE', error);
   }
 }
 
-// takes an object with score properties: score, idUser, idGame
+// takes a number representing the game ID
+// returns array of scores with user info
+async function getScores(idGame) {
+  const getScoresCommand = `
+    SELECT users.*, scores.*
+    FROM scores
+    LEFT JOIN users
+    ON scores.id_user = users.id
+    WHERE id_game = $1
+    ORDER BY scores.value DESC
+    LIMIT 10
+  `;
+
+  try {
+    let scores = await pool.query(getScoresCommand, [idGame]);
+    scores = scores.rows;
+    return scores;
+  } catch (error) {
+    return console.error('COULD NOT ADD SCORE TO DATABASE', error);
+  }
+}
+
+// takes an object with score properties: value, idUser, idGame
 // returns array containing newly created score object nested in an array
 async function addScore(scoreObj) {
   const {
-    text, idUser, idGame,
+    value, idUser, idGame,
   } = scoreObj;
 
   const addScoreCommand = `
-    INSERT INTO scores (text, id_user, id_game)
+    INSERT INTO scores (value, id_user, id_game)
     VALUES ($1, $2, $3)
     RETURNING *;
   `;
 
   try {
-    let score = await pool.query(addScoreCommand, [text, idUser, idGame]);
+    let score = await pool.query(addScoreCommand, [value, idUser, idGame]);
     score = score.rows;
     return score;
   } catch (error) {
-    return console.error('COULD NOT ADD USER TO DATABASE', error);
+    return console.error('COULD NOT ADD SCORE TO DATABASE', error);
   }
 }
 
@@ -171,5 +193,6 @@ module.exports = {
   getThreads,
   addThread,
   addReply,
+  getScores,
   addScore,
 };
