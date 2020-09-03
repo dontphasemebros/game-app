@@ -36,7 +36,6 @@ async function getUser(idDiscord) {
   try {
     let user = await pool.query(getUserCommand, [idDiscord]);
     user = user.rows;
-    console.log('USER: ', user);
     if (user.length) {
       const { idUser } = user[0];
       const scores = await pool.query(getUserScoresCommand, [idUser]);
