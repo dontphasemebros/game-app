@@ -42,7 +42,7 @@ const database = require('../routes/dbRoutes');
 const api = require('../routes/apiRoutes');
 
 // set port for server to run on with backup port
-const port = process.env.PORT || 3000;
+const port = process.env.SERVER_PORT || 3000;
 
 // dummy data to test routes
 const groupName = "Don't Phase Me Bros.";

@@ -4,7 +4,7 @@ export default class Shoot extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
     super(scene, x, y, 'shoot');
 
-    this.speed = Phaser.Math.GetSpeed(400, 1);
+    this.speed = Phaser.Math.GetSpeed(500, 1);
   }
 
   fire(x, y, direction) {
