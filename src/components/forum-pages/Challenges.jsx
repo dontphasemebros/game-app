@@ -6,7 +6,7 @@ import {
 const Challenges = ({ forEachChallenge }) => {
   const { register, handleSubmit } = useForm();
 
-  const onSubmit = () => { console.log('ok'); };
+  const onSubmit = (data) => { console.log(data); };
 
   return (
     <div>
