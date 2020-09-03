@@ -67,6 +67,7 @@ CREATE TABLE articles (
   url VARCHAR(510)
 );
 
+
 CREATE OR REPLACE FUNCTION trigger_set_TIMESTAMP()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -84,7 +85,6 @@ INSERT INTO users (id_discord, username, profile_photo_url, location) VALUES ('1
 INSERT INTO users (id_discord, username, profile_photo_url, location) VALUES ('23456', 'Grant', 'https://avatars0.githubusercontent.com/u/61560345?s=400&u=57f06ab214f93e0bb302a91e4258bbfe54746077&v=4', 'New Orleans');
 INSERT INTO users (id_discord, username, profile_photo_url, location) VALUES ('34567', 'James', 'https://avatars1.githubusercontent.com/u/57680469?s=400&u=58ab864ffb55ce45866c75fb05e1f6a8e8c6dfb1&v=4', 'MS');
 INSERT INTO users (id_discord, username, profile_photo_url, location) VALUES ('45678', 'Connor', 'https://avatars1.githubusercontent.com/u/60720268?s=400&u=2236cf34f7c8010753eea568f245a80d9bd77b03&v=4', 'NOLA');
--- INSERT into users (id_discord, username, photo_url, location) VALUES (, '', '', '');
 
 INSERT INTO games (name) VALUES ('spaceship laser blaster "pew pew pew" game');
 
@@ -102,19 +102,16 @@ INSERT INTO scores (value, id_user, id_game) VALUES (36, 4, 1);
 INSERT INTO scores (value, id_user, id_game) VALUES (79, 1, 1);
 INSERT INTO scores (value, id_user, id_game) VALUES (96, 3, 1);
 INSERT INTO scores (value, id_user, id_game) VALUES (92, 1, 1);
--- INSERT INTO scores (score, id_user, id_game) VALUES (, , );
 
 INSERT INTO channels (name) VALUES ('General Discussion');
 INSERT INTO channels (name) VALUES ('Challenges');
 INSERT INTO channels (name) VALUES ('Suggestions');
 INSERT INTO channels (name) VALUES ('Gamer News');
--- INSERT INTO channels (name) VALUES ('');
 
 INSERT INTO threads (text, id_user, id_channel) VALUES ('I think the game designer should be fired', 4, 3);
 INSERT INTO threads (text, id_user, id_channel) VALUES ('How do you play this game?', 2, 2);
 INSERT INTO threads (text, id_user, id_channel) VALUES ('WHO WANTS A PIECE OF ME', 1, 2);
 INSERT INTO threads (text, id_user, id_channel) VALUES ('Ur goin down', 3, 2);
--- INSERT INTO threads (text, id_user, id_channel) VALUES ('', , );
 
 INSERT INTO replies (text, id_user, id_thread) VALUES ('wrong channel, noob', 4, 2);
 INSERT INTO replies (text, id_user, id_thread) VALUES ('ME', 1, 3);
@@ -122,4 +119,4 @@ INSERT INTO replies (text, id_user, id_thread) VALUES ('AND ME', 3, 3);
 INSERT INTO replies (text, id_user, id_thread) VALUES ('How do I get to the yahtzee page?', 2, 3);
 INSERT INTO replies (text, id_user, id_thread) VALUES ('Who''s Ur?', 2, 4);
 INSERT INTO replies (text, id_user, id_thread) VALUES ('All your base are belong to us', 4, 4);
--- INSERT INTO replies (text, id_user, id_thread) VALUES ('', , );
+
