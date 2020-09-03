@@ -23,7 +23,7 @@ const session = require('express-session');
 const passport = require('passport');
 
 // import DiscordStrategy authentication strategy
-// const discordStrategy = require('../src/strategies/discordStrategy');
+const discordStrategy = require('../src/strategies/discordStrategy');
 
 // create variable set to new express instance
 const app = express();
@@ -106,4 +106,4 @@ io.on('connection', (socket1) => {
   });
 });
 
-// module.exports = discordStrategy;
+module.exports = discordStrategy;
