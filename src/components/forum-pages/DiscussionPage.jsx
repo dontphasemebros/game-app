@@ -1,41 +1,33 @@
 import React from 'react';
-import {
-  Nav, Navbar, Container,
-} from 'react-bootstrap';
-import fakeData from './FakeData';
+import { useForm } from 'react-hook-form';
 
-const forEachDiscussion = () => {
-  const storage = [];
-  for (let i = 0; i < 10; i++) {
-    storage.push(
-      <div className={`GeneralDisussion-Discussions-${i}`} style={{ backgroundColor: '#ececec', minHeight: '60px' }}>
-        <Navbar.Brand href="/replies">
-          <h2>This game should be done better...</h2>
-        </Navbar.Brand>
-        <div style={{ display: 'inline-block', marginBottom: '50px'}} className={`username${i}`}>
-          <h3>By: Author Name</h3>
+const GeneralDiscussion = ({ forEachDiscussion }) => {
+  const { register, handleSubmit } = useForm();
+
+  const onSubmit = () => { alert('this works!'); };
+
+  return (
+    <div>
+      <div style={{ padding: '20px' }}>
+        <div className="card text-white bg-secondary mb-3">
+          <h2 className="card-header">
+            General Discussion
+          </h2>
         </div>
-        <div style={{ display: 'inline-block' }} className={`profile-picture${i}`}>
-          <h4> |ProfilePicture goes here |</h4>
-        </div>
-      </div>,
-    );
-  }
-  return storage;
+      </div>
+      <div className="GeneralDiscussion-Body">
+        {forEachDiscussion()}
+      </div>
+      <div className="createForum">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <span>Start a discussion:</span>
+          <input name="textarea" className="form-control" rows="3" ref={register} />
+
+          <input style={{ textAlign: 'right' }} type="submit" />
+        </form>
+      </div>
+    </div>
+  );
 };
-
-const GeneralDiscussion = () => (
-  <div>
-    <div className="GeneralDiscussion-Header">
-      <h2>
-        This is the General Discussion header
-      </h2>
-    </div>
-    <div className="GeneralDiscussion-Body">
-      <h4>This is the General Discussion body</h4>
-      {forEachDiscussion()}
-    </div>
-  </div>
-);
 
 export default GeneralDiscussion;
