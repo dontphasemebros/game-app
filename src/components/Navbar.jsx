@@ -14,7 +14,7 @@ const NavBar = () => {
 
   // Test
 
-  // Testing stuff
+  // Testing
 
   return (
     <Container>
