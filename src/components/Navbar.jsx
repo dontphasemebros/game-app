@@ -14,6 +14,8 @@ const NavBar = () => {
 
   // Test
 
+  // Testing stuff
+
   return (
     <Container>
       <Navbar bg="dark" variant="dark">
