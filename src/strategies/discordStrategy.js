@@ -37,7 +37,7 @@ passport.use(new DiscordStrategy({
   // define the options to use with discord strategy
   clientID: process.env.DISCORD_CLIENT_ID,
   clientSecret: process.env.DISCORD_CLIENT_SECRET,
-  callbackURL: process.env.DISCORD_CLIENT_REDIRECT,
+  callbackURL: process.env.DISCORD_CLIENT_REDIRECT || process.env.DEPLOY_REDIRECT,
   scope: ['identify', 'guilds'],
 }, (accessToken, refreshToken, profile, done) => {
   // console.log('*********PROFILE*********', profile); // the id is on the profile object
