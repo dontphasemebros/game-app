@@ -306,11 +306,6 @@ async function addScore(scoreObj) {
   }
 }
 
-// ************************************************************************
-// TO DO WITH JAMES: remove age; reassign userObj = req.body, id => idDiscord, id => idChannel,
-// import new helpers, make helper destructuring into column
-// ************************************************************************
-
 module.exports = {
   getUser,
   addUser,
