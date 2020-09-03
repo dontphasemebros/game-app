@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
-import { Button } from 'react-bootstrap';
 
 const Chat = () => {
   const [yourID, setYourID] = useState();
@@ -58,6 +57,8 @@ const Chat = () => {
   return (
     <div>
       <br />
+      <br />
+      <br />
       <div>
         {messages.map((value) => {
           if (value.id === yourID) {
@@ -94,8 +95,6 @@ const Chat = () => {
           <input type="submit" value="Submit" />
         </form>
       ) : null}
-      <br />
-      <Button bsStyle="primary" bsSize="large">Howdy Yall!</Button>
     </div>
   );
 };

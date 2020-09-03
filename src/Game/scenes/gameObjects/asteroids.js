@@ -44,6 +44,7 @@ export default class Asteroid extends Phaser.Physics.Arcade.Sprite {
     if (this.x < -50 || this.y < -50 || this.x > 800 || this.y > 600) {
       this.setActive(false);
       this.setVisible(false);
+      this.destroy();
     }
   }
 }

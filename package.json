@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server/server.js",
+    "start": "node server/server.js",
     "dev": "webpack --mode development && nodemon server/server.js",
     "build": "webpack --mode production --watch",
     "test": "node test/apptests.spec.js",
@@ -28,6 +28,7 @@
     "@typescript-eslint/parser": "^4.0.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "dotenv-webpack": "^2.0.0",
     "eslint": "^7.7.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-plugin-import": "^2.22.0",

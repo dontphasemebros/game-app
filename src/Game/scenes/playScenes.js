@@ -46,7 +46,7 @@ export default class PlayScene extends Phaser.Scene {
 
     this.shootsGroup = this.physics.add.group({
       classType: Shoot,
-      maxSize: 10,
+      maxSize: 1,
       runChildUpdate: true,
     });
 
@@ -95,11 +95,13 @@ export default class PlayScene extends Phaser.Scene {
       this.ship.setAcceleration(0);
     }
 
-    if (this.cursors.shift.isDown) {
+    if (this.cursors.space.isDown) {
+      let count = 0;
       const shoot = this.shootsGroup.get();
-      if (shoot) {
+      if (shoot && count === 0) {
         shoot.fire(this.ship.x, this.ship.y, this.ship.rotation);
         laser.play();
+        count += 1;
       }
     }
 

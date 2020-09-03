@@ -19,10 +19,7 @@ function App() {
             <Route path="/chat">
               <Chat />
             </Route>
-            <Route path="/highscore">
-              <NavBar />
-              HighScore
-            </Route>
+            <Route path="/highscore" />
             <Route path="/game">
               <NavBar />
               <GamePage />

@@ -23,7 +23,7 @@ const session = require('express-session');
 const passport = require('passport');
 
 // import DiscordStrategy authentication strategy
-const discordStrategy = require('../src/strategies/discordStrategy');
+// const discordStrategy = require('../src/strategies/discordStrategy');
 
 // create variable set to new express instance
 const app = express();
@@ -42,7 +42,7 @@ const database = require('../routes/dbRoutes');
 const api = require('../routes/apiRoutes');
 
 // set port for server to run on with backup port
-const port = process.env.PORT || 3000;
+const port = process.env.SERVER_PORT || 3000;
 
 // dummy data to test routes
 const groupName = "Don't Phase Me Bros.";
@@ -106,4 +106,4 @@ io.on('connection', (socket1) => {
   });
 });
 
-module.exports = discordStrategy;
+// module.exports = discordStrategy;
