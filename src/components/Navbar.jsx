@@ -12,6 +12,8 @@ const NavBar = () => {
   };
   const handleClose = () => setShow(false);
 
+  // Test
+
   return (
     <Container>
       <Navbar bg="dark" variant="dark">
