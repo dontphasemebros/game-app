@@ -3,9 +3,6 @@ import {
   Nav, Navbar, Container, Modal,
 } from 'react-bootstrap';
 
-/**
- * Header to the page, contains all our navigation links
- */
 const NavBar = () => {
   const [show, setShow] = useState(false);
 
