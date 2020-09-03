@@ -28,6 +28,22 @@ function App() {
               <NavBar />
               <Forum />
             </Route>
+            <Route path="/discussion">
+              <NavBar />
+              <Forum />
+            </Route>
+            <Route path="/suggestions">
+              <NavBar />
+              <Forum />
+            </Route>
+            <Route path="/challenges">
+              <NavBar />
+              <Forum />
+            </Route>
+            <Route path="/gamer-news">
+              <NavBar />
+              <Forum />
+            </Route>
             <Route path="/profile">
               <NavBar />
               PROFILE
