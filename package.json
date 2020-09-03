@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server/server.js",
-    "dev": "webpack --mode development && nodemon server/server.js",
+    "start": "node server/server.js",
+    "dev": "NODE_ENV=development webpack --mode development && nodemon server/server.js",
     "build": "webpack --mode production --watch",
     "test": "node test/apptests.spec.js",
     "pretest": "./node_modules/.bin/eslint --ignore-path .gitignore . --fix"
@@ -65,7 +65,6 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "file-loader": "^6.1.0",
-    "jquery": "^1.9.1",
     "mocha": "^8.1.3",
     "passport": "^0.4.1",
     "passport-discord": "^0.1.4",
