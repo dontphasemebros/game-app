@@ -1,11 +1,26 @@
 const { Pool } = require('pg');
 
-const pool = new Pool({
-  user: process.env.DB_USER,
-  host: 'localhost',
-  database: 'gametime',
-  password: process.env.DB_PASS,
-});
+let pool;
+if (process.env.NODE_ENV === 'development') {
+  pool = new Pool({
+    user: process.env.DB_USER,
+    host: 'localhost',
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASS,
+  });
+} else {
+  pool = new Pool({
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    socketPath: `/cloudsql/${process.env.DB_INSTANCE_CONNECTION_NAME}`,
+    connectTimeout: 10000,
+    acquireTimeout: 10000,
+    waitForConnections: true,
+    connectionLimit: 20,
+    queueLimit: 20,
+  });
+}
 
 // takes a *string* representing the user's Discord ID (NOT the database ID)
 // returns array containing user object with a nested array of the user's scores
@@ -36,7 +51,6 @@ async function getUser(idDiscord) {
   try {
     let user = await pool.query(getUserCommand, [idDiscord]);
     user = user.rows;
-    // console.log('USER: ', user);
     if (user.length) {
       const { idUser } = user[0];
       const scores = await pool.query(getUserScoresCommand, [idUser]);
@@ -291,11 +305,6 @@ async function addScore(scoreObj) {
     return console.error('COULD NOT ADD SCORE TO DATABASE', error);
   }
 }
-
-// ************************************************************************
-// TO DO WITH JAMES: remove age; reassign userObj = req.body, id => idDiscord, id => idChannel,
-// import new helpers, make helper destructuring into column
-// ************************************************************************
 
 module.exports = {
   getUser,

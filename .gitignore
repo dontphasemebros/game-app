@@ -105,11 +105,6 @@ dist
 
 # environment vairables
 .env
+
+# app.yaml
 app.yaml
-
-# gcloudIgnore
-
-.gcloudignore
-
-# babelrc
-.babelrc
