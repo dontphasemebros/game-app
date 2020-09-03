@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 const GeneralDiscussion = ({ forEachDiscussion }) => {
   const { register, handleSubmit } = useForm();
 
-  const onSubmit = () => { alert('this works!'); };
+  const onSubmit = (data) => { alert(data); };
 
   return (
     <div>

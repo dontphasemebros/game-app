@@ -6,7 +6,7 @@ import {
 const Suggestions = ({ forEachSuggestion }) => {
   const { register, handleSubmit } = useForm();
 
-  const onSubmit = () => { alert('this works!'); };
+  const onSubmit = (data) => { alert(data); };
 
   return (
     <div>
