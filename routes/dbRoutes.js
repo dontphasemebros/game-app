@@ -34,7 +34,7 @@ dbRouter.get('/users', (req, res) => {
       res.send(foundUser);
     })
     .catch((error) => {
-      throw error;
+      console.log(error);
     });
 });
 
@@ -58,9 +58,17 @@ dbRouter.get('/threads', (req, res) => {
     });
 });
 
-// dbRouter.get('/articles', (req, res) => {
-//   res.send('GET articles route working');
-// });
+/*
+* route - retrieves gamespot API articles saved in database
+* use - uses "getArticles" function to retrieve user saved scores from db
+* inputs - "getArticles" receives a gamed id number
+* {Param} -
+* returns -
+*/
+
+dbRouter.get('/articles', (req, res) => { // route will be used once articles are being saved in DB
+  res.send('GET articles route working');
+});
 
 /*
 * route - retrieves user scores during game play from the db
@@ -111,7 +119,6 @@ dbRouter.post('/scores', (req, res) => {
 * {Param} - deconstructed from req.body
 * returns - an array containing thread content, user information, & array of corresponding replies
 */
-
 dbRouter.post('/threads', (req, res) => {
   const { text, idUser, idChannel } = req.body;
   const threadObj = { text, idUser, idChannel };
@@ -169,7 +176,7 @@ dbRouter.post('/users', (req, res) => {
       res.send(success);
     })
     .catch((err) => {
-      throw err;
+      console.log(err);
     });
 });
 
