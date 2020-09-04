@@ -14,7 +14,7 @@ passport.serializeUser((user, done) => {
 
 // use passport deserialize user middleware
 passport.deserializeUser((user, done) => {
-  getUser(user[0].idDiscord) // get user
+  getUser(user[0]) // get user
     .then((foundUser) => {
       if (foundUser.length) {
         done(null, foundUser);
@@ -35,20 +35,18 @@ passport.use(new DiscordStrategy({
   callbackURL: process.env.DEPLOY_REDIRECT || process.env.DISCORD_CLIENT_REDIRECT,
   scope: ['identify', 'guilds'],
 }, (accessToken, refreshToken, profile, done) => {
-  const {
-    id, username, avatar, locale,
-  } = profile;
-  getUser(id)
+  const userObj = {
+    idDiscord: profile.id,
+    username: profile.username,
+    profilePhotoUrl: `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`,
+    location: profile.locale,
+  };
+  getUser(userObj)
     .then((gotUser) => {
       if (gotUser.length) {
         done(null, gotUser);
       } else {
-        addUser({
-          idDiscord: id,
-          username,
-          profilePhotoUrl: `https://cdn.discordapp.com/avatars/${id}/${avatar}.png`,
-          location: locale,
-        })
+        addUser(userObj)
           .then((newUser) => {
             done(null, newUser);
           });
