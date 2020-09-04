@@ -9,6 +9,7 @@ import GeneralDiscussion from './forum-pages/DiscussionPage';
 import Challenges from './forum-pages/Challenges';
 import Suggestions from './forum-pages/Suggestions';
 import GamerNews from './forum-pages/GamerNews';
+import Discussion from './forum-pages/Discussion';
 
 //--------------------------------------------------------------------------------
 // LIST OF METHODS TO USE FOR DISCUSSIONS
@@ -30,9 +31,12 @@ const forEachDiscussion = () => {
               <span style={{ marginRight: '20px' }}>10/20/2020</span>
             </div>
           </div>
-          <h4 style={{ display: 'inline-block' }}>Listeninginginging to the greatest tune</h4>
+          <Navbar.Brand href="/replies">
+            <h4 style={{ display: 'inline-block' }}>Listeninginginging to the greatest tune</h4>
+          </Navbar.Brand>
         </div>
       </div>,
+      <Discussion />,
     );
   }
   return storage;
@@ -43,7 +47,7 @@ const Forum = () => (
   <BrowserRouter>
     <div>
       <Switch>
-        <Route path="/forum">
+        <Route path={'/forum' || '/replies'}>
           <div style={{ padding: '20px' }}>
             <div className="card text-white bg-secondary mb-3">
               <h2 className="card-header">

@@ -2,11 +2,12 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import {
 } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 const Challenges = ({ forEachChallenge }) => {
   const { register, handleSubmit } = useForm();
 
-  const onSubmit = (data) => { console.log(data); };
+  const onSubmit = () => { };
 
   return (
     <div>
@@ -27,6 +28,10 @@ const Challenges = ({ forEachChallenge }) => {
       </div>
     </div>
   );
+};
+
+Challenges.propTypes = {
+  forEachChallenge: PropTypes.func.isRequired,
 };
 
 export default Challenges;
