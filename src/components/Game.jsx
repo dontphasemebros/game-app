@@ -1,5 +1,6 @@
 import React from 'react';
 import Phaser from 'phaser';
+import { Button } from 'react-bootstrap';
 import PlayScene from '../Game/scenes/playScenes';
 import PreloadScene from '../Game/scenes/PreloadScene';
 import GameOverScene from '../Game/scenes/GameOver';
@@ -29,17 +30,20 @@ const GamePage = () => {
   game.scene.add('gameOver', GameOverScene);
   game.scene.start('preload');
 
+  const redirect = process.env.REACT_APP_CHAT || 'https://phaserbros.com/chat';
+
   const handleSubmit = () => {
-    window.open('http://localhost:8080/chat', 'chat-window', 'height=500,width=500'); return false;
+    window.open(`${redirect}`, 'chat-window', 'height=500,width=500'); return false;
   };
+
   return (
     <div>
       <br />
       <div id="phaser-game" />
       <br />
-      <form onSubmit={handleSubmit}>
-        <input type="submit" value="Chat" />
-      </form>
+      <Button onClick={handleSubmit} variant="danger">
+        Live Game Chat
+      </Button>
     </div>
   );
 };
