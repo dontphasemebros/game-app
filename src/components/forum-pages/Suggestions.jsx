@@ -2,11 +2,12 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import {
 } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 const Suggestions = ({ forEachSuggestion }) => {
   const { register, handleSubmit } = useForm();
 
-  const onSubmit = (data) => { alert(data); };
+  const onSubmit = () => { };
 
   return (
     <div>
@@ -27,6 +28,10 @@ const Suggestions = ({ forEachSuggestion }) => {
       </form>
     </div>
   );
+};
+
+Suggestions.propTypes = {
+  forEachSuggestion: PropTypes.func.isRequired,
 };
 
 export default Suggestions;
