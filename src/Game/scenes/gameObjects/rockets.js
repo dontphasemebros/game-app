@@ -1,10 +1,10 @@
 import Phaser from 'phaser';
 
-export default class Shoot extends Phaser.Physics.Arcade.Sprite {
+export default class Rocket extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
-    super(scene, x, y, 'shoot');
+    super(scene, x, y, 'rocket');
 
-    this.speed = Phaser.Math.GetSpeed(500, 1);
+    this.speed = Phaser.Math.GetSpeed(300, 1);
   }
 
   fire(x, y, direction) {
