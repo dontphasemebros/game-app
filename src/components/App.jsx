@@ -31,6 +31,10 @@ function App() {
               <NavBar />
               <Forum />
             </Route>
+            <Route path="/replies">
+              <NavBar />
+              <Forum />
+            </Route>
             <Route path="/discussion">
               <NavBar />
               <Forum />
