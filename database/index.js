@@ -306,6 +306,12 @@ async function addScore(scoreObj) {
   }
 }
 
+/**
+ * Checks to see if a user is logged in to protect api routes
+ * @param {Object} user req.user
+ */
+const authChecker = (user) => !!user;
+
 module.exports = {
   getUser,
   addUser,
@@ -314,4 +320,5 @@ module.exports = {
   addReply,
   getScores,
   addScore,
+  authChecker,
 };
