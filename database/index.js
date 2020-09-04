@@ -1,29 +1,12 @@
 const { Pool } = require('pg');
 
-let pool;
-if (process.env.NODE_ENV === 'development' || !process.env.NODE_ENV) {
-  pool = new Pool({
-    user: process.env.DB_USER,
-    host: 'localhost',
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASS,
-  });
-} else {
-  pool = new Pool({
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    socketPath: `/cloudsql/${process.env.DB_INSTANCE_CONNECTION_NAME}`,
-    connectTimeout: 10000,
-    acquireTimeout: 10000,
-    waitForConnections: true,
-    connectionLimit: 20,
-    queueLimit: 20,
-  });
-}
+const pool = new Pool({
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
+  host: process.env.DB_HOST || `/cloudsql/${process.env.DB_INSTANCE_CONNECTION_NAME}`,
+});
 
-// takes a *string* representing the user's Discord ID (NOT the database ID)
-// returns array containing user object with a nested array of the user's scores
 async function getUser(idDiscord) {
   const getUserCommand = `
     SELECT
