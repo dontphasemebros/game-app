@@ -1,5 +1,5 @@
 import React from 'react';
-import asteroid from '../assets/Asteroids Gif.gif';
+import asteroid from '../assets/asteroids.gif';
 
 const SplashPage = () => (
   <div>

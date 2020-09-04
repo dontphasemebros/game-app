@@ -19,15 +19,16 @@ function App() {
             <Route path="/chat">
               <Chat />
             </Route>
-            <Route path="/highscore">
-              <NavBar />
-              HighScore
-            </Route>
+            <Route path="/highscore" />
             <Route path="/game">
               <NavBar />
               <GamePage />
             </Route>
             <Route path="/forum">
+              <NavBar />
+              <Forum />
+            </Route>
+            <Route path="/replies">
               <NavBar />
               <Forum />
             </Route>
@@ -63,6 +64,7 @@ function App() {
               <NavBar />
               Please Login With Valid Credentials
             </Route>
+            <Route path="/api" />
           </Switch>
         </div>
       </div>

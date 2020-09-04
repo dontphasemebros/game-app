@@ -13,6 +13,7 @@ const {
   addReply,
   getScores,
   addScore,
+  authChecker,
 } = require('../database/index');
 
 // Database Routes - all routes prefixed with '/'
@@ -29,13 +30,18 @@ const {
 
 dbRouter.get('/users', (req, res) => {
   const { idDiscord } = req.body;
-  getUser(idDiscord)
-    .then((foundUser) => {
-      res.send(foundUser);
-    })
-    .catch((error) => {
-      throw error;
-    });
+  if (authChecker(req.user)) {
+    getUser(idDiscord)
+      .then((foundUser) => {
+        res.send(foundUser);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  } else {
+    // Not Authorized
+    res.sendStatus(401);
+  }
 });
 
 /*
@@ -49,18 +55,31 @@ dbRouter.get('/users', (req, res) => {
 dbRouter.get('/threads', (req, res) => {
   // deconstruct "idChannel" number from req.body to pass to get threads form db
   const { idChannel } = req.body;
-  getThreads(idChannel)
-    .then((thread) => {
-      res.send(thread);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  if (authChecker(req.user)) {
+    getThreads(idChannel)
+      .then((thread) => {
+        res.send(thread);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  } else {
+    // Not Authorized
+    res.sendStatus(401);
+  }
 });
 
-// dbRouter.get('/articles', (req, res) => {
-//   res.send('GET articles route working');
-// });
+/*
+* route - retrieves gamespot API articles saved in database
+* use - uses "getArticles" function to retrieve user saved scores from db
+* inputs - "getArticles" receives a gamed id number
+* {Param} -
+* returns -
+*/
+
+dbRouter.get('/articles', (req, res) => { // route will be used once articles are being saved in DB
+  res.send('GET articles route working');
+});
 
 /*
 * route - retrieves user scores during game play from the db
@@ -72,13 +91,18 @@ dbRouter.get('/threads', (req, res) => {
 
 dbRouter.get('/scores', (req, res) => {
   const { idGame } = req.body;
-  getScores(idGame)
-    .then((score) => {
-      res.send(score);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  if (authChecker(req.user)) {
+    getScores(idGame)
+      .then((score) => {
+        res.send(score);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  } else {
+    // Not Authorized
+    res.sendStatus(401);
+  }
 });
 
 // POST routes
@@ -94,13 +118,18 @@ dbRouter.get('/scores', (req, res) => {
 dbRouter.post('/scores', (req, res) => {
   const { value, idUser, idGame } = req.body;
   const scoresObj = { value, idUser, idGame };
-  addScore(scoresObj)
-    .then((success) => {
-      res.send(success);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  if (authChecker(req.user)) {
+    addScore(scoresObj)
+      .then((success) => {
+        res.send(success);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  } else {
+    // Not Authorized
+    res.sendStatus(401);
+  }
 });
 
 /*
@@ -111,17 +140,21 @@ dbRouter.post('/scores', (req, res) => {
 * {Param} - deconstructed from req.body
 * returns - an array containing thread content, user information, & array of corresponding replies
 */
-
 dbRouter.post('/threads', (req, res) => {
   const { text, idUser, idChannel } = req.body;
   const threadObj = { text, idUser, idChannel };
-  addThread(threadObj)
-    .then((success) => {
-      res.send(success);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  if (authChecker(req.user)) {
+    addThread(threadObj)
+      .then((success) => {
+        res.send(success);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  } else {
+    // Not Authorized
+    res.sendStatus(401);
+  }
 });
 
 /*
@@ -136,13 +169,18 @@ dbRouter.post('/threads', (req, res) => {
 dbRouter.post('/replies', (req, res) => {
   const { text, idUser, idThread } = req.body;
   const replyObj = { text, idUser, idThread };
-  addReply(replyObj)
-    .then((success) => {
-      res.send(success);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  if (authChecker(req.user)) {
+    addReply(replyObj)
+      .then((success) => {
+        res.send(success);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  } else {
+    // Not Authorized
+    res.sendStatus(401);
+  }
 });
 
 /*
@@ -155,22 +193,27 @@ dbRouter.post('/replies', (req, res) => {
 */
 
 dbRouter.post('/users', (req, res) => {
-  const {
-    id, username, avatar, locale,
-  } = req.body;
-  const userObj = {
-    idDiscord: id,
-    username,
-    profilePhotoUrl: `https://cdn.discordapp.com/avatars/${id}/${avatar}.png`,
-    location: locale,
-  };
-  addUser(userObj)
-    .then((success) => {
-      res.send(success);
-    })
-    .catch((err) => {
-      throw err;
-    });
+  if (authChecker(req.user)) {
+    const {
+      id, username, avatar, locale,
+    } = req.body;
+    const userObj = {
+      idDiscord: id,
+      username,
+      profilePhotoUrl: `https://cdn.discordapp.com/avatars/${id}/${avatar}.png`,
+      location: locale,
+    };
+    addUser(userObj)
+      .then((success) => {
+        res.send(success);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } else {
+    // Not Authorized
+    res.sendStatus(401);
+  }
 });
 
 module.exports = dbRouter;

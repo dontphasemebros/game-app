@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import Shoot from './gameObjects/shoot';
 import Asteroid from './gameObjects/asteroids';
-import backgroundy from '../assets/img/background.png';
+import backgroundy from '../assets/img/Space.jpg';
 import shipy from '../assets/img/spaceship.png';
 import asteroidy from '../assets/img/asteroid.png';
 import shooty from '../assets/img/2.png';
@@ -10,6 +10,11 @@ import lasery from '../assets/sounds/laser.wav';
 import boomy from '../assets/sounds/darkShoot.wav';
 import deathy from '../assets/sounds/Death.wav';
 import scoreUpy from '../assets/sounds/Gold4.wav';
+import alieny from '../assets/img/enemy.png';
+import rockety from '../assets/img/Rocket.png';
+import Alien from './gameObjects/aliens';
+import Rocket from './gameObjects/rockets';
+import missiley from '../assets/sounds/5.wav';
 
 export default class PlayScene extends Phaser.Scene {
   constructor() {
@@ -25,10 +30,13 @@ export default class PlayScene extends Phaser.Scene {
     this.load.image('asteroid', asteroidy);
     this.load.image('shoot', shooty);
     this.load.image('kaboom', kaboomy, 128, 128);
+    this.load.image('alien', alieny);
+    this.load.image('rocket', rockety);
     this.load.audio('laser', lasery);
     this.load.audio('boom', boomy);
     this.load.audio('death', deathy);
     this.load.audio('scoreUp', scoreUpy);
+    this.load.audio('missile', missiley);
   }
 
   create() {
@@ -46,8 +54,25 @@ export default class PlayScene extends Phaser.Scene {
 
     this.shootsGroup = this.physics.add.group({
       classType: Shoot,
-      maxSize: 10,
+      maxSize: 1,
       runChildUpdate: true,
+    });
+
+    this.rocketsGroup = this.physics.add.group({
+      classType: Rocket,
+      maxSize: 5,
+      runChildUpdate: true,
+    });
+
+    this.aliensGroup = this.physics.add.group();
+
+    this.aliensArray = [];
+
+    this.aliensTimedEvent = this.time.addEvent({
+      delay: 2000,
+      callback: this.addAlien,
+      callbackScope: this,
+      loop: true,
     });
 
     this.asteroidsGroup = this.physics.add.group();
@@ -65,7 +90,15 @@ export default class PlayScene extends Phaser.Scene {
 
     this.physics.add.overlap(this.ship, this.asteroidsGroup, this.hitShip, null, this);
 
+    this.physics.add.overlap(this.ship, this.aliensGroup, this.hitShip, null, this);
+
     this.physics.add.overlap(this.shootsGroup, this.asteroidsGroup, this.collision, null, this);
+
+    this.physics.add.overlap(this.shootsGroup, this.aliensGroup, this.collision, null, this);
+
+    this.physics.add.overlap(this.rocketsGroup, this.asteroidsGroup, this.collision, null, this);
+
+    this.physics.add.overlap(this.rocketsGroup, this.aliensGroup, this.collision, null, this);
 
     this.scoreText = this.add.text(16, 16, `Score: ${this.score}`, {
       fontSize: '32px',
@@ -85,6 +118,16 @@ export default class PlayScene extends Phaser.Scene {
       delay: 0,
     });
 
+    const missile = this.sound.add('missile', {
+      mute: false,
+      volume: 0.2,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: false,
+      delay: 0,
+    });
+
     if (this.gameOver) {
       return;
     }
@@ -95,11 +138,19 @@ export default class PlayScene extends Phaser.Scene {
       this.ship.setAcceleration(0);
     }
 
-    if (this.cursors.shift.isDown) {
+    if (this.cursors.space.isDown) {
       const shoot = this.shootsGroup.get();
       if (shoot) {
         shoot.fire(this.ship.x, this.ship.y, this.ship.rotation);
         laser.play();
+      }
+    }
+
+    if (this.cursors.shift.isDown) {
+      const rocket = this.rocketsGroup.get();
+      if (rocket) {
+        rocket.fire(this.ship.x, this.ship.y, this.ship.rotation);
+        missile.play();
       }
     }
 
@@ -120,12 +171,28 @@ export default class PlayScene extends Phaser.Scene {
       }
       asteroid.update(time, delta);
     }
+
+    this.aliensArray = this.aliensArray.filter((alien) => alien.active);
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const alien of this.aliensArray) {
+      if (!alien.isOrbiting()) {
+        alien.launch(this.ship.x, this.ship.y);
+      }
+      alien.update(time, delta);
+    }
   }
 
   addAsteroid() {
     const asteroid = new Asteroid(this, 0, 0, 'asteroid', 0).setScale(0.02);
     this.asteroidsGroup.add(asteroid, true);
     this.asteroidsArray.push(asteroid);
+  }
+
+  addAlien() {
+    const alien = new Alien(this, 0, 0, 'alien', 0).setScale(0.15);
+    this.aliensGroup.add(alien, true);
+    this.aliensArray.push(alien);
   }
 
   hitShip() {
