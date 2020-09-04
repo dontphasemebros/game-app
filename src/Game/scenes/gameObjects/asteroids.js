@@ -4,10 +4,11 @@ export default class Asteroid extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
     super(scene, x, y, 'asteroid');
 
-    this.speed = Phaser.Math.GetSpeed(100, 1);
+    this.speed = Phaser.Math.GetSpeed(50, 1);
     this.orbiting = false;
     this.direction = 0;
     this.factor = 1;
+    this.startingPoint = [0, 600];
   }
 
   isOrbiting() {
@@ -20,7 +21,7 @@ export default class Asteroid extends Phaser.Physics.Arcade.Sprite {
     this.setVisible(true);
 
     const xOrigin = Phaser.Math.RND.between(0, 800);
-    const yOrigin = 0;
+    const yOrigin = this.startingPoint[Math.floor(Math.random() * 2)];
 
     this.setPosition(xOrigin, yOrigin);
 
