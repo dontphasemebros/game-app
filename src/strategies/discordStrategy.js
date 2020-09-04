@@ -20,7 +20,7 @@ passport.deserializeUser((user, done) => {
   getUser(user[0].idDiscord) // get user
     .then((foundUser) => {
       if (foundUser.length) {
-        console.log('*****FOUND USER*******', foundUser);
+        // console.log('*****FOUND USER*******', foundUser);
         done(null, foundUser);
       } else {
         console.log('no user with that id found');
