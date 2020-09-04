@@ -1,10 +1,11 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import PropTypes from 'prop-types';
 
 const GeneralDiscussion = ({ forEachDiscussion }) => {
   const { register, handleSubmit } = useForm();
 
-  const onSubmit = (data) => { alert(data); };
+  const onSubmit = () => { };
 
   return (
     <div>
@@ -28,6 +29,10 @@ const GeneralDiscussion = ({ forEachDiscussion }) => {
       </div>
     </div>
   );
+};
+
+GeneralDiscussion.propTypes = {
+  forEachDiscussion: PropTypes.func.isRequired,
 };
 
 export default GeneralDiscussion;
