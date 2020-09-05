@@ -18,7 +18,7 @@ import Discussion from './forum-pages/Discussion';
 
 const forEachDiscussion = () => {
   const storage = [];
-  for (let i = 0; i < 1; i += 1) {
+  for (let i = 0; i < 6; i += 1) {
     storage.push(
       <div className="panel-primary inline-block" id="GeneralDisussion" style={{ backgroundColor: '#D6DBDF', minWidth: '1100px' }}>
         <div className={`profile-picture${i} panel-body text-left inline-block`}>
@@ -36,7 +36,6 @@ const forEachDiscussion = () => {
           </Navbar.Brand>
         </div>
       </div>,
-      <Discussion />,
     );
   }
   return storage;
@@ -97,6 +96,9 @@ const Forum = () => (
         </Route>
         <Route exact path="/gamer-news">
           <GamerNews />
+        </Route>
+        <Route exact path="/replies">
+          <Discussion forEachDiscussion={forEachDiscussion} />
         </Route>
       </Switch>
     </div>
