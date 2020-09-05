@@ -7,7 +7,11 @@ const pool = new Pool({
   host: process.env.DB_HOST || `/cloudsql/${process.env.DB_INSTANCE_CONNECTION_NAME}`,
 });
 
-async function getUser(idDiscord) {
+async function getUser(userObj) {
+  const {
+    idDiscord, username, profilePhotoUrl, location,
+  } = userObj;
+
   const getUserCommand = `
     SELECT
       u.id AS "idUser",
@@ -17,6 +21,21 @@ async function getUser(idDiscord) {
       u.location
     FROM users AS u
     WHERE id_discord = $1
+  `;
+
+  const updateUserCommand = `
+    UPDATE users
+    SET
+      username = $1,
+      profile_photo_url = $2,
+      location = $3
+    WHERE id = $4
+    RETURNING
+      id AS "idUser",
+      id_discord AS "idDiscord",
+      username,
+      profile_photo_url AS "profilePhotoUrl",
+      location
   `;
 
   const getUserScoresCommand = `
@@ -36,6 +55,8 @@ async function getUser(idDiscord) {
     user = user.rows;
     if (user.length) {
       const { idUser } = user[0];
+      user = await pool.query(updateUserCommand, [username, profilePhotoUrl, location, idUser]);
+      user = user.rows;
       const scores = await pool.query(getUserScoresCommand, [idUser]);
       if (scores) user[0].scores = scores.rows;
     }
