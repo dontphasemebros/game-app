@@ -1,3 +1,79 @@
+Gametime
+============
+
+GameTime is a one stop online gaming platform focused on fun interactive games.
+
+Description
+============
+
+Gametime supplies a game platform for players to enjoy our games and provide feedback in order to better gameplay and design. The key focus of GameTime is to allow players to engage with one another and the development team within our built-in forums. Players don't have to leave our platform in order to suggest changes, address bugs, and get input from the developers. The ability for players and developers to have instant communication streamlines the process of implementing new features and giving the players what they want, which is one of our main concern. Players can also interact with one another in realtime using the built-in chat feature. If you want to see who's out there playing, just open up the chat and start chatting. We plan on implementing more games in the future, so be sure to keep up with all of our changes here on Github and at PhaserBros.com.
+
+
+Dependencies
+
+============
+
+Stack: React, PostgreSQL, Node, Express
+
+```javascript
+"dependencies": {
+   "axios": "^0.20.0",
+    "body-parser": "^1.19.0",
+    "bootstrap": "^4.5.2",
+    "chai": "^4.2.0",
+    "cookie-parser": "^1.4.5",
+    "cookie-session": "^1.4.0",
+    "css-loader": "^4.2.2",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "file-loader": "^6.1.0",
+    "font-awesome": "^4.7.0",
+    "mdbootstrap": "^4.19.1",
+    "mdbreact": "^4.27.0",
+    "mocha": "^8.1.3",
+    "oauth": "^0.9.15",
+    "passport": "^0.4.1",
+    "passport-discord": "^0.1.4",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-oauth2": "^1.5.0",
+    "pg": "^8.3.3",
+    "phaser": "^3.24.1",
+    "popper.js": "^1.16.1",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-bootstrap": "^1.3.0",
+    "react-dom": "^16.13.1",
+    "react-fontawesome": "^1.7.1",
+    "react-hook-form": "^6.7.1",
+    "react-router-dom": "^5.2.0",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0",
+    "style-loader": "^1.2.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.4",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-react": "^7.10.4",
+    "@typescript-eslint/eslint-plugin": "^4.0.0",
+    "@typescript-eslint/parser": "^4.0.0",
+    "babel-loader": "^8.1.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "dotenv-webpack": "^2.0.0",
+    "eslint": "^7.7.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.20.6",
+    "eslint-plugin-react-hooks": "^4.1.0",
+    "html-webpack-plugin": "^4.4.1",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.13",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  }
+```
 
 
 Installation
@@ -104,7 +180,7 @@ env_variables:
   DB_NAME:                    // name of the DB (in this case should be gametime)
   GAMESPOT_API_KEY:           // key from the Gamespot API
   DISCORD_CLIENT_ID:          // key for discord Auth API
-  DISCORD_CLIENT_SECRET:      // client secret from discor
+  DISCORD_CLIENT_SECRET:      // client secret from discord
   DEPLOY_REDIRECT:            // redirect url for deploying using gcloud
   DISCORD_CLIENT_REDIRECT:    // redirect url for the discord API
   NODE_ENV:                   // environment for node to recognize (should be development by default)

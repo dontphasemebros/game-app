@@ -20,7 +20,7 @@ const SplashPage = () => {
       <img src={asteroid} alt="asteroid-gameplay" style={gifStyle} />
       <br />
       <h3>
-        Asteroids is a high octane space shooter!
+        Space Roids is a high octane space shooter!
       </h3>
       <h3>
         Avoid the asteroids and aliens, shoot them down to increase your score!
