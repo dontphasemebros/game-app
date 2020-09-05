@@ -47,7 +47,7 @@ export default class PlayScene extends Phaser.Scene {
 
     this.ship = this.physics.add.image(400, 300, 'ship').setScale(0.1);
     this.ship.setDrag(0.99);
-    this.ship.setMaxVelocity(200);
+    this.ship.setMaxVelocity(150);
     this.ship.setCollideWorldBounds(true);
 
     this.cursors = this.input.keyboard.createCursorKeys();

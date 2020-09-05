@@ -7,9 +7,16 @@ const Logo = () => {
     width: '500px',
   };
 
+  const divStyle = {
+    textAlign: 'center',
+  };
+
   return (
-    <div>
+    <div style={divStyle}>
+      <br />
       <img src={GTL} alt="GameTime Logo" style={imgStyle} />
+      <br />
+      <br />
     </div>
   );
 };
