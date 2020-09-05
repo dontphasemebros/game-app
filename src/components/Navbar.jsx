@@ -61,8 +61,8 @@ const NavBar = ({ user }) => {
 
 export default NavBar;
 
-Navbar.propTypes = {
-  user: PropTypes.obj,
+NavBar.propTypes = {
+  user: PropTypes.objectOf.isRequired,
 };
 
 // { /* // <MDBNavbar color="unique-color-dark" dark>

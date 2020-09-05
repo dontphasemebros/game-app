@@ -38,7 +38,7 @@ function App() {
         setUser(result[0]);
       })
       .catch((err) => console.error('ERROR ON GETAUTH TEST: ', err));
-  }, [user]);
+  }, []);
 
   return (
     <BrowserRouter>
@@ -50,8 +50,8 @@ function App() {
             <Chat />
           </Route>
           <Route path="/highscore" />
-          <Route path="/game" user={user}>
-            <GamePage />
+          <Route path="/game">
+            <GamePage user={user} />
           </Route>
           <Route path="/forum" user={user}>
             <Forum />
