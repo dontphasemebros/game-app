@@ -6,6 +6,17 @@ import PreloadScene from '../Game/scenes/PreloadScene';
 import GameOverScene from '../Game/scenes/GameOver';
 
 const GamePage = () => {
+  const gameStyle = {
+    float: 'left',
+    paddingLeft: '25px',
+    paddingRight: '20px',
+    paddingBottom: '20px',
+  };
+
+  const descriptionStyle = {
+    float: 'right',
+  };
+
   const config = {
     width: 800,
     height: 600,
@@ -33,17 +44,41 @@ const GamePage = () => {
   const redirect = process.env.REACT_APP_CHAT || 'https://phaserbros.com/chat';
 
   const handleSubmit = () => {
-    window.open(`${redirect}`, 'chat-window', 'height=500,width=500'); return false;
+    window.open(`${redirect}`, 'chat-window', 'height=500,width=530'); return false;
   };
 
   return (
     <div>
       <br />
-      <div id="phaser-game" />
+      <div id="phaser-game" style={gameStyle} />
+      <div style={descriptionStyle}>
+        <h4>Space Roids</h4>
+        <text>
+          Destroy asteroids and aliens to
+          <br />
+          increase your score!
+          <br />
+          Join the Leader Board by submitting
+          <br />
+          your score!
+        </text>
+        <br />
+        <br />
+        <h4>Controls</h4>
+        <text>
+          Arrow keys: Navigate your ship
+          <br />
+          Spacebar: Fire your lasers
+          <br />
+          Shift: Launch a salvo of missiles
+        </text>
+        <br />
+        <br />
+        <Button onClick={handleSubmit} variant="danger">
+          <h6>Live Game Chat</h6>
+        </Button>
+      </div>
       <br />
-      <Button onClick={handleSubmit} variant="danger">
-        Live Game Chat
-      </Button>
     </div>
   );
 };
