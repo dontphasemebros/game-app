@@ -3,7 +3,10 @@ import io from 'socket.io-client';
 
 const Chat = () => {
   const [yourID, setYourID] = useState();
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([{
+    username: 'GameTime Bot',
+    body: 'Welcome to the GameTime Chat!',
+  }]);
   const [message, setMessage] = useState('');
   const [userName, setUsername] = useState('');
   const [userSet, setUserSet] = useState(false);
@@ -25,6 +28,10 @@ const Chat = () => {
       receivedMessage(messenger);
     });
   }, []);
+
+  const containerStyle = {
+    margin: 'auto',
+  };
 
   const spacer = {
     space: '       ',
@@ -55,7 +62,7 @@ const Chat = () => {
   };
 
   return (
-    <div>
+    <div style={containerStyle}>
       <br />
       <br />
       <br />
@@ -78,16 +85,14 @@ const Chat = () => {
               <div>
                 {value.username}
                 :
+                {spacer.space}
                 {value.body}
               </div>
             </div>
           );
         })}
       </div>
-      <form onSubmit={sendMessage}>
-        <input type="text" value={message} onChange={handleChange} placeholder="Say something..." />
-        <input type="submit" value="Submit" />
-      </form>
+      <br />
       <br />
       {!userSet ? (
         <form onSubmit={handleUsername}>
@@ -95,6 +100,11 @@ const Chat = () => {
           <input type="submit" value="Submit" />
         </form>
       ) : null}
+      <br />
+      <form onSubmit={sendMessage}>
+        <input type="text" value={message} onChange={handleChange} placeholder="Say something..." />
+        <input type="submit" value="Submit" />
+      </form>
     </div>
   );
 };
