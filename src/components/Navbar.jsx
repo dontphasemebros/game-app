@@ -35,6 +35,9 @@ const NavBar = () => {
           <Nav.Link href="/profile">
             <h3>Profile</h3>
           </Nav.Link>
+          <Nav.Link href="/api">
+            <h3>Login</h3>
+          </Nav.Link>
         </Nav>
       </Navbar>
       <Modal show={show} onHide={handleClose}>

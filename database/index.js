@@ -1,30 +1,17 @@
 const { Pool } = require('pg');
 
-let pool;
-if (process.env.NODE_ENV === 'development' || !process.env.NODE_ENV) {
-  pool = new Pool({
-    user: process.env.DB_USER,
-    host: 'localhost',
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASS,
-  });
-} else {
-  pool = new Pool({
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    socketPath: `/cloudsql/${process.env.DB_INSTANCE_CONNECTION_NAME}`,
-    connectTimeout: 10000,
-    acquireTimeout: 10000,
-    waitForConnections: true,
-    connectionLimit: 20,
-    queueLimit: 20,
-  });
-}
+const pool = new Pool({
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
+  host: process.env.DB_HOST || `/cloudsql/${process.env.DB_INSTANCE_CONNECTION_NAME}`,
+});
 
-// takes a *string* representing the user's Discord ID (NOT the database ID)
-// returns array containing user object with a nested array of the user's scores
-async function getUser(idDiscord) {
+async function getUser(userObj) {
+  const {
+    idDiscord, username, profilePhotoUrl, location,
+  } = userObj;
+
   const getUserCommand = `
     SELECT
       u.id AS "idUser",
@@ -34,6 +21,21 @@ async function getUser(idDiscord) {
       u.location
     FROM users AS u
     WHERE id_discord = $1
+  `;
+
+  const updateUserCommand = `
+    UPDATE users
+    SET
+      username = $1,
+      profile_photo_url = $2,
+      location = $3
+    WHERE id = $4
+    RETURNING
+      id AS "idUser",
+      id_discord AS "idDiscord",
+      username,
+      profile_photo_url AS "profilePhotoUrl",
+      location
   `;
 
   const getUserScoresCommand = `
@@ -53,6 +55,8 @@ async function getUser(idDiscord) {
     user = user.rows;
     if (user.length) {
       const { idUser } = user[0];
+      user = await pool.query(updateUserCommand, [username, profilePhotoUrl, location, idUser]);
+      user = user.rows;
       const scores = await pool.query(getUserScoresCommand, [idUser]);
       if (scores) user[0].scores = scores.rows;
     }
@@ -306,6 +310,12 @@ async function addScore(scoreObj) {
   }
 }
 
+/**
+ * Checks to see if a user is logged in to protect api routes
+ * @param {Object} user req.user
+ */
+const authChecker = (user) => !!user;
+
 module.exports = {
   getUser,
   addUser,
@@ -314,4 +324,5 @@ module.exports = {
   addReply,
   getScores,
   addScore,
+  authChecker,
 };
