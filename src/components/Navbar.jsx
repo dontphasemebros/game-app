@@ -3,6 +3,8 @@ import {
   Nav, Navbar, Container, Modal,
 } from 'react-bootstrap';
 
+const { getAuth, getUserData } = require('../helpers/helpers.js');
+
 const NavBar = () => {
   const [show, setShow] = useState(false);
 
@@ -11,6 +13,22 @@ const NavBar = () => {
     console.log(show);
   };
   const handleClose = () => setShow(false);
+
+  const handleTestButtonA = () => {
+    getAuth()
+      .then((result) => {
+        console.log('GET AUTH RESULT: ', result);
+      })
+      .catch((err) => console.error('ERROR ON GETAUTH TEST: ', err));
+  };
+
+  const handleTestButtonB = () => {
+    getUserData()
+      .then((result) => {
+        console.log('GET USER DATA RESULT: ', result);
+      })
+      .catch((err) => console.error('ERROR ON GETAUTH TEST: ', err));
+  };
 
   // Test
 
@@ -38,6 +56,8 @@ const NavBar = () => {
           <Nav.Link href="/api">
             <h3>Login</h3>
           </Nav.Link>
+          <button type="submit" text="test" onClick={handleTestButtonA}>test getAuth</button>
+          <button type="submit" text="test" onClick={handleTestButtonB}>test getUserData</button>
         </Nav>
       </Navbar>
       <Modal show={show} onHide={handleClose}>
