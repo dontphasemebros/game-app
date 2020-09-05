@@ -9,70 +9,63 @@ import GamePage from './Game';
 import Forum from './Forum';
 import Chat from './Chat';
 import FooterPage from './Footer';
+import Profile from './Profile';
 
-const { getAuth /* getUserData */ } = require('../helpers/helpers.js');
-
-// const handleTestButtonA = () => {
-//   getAuth()
-//     .then((result) => {
-//       console.log('GET AUTH RESULT: ', result);
-//     })
-//     .catch((err) => console.error('ERROR ON GETAUTH TEST: ', err));
-// };
-
-// const handleTestButtonB = () => {
-//   getUserData()
-//     .then((result) => {
-//       console.log('GET USER DATA RESULT: ', result);
-//     })
-//     .catch((err) => console.error('ERROR ON GETAUTH TEST: ', err));
-// };
+const { getAuth, getTopScores /* getUserData */ } = require('../helpers/helpers.js');
 
 function App() {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState([]);
+  const [scores, setScores] = useState([]);
 
   useEffect(() => {
     getAuth()
       .then((result) => {
-        console.log('GET AUTH RESULT: ', result);
         setUser(result[0]);
       })
-      .catch((err) => console.error('ERROR ON GETAUTH TEST: ', err));
-  }, [user]);
+      .catch((err) => console.error('ERROR GETTING SESSION: ', err));
+  }, []);
+
+  useEffect(() => {
+    getTopScores({ idGame: 1 })
+      .then((result) => {
+        setScores(result);
+      })
+      .catch((err) => console.error('ERROR GETTING SCORES: ', err));
+  }, []);
 
   return (
     <BrowserRouter>
       <GameTimeLogo />
-      <NavBar user={user} />
+      <NavBar user={user} scores={scores} />
       <div className="container">
         <Switch>
-          <Route path="/chat" user={user}>
-            <Chat />
+          <Route path="/chat">
+            <Chat user={user} />
           </Route>
           <Route path="/highscore" />
-          <Route path="/game" user={user}>
-            <GamePage />
+          <Route path="/game">
+            <GamePage user={user} />
           </Route>
-          <Route path="/forum" user={user}>
-            <Forum />
+          <Route path="/forum">
+            <Forum user={user} />
           </Route>
-          <Route path="/replies" user={user}>
-            <Forum />
+          <Route path="/replies">
+            <Forum user={user} />
           </Route>
-          <Route path="/discussion" user={user}>
-            <Forum />
+          <Route path="/discussion">
+            <Forum user={user} />
           </Route>
-          <Route path="/suggestions" user={user}>
-            <Forum />
+          <Route path="/suggestions">
+            <Forum user={user} />
           </Route>
-          <Route path="/challenges" user={user}>
-            <Forum />
+          <Route path="/challenges">
+            <Forum user={user} />
           </Route>
-          <Route path="/gamer-news" user={user}>
-            <Forum />
+          <Route path="/gamer-news">
+            <Forum user={user} />
           </Route>
-          <Route path="/profile" user={user}>
-            PROFILE
+          <Route path="/profile">
+            <Profile user={user} />
           </Route>
           <Route path="/404">
             Not Found
@@ -90,9 +83,5 @@ function App() {
     </BrowserRouter>
   );
 }
-
-// App.propTypes = {
-//   user: PropTypes.obj,
-// };
 
 export default App;

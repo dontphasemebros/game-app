@@ -4,7 +4,7 @@ import {
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-const NavBar = ({ user }) => {
+const NavBar = ({ user, scores }) => {
   const [show, setShow] = useState(false);
 
   // const [user, setUser] = useState();
@@ -13,8 +13,6 @@ const NavBar = ({ user }) => {
     setShow(true);
   };
   const handleClose = () => setShow(false);
-
-  console.log('USER IN NAVBAR: ', user);
 
   return (
     <Navbar bg="dark" variant="dark">
@@ -48,10 +46,9 @@ const NavBar = ({ user }) => {
         </Modal.Header>
         <Modal.Body>
           <ul>
-            <li>Grant: 10,000</li>
-            <li>James: 5,000</li>
-            <li>Ben: 4,500</li>
-            <li>Connor: 500</li>
+            {scores
+              ? scores.map((score) => <li key={score.idScore}>{`${score.username}: ${score.value}`}</li>)
+              : 'no scores to show'}
           </ul>
         </Modal.Body>
       </Modal>
@@ -59,11 +56,12 @@ const NavBar = ({ user }) => {
   );
 };
 
-export default NavBar;
-
-Navbar.propTypes = {
-  user: PropTypes.obj,
+NavBar.propTypes = {
+  user: PropTypes.objectOf.isRequired,
+  scores: PropTypes.element.isRequired,
 };
+
+export default NavBar;
 
 // { /* // <MDBNavbar color="unique-color-dark" dark>
 // //   <MDBNavbarBrand href="/">
