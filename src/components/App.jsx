@@ -64,6 +64,7 @@ function App() {
               <NavBar />
               Please Login With Valid Credentials
             </Route>
+            <Route path="/api" />
           </Switch>
         </div>
       </div>
