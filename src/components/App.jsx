@@ -8,6 +8,7 @@ import GameTimeLogo from './GameTimeLogo';
 import GamePage from './Game';
 import Forum from './Forum';
 import Chat from './Chat';
+import Profile from './Profile';
 
 function App() {
   return (
@@ -50,7 +51,7 @@ function App() {
             </Route>
             <Route path="/profile">
               <NavBar />
-              PROFILE
+              <Profile />
             </Route>
             <Route path="/404">
               <NavBar />
