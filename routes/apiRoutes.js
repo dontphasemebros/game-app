@@ -10,12 +10,27 @@ const passport = require('passport');
 // create variable set to new Router instance from express module
 const apiRouter = express.Router();
 
+// DISCORD API ROUTES
 // discord app authentication route
 apiRouter.get('/', passport.authenticate('discord'));
 
 // create redirect route for discord authentication
 apiRouter.get('/redirect', passport.authenticate('discord', {
   failureRedirect: '/forbidden',
+  successRedirect: '/',
+}), (req, res) => {
+  res.send(req.user);
+});
+
+// GOOGLE API ROUTES
+// google app authentication route
+apiRouter.get('/google', passport.authenticate('google', {
+  scope: ['profile', 'email'],
+}));
+
+// create redirect route for discord authentication
+apiRouter.get('/callback', passport.authenticate('google', {
+  failureRedirect: '/failed',
   successRedirect: '/',
 }), (req, res) => {
   res.send(req.user);
@@ -30,7 +45,7 @@ apiRouter.get('/articles', (req, res) => {
       res.send(results);
     })
     .catch((error) => {
-      throw error;
+      console.log(error);
     });
 });
 

@@ -19,11 +19,17 @@ const cookieParser = require('cookie-parser');
 // import express-session module
 const session = require('express-session');
 
+// import cookie-session module
+// const cookieSession = require('cookie-session');
+
 // import passport module
 const passport = require('passport');
 
 // import DiscordStrategy authentication strategy
-const discordStrategy = require('../src/strategies/discordStrategy');
+require('../src/strategies/discordStrategy');
+
+// import googleStrategy authentication strategy
+require('../src/strategies/googleStrategy');
 
 // create variable set to new express instance
 const app = express();
@@ -44,15 +50,7 @@ const api = require('../routes/apiRoutes');
 // set port for server to run on with backup port
 const port = process.env.SERVER_PORT || 3000;
 
-// dummy data to test routes
-const groupName = "Don't Phase Me Bros.";
-const projectName = 'Game Time';
-const dummyData = {
-  group: `${groupName}`,
-  project: `${projectName}`,
-};
-
-//  initialize the express session
+//  initialize the express session - discord related
 app.use(session({
   secret: 'some random secret',
   cookie: {
@@ -61,6 +59,21 @@ app.use(session({
   resave: true,
   saveUninitialized: false,
   name: 'discord.oauth2',
+}));
+
+// Configure Cookie-Session Storage - google related
+// app.use(cookieSession({
+//   name: 'session-name',
+//   keys: ['key1', 'key2'],
+// }));
+app.use(session({
+  secret: 'some random secret',
+  cookie: {
+    maxAge: 60000 * 60 * 24, // one day max age
+  },
+  resave: true,
+  saveUninitialized: false,
+  name: 'google.oauth2',
 }));
 
 // initialize passport
@@ -79,11 +92,6 @@ const HTML_FILE = path.join(DIST_DIR, 'index.html');
 
 // middleware to server static files
 app.use(express.static(DIST_DIR));
-
-// Create Test Routes
-app.get('/api', (req, res) => {
-  res.send(dummyData);
-});
 
 // route serving static files
 app.get('/*', (req, res) => {
@@ -105,5 +113,3 @@ io.on('connection', (socket1) => {
     io.emit('message', body);
   });
 });
-
-module.exports = discordStrategy;

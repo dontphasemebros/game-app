@@ -1,5 +1,5 @@
 // import discord authentication module in file
-const DiscordStrategy = require('passport-discord').Strategy;
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 // import passport module into this file
 const passport = require('passport');
@@ -16,8 +16,10 @@ passport.serializeUser((user, done) => {
 });
 
 // use passport deserialize user middleware
+
 passport.deserializeUser((user, done) => {
-  getUser(user[0]) // get user
+  console.log('********SERIALIZE USER**********', user);
+  getUser(user[0].idDiscord) // connect function to db later
     .then((foundUser) => {
       if (foundUser.length) {
         done(null, foundUser);
@@ -28,28 +30,29 @@ passport.deserializeUser((user, done) => {
     .catch((error) => {
       console.log(error);
     });
+  // done(null, user); // once function connected erase this done
 });
 
 // create new instance of passport Discord strategy
-passport.use(new DiscordStrategy({
-  // define the options to use with discord strategy
-  clientID: process.env.DISCORD_CLIENT_ID,
-  clientSecret: process.env.DISCORD_CLIENT_SECRET,
-  callbackURL: process.env.DEPLOY_REDIRECT || process.env.DISCORD_CLIENT_REDIRECT,
-  scope: ['identify', 'guilds'],
-}, (accessToken, refreshToken, profile, done) => {
-  const userObj = {
-    idDiscord: profile.id,
-    username: profile.username,
-    profilePhotoUrl: `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`,
-    location: profile.locale,
-  };
-  getUser(userObj)
+passport.use(new GoogleStrategy({
+  // define the options to use with google strategy
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: process.env.GOOGLE_CALLBACK_URL,
+},
+((accessToken, refreshToken, profile, done) => {
+  console.log('*******GOOGLE PROFILE OBJECT', profile);
+  // deconstruct variables from profile object
+  const { id, displayName } = profile;
+  getUser(id)
     .then((gotUser) => {
       if (gotUser.length) {
         done(null, gotUser);
       } else {
-        addUser(userObj)
+        addUser({
+          idDiscord: id,
+          username: displayName,
+        })
           .then((newUser) => {
             done(null, newUser);
           });
@@ -58,4 +61,7 @@ passport.use(new DiscordStrategy({
     .catch((error) => {
       console.log(error);
     });
-}));
+}
+
+  // done(null, profile); // once db functions connected erase this done
+)));
