@@ -29,7 +29,6 @@ export const getUserData = (userObj) => new Promise((resolve, reject) => {
     }).catch((err) => reject(err));
 });
 
-
 export const getTopScores = (gameObj) => new Promise((resolve, reject) => {
   console.log('GAME OBJECT REQ: ', gameObj);
   const { idGame } = gameObj;
