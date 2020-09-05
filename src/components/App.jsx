@@ -9,6 +9,7 @@ import GamePage from './Game';
 import Forum from './Forum';
 import Chat from './Chat';
 import FooterPage from './Footer';
+import Profile from './Profile';
 
 const { getAuth /* getUserData */ } = require('../helpers/helpers.js');
 
@@ -72,7 +73,7 @@ function App() {
             <Forum />
           </Route>
           <Route path="/profile" user={user}>
-            PROFILE
+            <Profile />
           </Route>
           <Route path="/404">
             Not Found
