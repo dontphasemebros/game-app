@@ -1,17 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Phaser from 'phaser';
+import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
 import PlayScene from '../Game/scenes/playScenes';
 import PreloadScene from '../Game/scenes/PreloadScene';
 import GameOverScene from '../Game/scenes/GameOver';
 
-const GamePage = () => {
-  const gameStyle = {
-    float: 'left',
-    paddingLeft: '25px',
-    paddingRight: '20px',
-    paddingBottom: '20px',
-  };
+const GamePage = ({ user }) => {
+  // const gameStyle = {
+  //   float: 'left',
+  //   paddingLeft: '25px',
+  //   paddingRight: '20px',
+  //   paddingBottom: '20px',
+  // };
+
+  useEffect(() => {
+
+  }, []);
 
   const descriptionStyle = {
     float: 'right',
@@ -34,13 +39,14 @@ const GamePage = () => {
     },
   };
 
-  const game = new Phaser.Game(config);
+  if (user) {
+    const game = new Phaser.Game(config);
 
-  game.scene.add('PlayScene', PlayScene);
-  game.scene.add('preload', PreloadScene);
-  game.scene.add('gameOver', GameOverScene);
-  game.scene.start('preload');
-
+    game.scene.add('PlayScene', PlayScene);
+    game.scene.add('preload', PreloadScene);
+    game.scene.add('gameOver', GameOverScene);
+    game.scene.start('preload');
+  }
   const redirect = process.env.REACT_APP_CHAT || 'https://phaserbros.com/chat';
 
   const handleSubmit = () => {
@@ -48,12 +54,11 @@ const GamePage = () => {
   };
 
   return (
-    <div>
+    <div id="phaser-game">
       <br />
-      <div id="phaser-game" style={gameStyle} />
       <div style={descriptionStyle}>
         <h4>Space Roids</h4>
-        <text>
+        <p>
           Destroy asteroids and aliens to
           <br />
           increase your score!
@@ -61,17 +66,17 @@ const GamePage = () => {
           Join the Leader Board by submitting
           <br />
           your score!
-        </text>
+        </p>
         <br />
         <br />
         <h4>Controls</h4>
-        <text>
+        <p>
           Arrow keys: Navigate your ship
           <br />
           Spacebar: Fire your lasers
           <br />
           Shift: Launch a salvo of missiles
-        </text>
+        </p>
         <br />
         <br />
         <Button onClick={handleSubmit} variant="danger">
@@ -84,3 +89,7 @@ const GamePage = () => {
 };
 
 export default GamePage;
+
+GamePage.propTypes = {
+  user: PropTypes.obj,
+};

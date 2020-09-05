@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter, Switch, Route,
 } from 'react-router-dom';
@@ -10,39 +10,68 @@ import Forum from './Forum';
 import Chat from './Chat';
 import FooterPage from './Footer';
 
+const { getAuth /* getUserData */ } = require('../helpers/helpers.js');
+
+// const handleTestButtonA = () => {
+//   getAuth()
+//     .then((result) => {
+//       console.log('GET AUTH RESULT: ', result);
+//     })
+//     .catch((err) => console.error('ERROR ON GETAUTH TEST: ', err));
+// };
+
+// const handleTestButtonB = () => {
+//   getUserData()
+//     .then((result) => {
+//       console.log('GET USER DATA RESULT: ', result);
+//     })
+//     .catch((err) => console.error('ERROR ON GETAUTH TEST: ', err));
+// };
+
 function App() {
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    getAuth()
+      .then((result) => {
+        console.log('GET AUTH RESULT: ', result);
+        setUser(result[0]);
+      })
+      .catch((err) => console.error('ERROR ON GETAUTH TEST: ', err));
+  }, [user]);
+
   return (
     <BrowserRouter>
       <GameTimeLogo />
-      <NavBar />
+      <NavBar user={user} />
       <div className="container">
         <Switch>
-          <Route path="/chat">
+          <Route path="/chat" user={user}>
             <Chat />
           </Route>
           <Route path="/highscore" />
-          <Route path="/game">
+          <Route path="/game" user={user}>
             <GamePage />
           </Route>
-          <Route path="/forum">
+          <Route path="/forum" user={user}>
             <Forum />
           </Route>
-          <Route path="/replies">
+          <Route path="/replies" user={user}>
             <Forum />
           </Route>
-          <Route path="/discussion">
+          <Route path="/discussion" user={user}>
             <Forum />
           </Route>
-          <Route path="/suggestions">
+          <Route path="/suggestions" user={user}>
             <Forum />
           </Route>
-          <Route path="/challenges">
+          <Route path="/challenges" user={user}>
             <Forum />
           </Route>
-          <Route path="/gamer-news">
+          <Route path="/gamer-news" user={user}>
             <Forum />
           </Route>
-          <Route path="/profile">
+          <Route path="/profile" user={user}>
             PROFILE
           </Route>
           <Route path="/404">
@@ -61,5 +90,9 @@ function App() {
     </BrowserRouter>
   );
 }
+
+// App.propTypes = {
+//   user: PropTypes.obj,
+// };
 
 export default App;
