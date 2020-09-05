@@ -2,14 +2,19 @@ import React, { useState } from 'react';
 import {
   Nav, Navbar, Modal,
 } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
-const NavBar = () => {
+const NavBar = ({ user }) => {
   const [show, setShow] = useState(false);
+
+  // const [user, setUser] = useState();
 
   const handleShow = () => {
     setShow(true);
   };
   const handleClose = () => setShow(false);
+
+  console.log('USER IN NAVBAR: ', user);
 
   return (
     <Navbar bg="dark" variant="dark">
@@ -29,9 +34,13 @@ const NavBar = () => {
         <Nav.Link href="/profile">
           <h3>Profile</h3>
         </Nav.Link>
-        <Nav.Link href="/api">
-          <h3>Login</h3>
-        </Nav.Link>
+        {user ? (
+          <>
+            <Nav.Link href="/api/logout"><h3>Logout</h3></Nav.Link>
+          </>
+        ) : (
+          <Nav.Link href="/api"><h3>Login</h3></Nav.Link>
+        )}
       </Nav>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -51,6 +60,10 @@ const NavBar = () => {
 };
 
 export default NavBar;
+
+NavBar.propTypes = {
+  user: PropTypes.objectOf.isRequired,
+};
 
 // { /* // <MDBNavbar color="unique-color-dark" dark>
 // //   <MDBNavbarBrand href="/">

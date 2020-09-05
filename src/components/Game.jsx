@@ -1,20 +1,29 @@
 import React from 'react';
 import Phaser from 'phaser';
+import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
 import PlayScene from '../Game/scenes/playScenes';
 import PreloadScene from '../Game/scenes/PreloadScene';
 import GameOverScene from '../Game/scenes/GameOver';
 
-const GamePage = () => {
-  const gameStyle = {
-    float: 'left',
-    paddingLeft: '25px',
-    paddingRight: '20px',
-    paddingBottom: '20px',
-  };
+const GamePage = ({ user }) => {
+  // const gameStyle = {
+  //   float: 'left',
+  //   paddingLeft: '25px',
+  //   paddingRight: '20px',
+  //   paddingBottom: '20px',
+  // };
+
+  // const [gamer, setGamer] = useState(null);
+
+  // setGamer(user);
+
+  // useEffect(() => {
+  // }, []);
 
   const descriptionStyle = {
     float: 'right',
+    marginTop: '50px',
   };
 
   const config = {
@@ -34,12 +43,13 @@ const GamePage = () => {
     },
   };
 
-  const game = new Phaser.Game(config);
-
-  game.scene.add('PlayScene', PlayScene);
-  game.scene.add('preload', PreloadScene);
-  game.scene.add('gameOver', GameOverScene);
-  game.scene.start('preload');
+  if (user) {
+    const game = new Phaser.Game(config);
+    game.scene.add('PlayScene', PlayScene);
+    game.scene.add('preload', PreloadScene);
+    game.scene.add('gameOver', GameOverScene);
+    game.scene.start('preload');
+  }
 
   const redirect = process.env.REACT_APP_CHAT || 'https://phaserbros.com/chat';
 
@@ -48,39 +58,44 @@ const GamePage = () => {
   };
 
   return (
-    <div>
+    <div id="phaser-game">
       <br />
-      <div id="phaser-game" style={gameStyle} />
-      <div style={descriptionStyle}>
-        <h4>Space Roids</h4>
-        <p>
-          Destroy asteroids and aliens to
+      {user ? (
+        <div style={descriptionStyle}>
+          <h4>Space Roids</h4>
+          <p>
+            Destroy asteroids and aliens to
+            <br />
+            increase your score!
+            <br />
+            Join the Leader Board by submitting
+            <br />
+            your score!
+          </p>
           <br />
-          increase your score!
           <br />
-          Join the Leader Board by submitting
+          <h4>Controls</h4>
+          <p>
+            Arrow keys: Navigate your ship
+            <br />
+            Spacebar: Fire your lasers
+            <br />
+            Shift: Launch a salvo of missiles
+          </p>
           <br />
-          your score!
-        </p>
-        <br />
-        <br />
-        <h4>Controls</h4>
-        <p>
-          Arrow keys: Navigate your ship
           <br />
-          Spacebar: Fire your lasers
-          <br />
-          Shift: Launch a salvo of missiles
-        </p>
-        <br />
-        <br />
-        <Button onClick={handleSubmit} variant="danger">
-          <h6>Live Game Chat</h6>
-        </Button>
-      </div>
+          <Button onClick={handleSubmit} variant="danger">
+            <h6>Live Game Chat</h6>
+          </Button>
+        </div>
+      ) : <h1 style={{ textAlign: 'center' }}>Please Login With Discord or Google</h1> }
       <br />
     </div>
   );
+};
+
+GamePage.propTypes = {
+  user: PropTypes.objectOf.isRequired,
 };
 
 export default GamePage;

@@ -10,6 +10,28 @@ const passport = require('passport');
 // create variable set to new Router instance from express module
 const apiRouter = express.Router();
 
+/* use passport sessions method to keep track of a
+logged in user associated with a given session */
+apiRouter.get('/session', (req, res) => {
+  if (req.user) {
+    res.status(200).json(req.user);
+  } else {
+    res.status(200).json({});
+  }
+});
+
+/**
+ * logout route for users to end current session
+ * terminate current user session & remove the req.user property
+ * perform logout operation by destroying current user session
+ * finish by redirecting user to homepage "/"
+ */
+apiRouter.get('/logout', (req, res) => {
+  req.logOut();
+  req.session.destroy();
+  res.redirect('/');
+});
+
 // DISCORD API ROUTES
 // discord app authentication route
 apiRouter.get('/', passport.authenticate('discord'));
