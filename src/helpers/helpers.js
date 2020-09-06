@@ -61,7 +61,7 @@ export const saveScore = (scoreObj) => new Promise((resolve, reject) => {
     params: {
       idUser,
       idGame,
-      value
+      value,
     },
   })
     .then((response) => {
