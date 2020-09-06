@@ -32,23 +32,22 @@ const Profile = ({ user }) => {
             </ul>
           </div>
         </div>
-        <div className="profile-picture text-white bg-dark mb-3 position-absolute" style={{ display: 'inline-block', alignSelf: 'flex-start' }}>
+        <div className="profile-picture text-white bg-dark mb-3" style={{ display: 'inline-block', alignSelf: 'flex-start' }}>
           <img className="d-print-inline-block" src={profilePhotoUrl} height="500px" width="500px" alt="" style={{ display: 'inline-block' }} />
         </div>
         <div className="user-bio bg-light" style={{ maxWidth: '700px' }}>
           <div style={{ padding: '20px' }}>
             <div className="card text-white bg-secondary mb-3">
               <h2 className="card-header" style={{ maxWidth: '700px' }}>
-                Bobby&apos;s Bio
+                {`${username}'s bio`}
               </h2>
             </div>
           </div>
-          <h4>username: Bobby</h4>
+          <h4>{`username: ${username}`}</h4>
           <h4>
             Location:
             {location}
           </h4>
-          <h4>Hi, I am bobby. I like games.</h4>
         </div>
       </div>
 
