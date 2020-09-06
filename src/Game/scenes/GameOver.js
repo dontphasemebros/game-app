@@ -37,7 +37,9 @@ class GameOverScene extends Phaser.Scene {
       fontStyle: 'bold',
       align: 'center',
     }).setInteractive({ useHandCursor: true }).on('pointerdown', () => {
-      window.alert(this.score);
+      // window.alert(this.score);
+      window.score = this.score;
+      window.submitScore();
     });
   }
 }

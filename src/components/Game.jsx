@@ -6,6 +6,8 @@ import PlayScene from '../Game/scenes/playScenes';
 import PreloadScene from '../Game/scenes/PreloadScene';
 import GameOverScene from '../Game/scenes/GameOver';
 
+const { saveScore } = require('../helpers/helpers.js');
+
 const GamePage = React.memo(({ user }) => {
   const descriptionStyle = {
     float: 'right',
@@ -34,6 +36,25 @@ const GamePage = React.memo(({ user }) => {
     game.scene.add('gameOver', GameOverScene);
     game.scene.start('preload');
   }
+
+  window.submitScore = () => {
+    const scoreObj = {
+      idUser: user.idUser,
+      idGame: 1,
+      value: window.score,
+    };
+    saveScore(scoreObj)
+      .then((score) => {
+        if (score) {
+          alert(`Score of ${score[0].value} successfully saved!`);
+        }
+      })
+      .catch((err) => {
+        alert('Problem saving score');
+        console.error('ERROR SAVING SCORE: ', err);
+      });
+  };
+
   const redirect = process.env.REACT_APP_CHAT || 'https://phaserbros.com/chat';
   const handleSubmit = () => {
     window.open(`${redirect}`, 'chat-window', 'height=500,width=530'); return false;
