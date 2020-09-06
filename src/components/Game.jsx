@@ -74,7 +74,9 @@ const GamePage = React.memo(({ user }) => {
     </div>
   );
 });
+
 GamePage.propTypes = {
   user: PropTypes.objectOf.isRequired,
 };
+
 export default GamePage;
