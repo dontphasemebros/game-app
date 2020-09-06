@@ -24,15 +24,24 @@ export const getUserData = (userObj) => new Promise((resolve, reject) => {
       userObj,
     },
   })
-    .then((result) => {
-      resolve(result.data);
+    .then((response) => {
+      resolve(response.data);
     }).catch((err) => reject(err));
 });
 
-// module.exports = {
-//   getUserData,
-//   getAuth,
-// };
-
-// export default getAuth;
-// module.exports = getAuth;
+export const getTopScores = (gameObj) => new Promise((resolve, reject) => {
+  console.log('GAME OBJECT REQ: ', gameObj);
+  const { idGame } = gameObj;
+  console.log('idGame: ', idGame);
+  axios({
+    method: 'get',
+    url: '/scores',
+    params: {
+      idGame,
+    },
+  })
+    .then((response) => {
+      console.log('SCORES RESPONSE: ', response.data);
+      resolve(response.data);
+    }).catch((err) => reject(err));
+});
