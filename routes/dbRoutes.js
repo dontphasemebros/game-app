@@ -24,7 +24,7 @@ const {
 */
 dbRouter.get('/users', (req, res) => {
   const { idDiscord } = req.body;
-  if (authChecker(req.user)) {
+  if (authChecker(req.user[0])) {
     getUser(idDiscord)
       .then((foundUser) => {
         res.send(foundUser);
@@ -47,7 +47,7 @@ dbRouter.get('/users', (req, res) => {
 dbRouter.get('/threads', (req, res) => {
   // deconstruct "idChannel" number from req.body to pass to get threads form db
   const { idChannel } = req.body;
-  if (authChecker(req.user)) {
+  if (authChecker(req.user[0])) {
     getThreads(idChannel)
       .then((thread) => {
         res.send(thread);
@@ -79,7 +79,7 @@ dbRouter.get('/articles', (req, res) => { // route will be used once articles ar
 */
 dbRouter.get('/scores', (req, res) => {
   const { idGame } = req.query;
-  // if (authChecker(req.user)) {
+  // if (authChecker(req.user[0])) {
   getScores(idGame)
     .then((score) => {
       res.send(score);
@@ -98,14 +98,16 @@ dbRouter.get('/scores', (req, res) => {
 * use - uses "addScore" function to save users scores in db
 * inputs - "addScore" receives a object
 *       scoresObj = { value, idUser, idGame }
-* {Param} - deconstructed from req.body
+* {Param} - deconstructed from req.query
 * returns - an array containing an object with all user information, saved score, game info
 */
 dbRouter.post('/scores', (req, res) => {
-  const { value, idUser, idGame } = req.body;
-  const scoresObj = { value, idUser, idGame };
-  if (authChecker(req.user)) {
-    addScore(scoresObj)
+  // console.log('REQ OBJECT: ', req);
+  // const { value, idUser, idGame } = req.query;
+  // const scoreObj = { value, idUser, idGame };
+  const scoreObj = req.query;
+  if (authChecker(req.user[0])) {
+    addScore(scoreObj)
       .then((success) => {
         res.send(success);
       })
@@ -126,9 +128,9 @@ dbRouter.post('/scores', (req, res) => {
 * returns - an array containing thread content, user information, & array of corresponding replies
 */
 dbRouter.post('/threads', (req, res) => {
-  const { text, idUser, idChannel } = req.body;
+  const { text, idUser, idChannel } = req.query;
   const threadObj = { text, idUser, idChannel };
-  if (authChecker(req.user)) {
+  if (authChecker(req.user[0])) {
     addThread(threadObj)
       .then((success) => {
         res.send(success);
@@ -152,7 +154,7 @@ dbRouter.post('/threads', (req, res) => {
 dbRouter.post('/replies', (req, res) => {
   const { text, idUser, idThread } = req.body;
   const replyObj = { text, idUser, idThread };
-  if (authChecker(req.user)) {
+  if (authChecker(req.user[0])) {
     addReply(replyObj)
       .then((success) => {
         res.send(success);
@@ -174,7 +176,7 @@ dbRouter.post('/replies', (req, res) => {
 * returns -
 */
 dbRouter.post('/users', (req, res) => {
-  if (authChecker(req.user)) {
+  if (authChecker(req.user[0])) {
     const {
       id, username, avatar, locale,
     } = req.body;

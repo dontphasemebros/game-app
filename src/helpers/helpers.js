@@ -49,7 +49,22 @@ export const getNews = () => new Promise((resolve, reject) => {
     url: '/api/articles',
   })
     .then((response) => {
-      console.log('ARTICLES RESPONSE: ', response.data);
+      resolve(response.data);
+    }).catch((err) => reject(err));
+});
+
+export const saveScore = (scoreObj) => new Promise((resolve, reject) => {
+  const { idUser, idGame, value } = scoreObj;
+  axios({
+    method: 'post',
+    url: '/scores',
+    params: {
+      idUser,
+      idGame,
+      value,
+    },
+  })
+    .then((response) => {
       resolve(response.data);
     }).catch((err) => reject(err));
 });
