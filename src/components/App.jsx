@@ -11,7 +11,7 @@ import Chat from './Chat';
 import FooterPage from './Footer';
 import Profile from './Profile';
 
-const { getAuth, getTopScores /* getUserData */ } = require('../helpers/helpers.js');
+const { getAuth, getTopScores } = require('../helpers/helpers.js');
 
 function App() {
   const [user, setUser] = useState([]);

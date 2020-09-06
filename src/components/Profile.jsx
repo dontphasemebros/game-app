@@ -33,7 +33,7 @@ const Profile = ({ user }) => {
           </div>
         </div>
         <div className="profile-picture text-white bg-dark mb-3" style={{ display: 'inline-block', alignSelf: 'flex-start' }}>
-          <img className="d-print-inline-block" src={profilePhotoUrl} height="500px" width="500px" alt="" style={{ display: 'inline-block' }} />
+          <img className="d-print-inline-block" src={profilePhotoUrl} alt="" style={{ display: 'inline-block' }} />
         </div>
         <div className="user-bio bg-light" style={{ maxWidth: '700px' }}>
           <div style={{ padding: '20px' }}>

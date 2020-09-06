@@ -30,9 +30,7 @@ export const getUserData = (userObj) => new Promise((resolve, reject) => {
 });
 
 export const getTopScores = (gameObj) => new Promise((resolve, reject) => {
-  console.log('GAME OBJECT REQ: ', gameObj);
   const { idGame } = gameObj;
-  console.log('idGame: ', idGame);
   axios({
     method: 'get',
     url: '/scores',
@@ -41,7 +39,17 @@ export const getTopScores = (gameObj) => new Promise((resolve, reject) => {
     },
   })
     .then((response) => {
-      console.log('SCORES RESPONSE: ', response.data);
+      resolve(response.data);
+    }).catch((err) => reject(err));
+});
+
+export const getArticles = () => new Promise((resolve, reject) => {
+  axios({
+    method: 'get',
+    url: '/api/articles',
+  })
+    .then((response) => {
+      console.log('ARTICLES RESPONSE: ', response.data);
       resolve(response.data);
     }).catch((err) => reject(err));
 });
