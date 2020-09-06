@@ -32,7 +32,7 @@ const NavBar = ({ user, scores }) => {
         <Nav.Link href="/profile">
           <h3>Profile</h3>
         </Nav.Link>
-        {user ? (
+        {!Array.isArray(user) ? (
           <>
             <Nav.Link href="/api/logout"><h3>Logout</h3></Nav.Link>
           </>

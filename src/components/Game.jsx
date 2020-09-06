@@ -6,26 +6,11 @@ import PlayScene from '../Game/scenes/playScenes';
 import PreloadScene from '../Game/scenes/PreloadScene';
 import GameOverScene from '../Game/scenes/GameOver';
 
-const GamePage = ({ user }) => {
-  // const gameStyle = {
-  //   float: 'left',
-  //   paddingLeft: '25px',
-  //   paddingRight: '20px',
-  //   paddingBottom: '20px',
-  // };
-
-  // const [gamer, setGamer] = useState(null);
-
-  // setGamer(user);
-
-  // useEffect(() => {
-  // }, []);
-
+const GamePage = React.memo( ({ user }) => {
   const descriptionStyle = {
     float: 'right',
     marginTop: '50px',
   };
-
   const config = {
     width: 800,
     height: 600,
@@ -42,25 +27,21 @@ const GamePage = ({ user }) => {
       },
     },
   };
-
-  if (user) {
+  if (!Array.isArray(user)) {
     const game = new Phaser.Game(config);
     game.scene.add('PlayScene', PlayScene);
     game.scene.add('preload', PreloadScene);
     game.scene.add('gameOver', GameOverScene);
     game.scene.start('preload');
   }
-
   const redirect = process.env.REACT_APP_CHAT || 'https://phaserbros.com/chat';
-
   const handleSubmit = () => {
     window.open(`${redirect}`, 'chat-window', 'height=500,width=530'); return false;
   };
-
   return (
     <div id="phaser-game">
       <br />
-      {user ? (
+      {!Array.isArray(user) ? (
         <div style={descriptionStyle}>
           <h4>Space Roids</h4>
           <p>
@@ -92,10 +73,8 @@ const GamePage = ({ user }) => {
       <br />
     </div>
   );
-};
-
+});
 GamePage.propTypes = {
   user: PropTypes.objectOf.isRequired,
 };
-
 export default GamePage;
