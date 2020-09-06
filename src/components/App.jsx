@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter, Switch, Route,
 } from 'react-router-dom';
@@ -9,41 +9,65 @@ import GamePage from './Game';
 import Forum from './Forum';
 import Chat from './Chat';
 import FooterPage from './Footer';
+import Profile from './Profile';
+
+const { getAuth, getTopScores /* getUserData */ } = require('../helpers/helpers.js');
 
 function App() {
+  const [user, setUser] = useState([]);
+  const [scores, setScores] = useState([]);
+
+  useEffect(() => {
+    getAuth()
+      .then((result) => {
+        if (result[0]) {
+          setUser(result[0]);
+        }
+      })
+      .catch((err) => console.error('ERROR GETTING SESSION: ', err));
+  }, []);
+
+  useEffect(() => {
+    getTopScores({ idGame: 1 })
+      .then((result) => {
+        setScores(result);
+      })
+      .catch((err) => console.error('ERROR GETTING SCORES: ', err));
+  }, []);
+
   return (
     <BrowserRouter>
       <GameTimeLogo />
-      <NavBar />
+      <NavBar user={user} scores={scores} />
       <div className="container">
         <Switch>
           <Route path="/chat">
-            <Chat />
+            <Chat user={user} />
           </Route>
           <Route path="/highscore" />
           <Route path="/game">
-            <GamePage />
+            <GamePage user={user} />
           </Route>
           <Route path="/forum">
-            <Forum />
+            <Forum user={user} />
           </Route>
           <Route path="/replies">
-            <Forum />
+            <Forum user={user} />
           </Route>
           <Route path="/discussion">
-            <Forum />
+            <Forum user={user} />
           </Route>
           <Route path="/suggestions">
-            <Forum />
+            <Forum user={user} />
           </Route>
           <Route path="/challenges">
-            <Forum />
+            <Forum user={user} />
           </Route>
           <Route path="/gamer-news">
-            <Forum />
+            <Forum user={user} />
           </Route>
           <Route path="/profile">
-            PROFILE
+            <Profile user={user} />
           </Route>
           <Route path="/404">
             Not Found
