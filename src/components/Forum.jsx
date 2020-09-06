@@ -58,28 +58,28 @@ const Forum = () => (
             <div style={{ padding: '20px' }}>
               <li className="Forum-Topic-General-Discussion list-group-item" style={{ backgroundColor: '#ececec' }}>
                 <Navbar.Brand href="/discussion">
-                  <h2>This is the topic for General-Discussion</h2>
+                  <h2>General Discussion</h2>
                 </Navbar.Brand>
               </li>
             </div>
             <div style={{ padding: '20px' }}>
               <li className="Forum-Topic-Challenges list-group-item" style={{ backgroundColor: '#ececec' }}>
                 <Navbar.Brand href="/challenges">
-                  <h2>This is the topic for Challenges</h2>
+                  <h2>Challenges</h2>
                 </Navbar.Brand>
               </li>
             </div>
             <div style={{ padding: '20px' }}>
               <li className="Forum-Topic-Suggestions list-group-item" style={{ backgroundColor: '#ececec' }}>
                 <Navbar.Brand href="/suggestions">
-                  <h2>This is the topic for Suggestions</h2>
+                  <h2>Suggestions</h2>
                 </Navbar.Brand>
               </li>
             </div>
             <div style={{ padding: '20px' }}>
               <li className="Forum-Topic-Gamer-News list-group-item" style={{ backgroundColor: '#ececec' }}>
                 <Navbar.Brand href="/gamer-news">
-                  <h2>This is the topic for Gamer News</h2>
+                  <h2>Gamer News</h2>
                 </Navbar.Brand>
               </li>
             </div>
