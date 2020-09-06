@@ -6,7 +6,7 @@ import PlayScene from '../Game/scenes/playScenes';
 import PreloadScene from '../Game/scenes/PreloadScene';
 import GameOverScene from '../Game/scenes/GameOver';
 
-const GamePage = React.memo( ({ user }) => {
+const GamePage = React.memo(({ user }) => {
   const descriptionStyle = {
     float: 'right',
     marginTop: '50px',
