@@ -43,7 +43,7 @@ export const getTopScores = (gameObj) => new Promise((resolve, reject) => {
     }).catch((err) => reject(err));
 });
 
-export const getArticles = () => new Promise((resolve, reject) => {
+export const getNews = () => new Promise((resolve, reject) => {
   axios({
     method: 'get',
     url: '/api/articles',
@@ -53,3 +53,4 @@ export const getArticles = () => new Promise((resolve, reject) => {
       resolve(response.data);
     }).catch((err) => reject(err));
 });
+
