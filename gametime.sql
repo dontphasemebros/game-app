@@ -8,7 +8,7 @@ CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   id_discord VARCHAR(255),
   username VARCHAR(255),
-  profile_photo_url VARCHAR(510),
+  profile_photo_url VARCHAR(1020),
   location VARCHAR(255)
 );
 

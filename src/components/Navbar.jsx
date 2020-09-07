@@ -37,7 +37,7 @@ const NavBar = ({ user, scores }) => {
             <Nav.Link href="/api/logout"><h3>Logout</h3></Nav.Link>
           </>
         ) : (
-          <Nav.Link href="/api"><h3>Login</h3></Nav.Link>
+          <Nav.Link href="/api/google"><h3>Login</h3></Nav.Link>
         )}
       </Nav>
       <Modal show={show} onHide={handleClose}>

@@ -47,6 +47,7 @@ passport.use(new DiscordStrategy({
   callbackURL: process.env.DEPLOY_REDIRECT || process.env.DISCORD_CLIENT_REDIRECT,
   scope: ['identify', 'guilds'],
 }, (accessToken, refreshToken, profile, done) => {
+  console.log('profile: ', profile);
   const userObj = {
     idDiscord: profile.id,
     username: profile.username,
@@ -55,6 +56,7 @@ passport.use(new DiscordStrategy({
   };
   getUser(userObj)
     .then((gotUser) => {
+      console.log('GOT USER IN STRATEGY: ', gotUser);
       if (gotUser) {
         done(null, gotUser);
       } else {

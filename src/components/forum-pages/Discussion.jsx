@@ -8,7 +8,7 @@ import {
 import PropTypes from 'prop-types';
 import Replies from './Replies';
 
-const Discussion = ({ forEachDiscussion, threads }) => {
+const Discussion = ({ forEachDiscussion }) => {
   const { register, handleSubmit } = useForm();
 
   const discussion = [forEachDiscussion()];
@@ -20,7 +20,7 @@ const Discussion = ({ forEachDiscussion, threads }) => {
         <Switch>
           <Route path="/replies">
             <div className="Thread-Replies" style={{ padding: '20px' }}>
-              <Replies threads={threads} discussion={discussion[0]} />
+              <Replies discussion={discussion[0]} />
             </div>
             <div className="Challenges-Body">
               <form onSubmit={handleSubmit(onSubmit)} style={{ padding: '30px', marginLeft: '200px' }}>
@@ -38,7 +38,6 @@ const Discussion = ({ forEachDiscussion, threads }) => {
 
 Discussion.propTypes = {
   forEachDiscussion: PropTypes.func.isRequired,
-  threads: PropTypes.arrayOf.isRequired,
 };
 
 export default Discussion;
