@@ -1,6 +1,8 @@
 import React from 'react';
 import Phaser from 'phaser';
 import PropTypes from 'prop-types';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Button } from 'react-bootstrap';
 import PlayScene from '../Game/scenes/playScenes';
 import PreloadScene from '../Game/scenes/PreloadScene';
@@ -37,7 +39,11 @@ const GamePage = React.memo(({ user }) => {
     game.scene.start('preload');
   }
 
-  window.submitScore = () => {
+  const notify = () => toast(`Your Score of ${window.score} Was Submitted!`);
+
+  const scoreError = () => toast('There was an error submitting your score!');
+
+  const submitScore = () => {
     const scoreObj = {
       idUser: user.idUser,
       idGame: 1,
@@ -46,12 +52,11 @@ const GamePage = React.memo(({ user }) => {
     saveScore(scoreObj)
       .then((score) => {
         if (score) {
-          alert(`Score of ${score[0].value} successfully saved!`);
+          notify();
         }
       })
-      .catch((err) => {
-        alert('Problem saving score');
-        console.error('ERROR SAVING SCORE: ', err);
+      .catch(() => {
+        scoreError();
       });
   };
 
@@ -89,6 +94,13 @@ const GamePage = React.memo(({ user }) => {
           <Button onClick={handleSubmit} variant="danger">
             <h6>Live Game Chat</h6>
           </Button>
+          <br />
+          <div>
+            <Button onClick={submitScore} variant="danger">
+              <h6>Submit Your Score!</h6>
+            </Button>
+            <ToastContainer />
+          </div>
         </div>
       ) : <h1 style={{ textAlign: 'center' }}>Please Login With Discord or Google</h1> }
       <br />

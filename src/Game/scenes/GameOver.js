@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import 'react-toastify/dist/ReactToastify.css';
 import background from '../assets/img/Space.jpg';
 import logo from '../assets/img/GTL G.png';
 
@@ -29,17 +30,6 @@ class GameOverScene extends Phaser.Scene {
       this.gameOver = false;
       this.score = 0;
       this.scene.start('PlayScene');
-    });
-
-    this.add.text(225, 450, 'Submit Your Score!', {
-      fontSize: '32px',
-      fill: '#FF0000',
-      fontStyle: 'bold',
-      align: 'center',
-    }).setInteractive({ useHandCursor: true }).on('pointerdown', () => {
-      // window.alert(this.score);
-      window.score = this.score;
-      window.submitScore();
     });
   }
 }
