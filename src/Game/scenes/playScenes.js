@@ -69,7 +69,7 @@ export default class PlayScene extends Phaser.Scene {
     this.aliensArray = [];
 
     this.aliensTimedEvent = this.time.addEvent({
-      delay: 2000,
+      delay: 1500,
       callback: this.addAlien,
       callbackScope: this,
       loop: true,
@@ -80,7 +80,7 @@ export default class PlayScene extends Phaser.Scene {
     this.asteroidsArray = [];
 
     this.asteroidTimedEvent = this.time.addEvent({
-      delay: 1500,
+      delay: 1000,
       callback: this.addAsteroid,
       callbackScope: this,
       loop: true,
