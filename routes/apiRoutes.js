@@ -44,11 +44,6 @@ apiRouter.get('/redirect', passport.authenticate('discord', {
 }), (req, res) => {
   res.send(req.user);
 });
-// apiRouter.get('/redirect', passport.authenticate('discord', {
-//   failureRedirect: '/',
-// }), (req, res) => {
-//   res.redirect('/'); // Successful auth
-// });
 
 // GOOGLE API ROUTES
 // google app authentication route

@@ -10,6 +10,7 @@ import Forum from './Forum';
 import Chat from './Chat';
 import FooterPage from './Footer';
 import Profile from './Profile';
+import Login from './Login';
 
 const { getAuth, getTopScores } = require('../helpers/helpers.js');
 
@@ -72,6 +73,9 @@ function App() {
           </Route>
           <Route path="/404">
             Not Found
+          </Route>
+          <Route path="/login">
+            <Login />
           </Route>
           <Route path="/">
             <SplashPage />
