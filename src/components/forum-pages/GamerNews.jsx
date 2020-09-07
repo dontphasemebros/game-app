@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import {
 } from 'react-bootstrap';
 
-const { getArticles } = require('../../helpers/helpers.js');
+const { getNews } = require('../../helpers/helpers.js');
 
 const GamerNews = () => {
   const [articles, setArticles] = useState([]);
 
   useEffect(() => {
-    getArticles()
+    getNews()
       .then((result) => {
         setArticles(result);
       })

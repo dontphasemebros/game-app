@@ -8,6 +8,7 @@ export const getAuth = () => new Promise((resolve, reject) => {
     url: '/api/session',
   })
     .then((response) => {
+      console.log('GET AUTH RESPONSE: ', response.data);
       resolve(response.data);
     })
     .catch((err) => {
@@ -43,7 +44,7 @@ export const getTopScores = (gameObj) => new Promise((resolve, reject) => {
     }).catch((err) => reject(err));
 });
 
-export const getArticles = () => new Promise((resolve, reject) => {
+export const getNews = () => new Promise((resolve, reject) => {
   axios({
     method: 'get',
     url: '/api/articles',
@@ -62,6 +63,21 @@ export const saveScore = (scoreObj) => new Promise((resolve, reject) => {
       idUser,
       idGame,
       value,
+    },
+  })
+    .then((response) => {
+      resolve(response.data);
+    }).catch((err) => reject(err));
+});
+
+export const getThreadsByChannel = (channelObj) => new Promise((resolve, reject) => {
+  // NOTE: SAMPLE DATA CHANNEL 1 IS EMPTY
+  const { idChannel } = channelObj;
+  axios({
+    method: 'get',
+    url: '/threads',
+    params: {
+      idChannel,
     },
   })
     .then((response) => {

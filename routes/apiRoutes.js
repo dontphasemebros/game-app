@@ -15,8 +15,9 @@ logged in user associated with a given session */
 apiRouter.get('/session', (req, res) => {
   if (req.user) {
     res.status(200).json(req.user);
+    // res.send(req.user);
   } else {
-    res.status(200).json({});
+    res.status(200).json(req.user);
   }
 });
 
@@ -43,6 +44,11 @@ apiRouter.get('/redirect', passport.authenticate('discord', {
 }), (req, res) => {
   res.send(req.user);
 });
+// apiRouter.get('/redirect', passport.authenticate('discord', {
+//   failureRedirect: '/',
+// }), (req, res) => {
+//   res.redirect('/'); // Successful auth
+// });
 
 // GOOGLE API ROUTES
 // google app authentication route
@@ -55,6 +61,7 @@ apiRouter.get('/callback', passport.authenticate('google', {
   failureRedirect: '/failed',
   successRedirect: '/',
 }), (req, res) => {
+  console.log('REQ.USER IN GOOGLE: ', req.user);
   res.send(req.user);
 });
 
