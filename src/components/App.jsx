@@ -20,8 +20,9 @@ function App() {
   useEffect(() => {
     getAuth()
       .then((result) => {
-        if (result[0]) {
-          setUser(result[0]);
+        console.log('GET AUTH RESULT IN APP.JSX', result);
+        if (result) {
+          setUser(result);
         }
       })
       .catch((err) => console.error('ERROR GETTING SESSION: ', err));

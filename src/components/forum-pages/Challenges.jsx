@@ -4,13 +4,13 @@ import {
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-const Challenges = ({ forEachChallenge }) => {
+const Challenges = ({ forEachChallenge, threads }) => {
   const { register, handleSubmit } = useForm();
 
   const onSubmit = () => { };
 
   return (
-    <div>
+    <div threads={threads}>
       <div style={{ padding: '20px' }}>
         <div className="card text-white bg-secondary mb-3">
           <h2 className="card-header">
@@ -18,7 +18,7 @@ const Challenges = ({ forEachChallenge }) => {
           </h2>
         </div>
       </div>
-      <div className="Challenges-Body">
+      <div threads={threads} className="Challenges-Body">
         {forEachChallenge()}
         <form onSubmit={handleSubmit(onSubmit)}>
           <span>Start a discussion:</span>
@@ -32,6 +32,7 @@ const Challenges = ({ forEachChallenge }) => {
 
 Challenges.propTypes = {
   forEachChallenge: PropTypes.func.isRequired,
+  threads: PropTypes.arrayOf.isRequired,
 };
 
 export default Challenges;

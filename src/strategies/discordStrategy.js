@@ -17,17 +17,26 @@ passport.serializeUser((user, done) => {
 
 // use passport deserialize user middleware
 passport.deserializeUser((user, done) => {
-  getUser(user[0]) // get user
-    .then((foundUser) => {
-      if (foundUser.length) {
-        done(null, foundUser);
-      } else {
-        console.log('no user with that id found');
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  console.log('USER IN DESERIALIZE: ', user);
+  // getUser(user) // get user
+  //   .then((foundUser) => {
+  //     console.log('FOUND USER IN DESERIALIZE: ', foundUser);
+  //     if (foundUser) {
+  //       done(null, foundUser);
+  //     } else {
+  //       console.log('no user with that id found');
+  //       // addUser(user)
+  //       //   .then((addedUser) => {
+  //       //     done(null, addedUser);
+  //       //   })
+  //       //   .catch((err) => console.error(err));
+  //       done(null, user);
+  //     }
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //   });
+  done(null, user);
 });
 
 // create new instance of passport Discord strategy
@@ -46,7 +55,7 @@ passport.use(new DiscordStrategy({
   };
   getUser(userObj)
     .then((gotUser) => {
-      if (gotUser.length) {
+      if (gotUser) {
         done(null, gotUser);
       } else {
         addUser(userObj)

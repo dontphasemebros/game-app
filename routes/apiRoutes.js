@@ -13,11 +13,11 @@ const apiRouter = express.Router();
 /* use passport sessions method to keep track of a
 logged in user associated with a given session */
 apiRouter.get('/session', (req, res) => {
-  if (req.user) {
-    res.status(200).json(req.user);
-  } else {
-    res.status(200).json({});
-  }
+  // if (req.user) {
+  res.status(200).json(req.user);
+  // } else {
+  //   res.status(200).json(req.user);
+  // }
 });
 
 /**

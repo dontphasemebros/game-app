@@ -11,8 +11,13 @@ const {
   addReply,
   getScores,
   addScore,
-  authChecker,
 } = require('../database/index');
+/**
+ * Checks to see if a user is logged in to protect api routes
+ * @param {Object} user req.user
+ */
+const authChecker = (user) => !!user;
+
 // Database Routes - all routes prefixed with '/'
 // GET routes
 /*
@@ -24,7 +29,7 @@ const {
 */
 dbRouter.get('/users', (req, res) => {
   const { idDiscord } = req.body;
-  if (authChecker(req.user[0])) {
+  if (authChecker(req.user)) {
     getUser(idDiscord)
       .then((foundUser) => {
         res.send(foundUser);
@@ -46,8 +51,8 @@ dbRouter.get('/users', (req, res) => {
 */
 dbRouter.get('/threads', (req, res) => {
   // deconstruct "idChannel" number from req.body to pass to get threads form db
-  const { idChannel } = req.body;
-  if (authChecker(req.user[0])) {
+  const { idChannel } = req.query;
+  if (authChecker(req.user)) {
     getThreads(idChannel)
       .then((thread) => {
         res.send(thread);
@@ -106,7 +111,7 @@ dbRouter.post('/scores', (req, res) => {
   // const { value, idUser, idGame } = req.query;
   // const scoreObj = { value, idUser, idGame };
   const scoreObj = req.query;
-  if (authChecker(req.user[0])) {
+  if (authChecker(req.user)) {
     addScore(scoreObj)
       .then((success) => {
         res.send(success);
@@ -130,7 +135,7 @@ dbRouter.post('/scores', (req, res) => {
 dbRouter.post('/threads', (req, res) => {
   const { text, idUser, idChannel } = req.query;
   const threadObj = { text, idUser, idChannel };
-  if (authChecker(req.user[0])) {
+  if (authChecker(req.user)) {
     addThread(threadObj)
       .then((success) => {
         res.send(success);
@@ -154,7 +159,7 @@ dbRouter.post('/threads', (req, res) => {
 dbRouter.post('/replies', (req, res) => {
   const { text, idUser, idThread } = req.body;
   const replyObj = { text, idUser, idThread };
-  if (authChecker(req.user[0])) {
+  if (authChecker(req.user)) {
     addReply(replyObj)
       .then((success) => {
         res.send(success);
@@ -176,7 +181,7 @@ dbRouter.post('/replies', (req, res) => {
 * returns -
 */
 dbRouter.post('/users', (req, res) => {
-  if (authChecker(req.user[0])) {
+  if (authChecker(req.user)) {
     const {
       id, username, avatar, locale,
     } = req.body;
