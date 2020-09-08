@@ -61,7 +61,6 @@ apiRouter.get('/callback', passport.authenticate('google', {
   failureRedirect: '/failed',
   successRedirect: '/',
 }), (req, res) => {
-  console.log('REQ.USER IN GOOGLE: ', req.user);
   res.send(req.user);
 });
 

@@ -18,7 +18,6 @@ passport.serializeUser((user, done) => {
 // use passport deserialize user middleware
 
 passport.deserializeUser((user, done) => {
-  console.log('********SERIALIZE USER**********', user);
   getUser(user) // connect function to db later
     .then((foundUser) => {
       if (foundUser) {
@@ -41,7 +40,6 @@ passport.use(new GoogleStrategy({
   callbackURL: process.env.GOOGLE_CALLBACK_URL,
 },
 ((accessToken, refreshToken, profile, done) => {
-  console.log('*******GOOGLE PROFILE OBJECT', profile);
   // deconstruct variables from profile object
   const { id, displayName } = profile;
   const userObj = {

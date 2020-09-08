@@ -8,7 +8,6 @@ export const getAuth = () => new Promise((resolve, reject) => {
     url: '/api/session',
   })
     .then((response) => {
-      console.log('GET AUTH RESPONSE: ', response.data);
       resolve(response.data);
     })
     .catch((err) => {
@@ -30,6 +29,7 @@ export const getUserData = (userObj) => new Promise((resolve, reject) => {
     }).catch((err) => reject(err));
 });
 
+// gets top ten scores from db by game id
 export const getTopScores = (gameObj) => new Promise((resolve, reject) => {
   const { idGame } = gameObj;
   axios({
@@ -44,6 +44,7 @@ export const getTopScores = (gameObj) => new Promise((resolve, reject) => {
     }).catch((err) => reject(err));
 });
 
+// gets gamer news from API
 export const getNews = () => new Promise((resolve, reject) => {
   axios({
     method: 'get',
@@ -54,6 +55,7 @@ export const getNews = () => new Promise((resolve, reject) => {
     }).catch((err) => reject(err));
 });
 
+// saves user's game score to the database
 export const saveScore = (scoreObj) => new Promise((resolve, reject) => {
   const { idUser, idGame, value } = scoreObj;
   axios({
@@ -70,9 +72,8 @@ export const saveScore = (scoreObj) => new Promise((resolve, reject) => {
     }).catch((err) => reject(err));
 });
 
-export const getThreadsByChannel = (channelObj) => new Promise((resolve, reject) => {
-  // NOTE: SAMPLE DATA CHANNEL 1 IS EMPTY
-  const { idChannel } = channelObj;
+// gets threads by channel id
+export const getThreadsByChannel = (idChannel) => new Promise((resolve, reject) => {
   axios({
     method: 'get',
     url: '/threads',
