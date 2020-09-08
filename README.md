@@ -6,7 +6,7 @@ GameTime is a one stop online gaming platform focused on fun interactive games.
 Description
 ============
 
-Gametime supplies a game platform for players to enjoy our games and provide feedback in order to better gameplay and design. The key focus of GameTime is to allow players to engage with one another and the development team within our built-in forums. Players don't have to leave our platform in order to suggest changes, address bugs, and get input from the developers. The ability for players and developers to have instant communication streamlines the process of implementing new features and giving the players what they want, which is one of our main concern. Players can also interact with one another in realtime using the built-in chat feature. If you want to see who's out there playing, just open up the chat and start chatting. We plan on implementing more games in the future, so be sure to keep up with all of our changes here on Github and at PhaserBros.com.
+Gametime supplies a game platform for players to enjoy our games and provide feedback in order to better gameplay and design. The key focus of GameTime is to allow players to engage with one another and the development team within our built-in forums. Players don't have to leave our platform in order to suggest changes, address bugs, and get input from the developers. The ability for players and developers to have instant communication streamlines the process of implementing new features and giving the players what they want, which is one of our main concerns. Players can also interact with one another in real time using the built-in chat feature. If you want to see who's out there playing, just open up the chat and start chatting. We plan on implementing more games in the future, so be sure to keep up with all of our changes here on Github and at PhaserBros.com.
 
 
 Dependencies
@@ -99,7 +99,7 @@ or ``--edge`` for the latest ``master`` version.
 Once the command above runs, there will be a node-modules folder containing all of the required dependencies for the project to operate.
 
 Next it's time to set up the environmental variables. Luckily, this application has been given a dependency that will make the process alot
-easier to implement. ``dotenv``. 
+easier to implement. ``dotenv``.
 
 To start, let's create a ``.env`` file in the app's main directory.
 
@@ -151,7 +151,7 @@ Next, let's take a look in the package.json to see what scripts this app can run
     "build": "webpack --mode production --watch",
     "test": "node test/apptests.spec.js",
     "pretest": "./node_modules/.bin/eslint --ignore-path .gitignore . --fix"
-```    
+```
 Before starting the application, issue the command ``npm run build`` to start the web compiler for react.
 
 What will be used to start the app is to issue the command ``npm run dev`` which will activate both the web client and the server at the same time.

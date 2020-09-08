@@ -12,16 +12,16 @@ const Forum = () => (
     </div>
 
     <div>
-      <Button href="/general" variant="secondary" size="lg">
+      <Button href="/general" variant="primary" size="lg">
         <h6>General</h6>
       </Button>
-      <Button href="/challenges" variant="secondary" size="lg">
+      <Button href="/challenges" variant="primary" size="lg">
         <h6>Challenges</h6>
       </Button>
-      <Button href="/suggestions" variant="secondary" size="lg">
+      <Button href="/suggestions" variant="primary" size="lg">
         <h6>Suggestions</h6>
       </Button>
-      <Button href="/gamer-news" variant="secondary" size="lg">
+      <Button href="/gamer-news" variant="primary" size="lg">
         <h6>Gamer News</h6>
       </Button>
     </div>

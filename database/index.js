@@ -197,6 +197,21 @@ async function addThread(threadObj) {
 
 // takes an object with reply properties: text, idUser, idThread
 // returns array containing newly created reply object with user info
+async function getReplies() {
+  const getRepliesCommand = `
+    <COMMAND>
+  `;
+  try {
+    // <CODE>
+    console.log(getRepliesCommand); // preventing Husky
+    return ''; // preventing Husky
+  } catch (error) {
+    return console.error('COULD NOT GET REPLY FROM DATABASE', error);
+  }
+}
+
+// takes an object with reply properties: text, idUser, idThread
+// returns array containing newly created reply object with user info
 async function addReply(replyObj) {
   const {
     text, idUser, idThread,
@@ -315,6 +330,7 @@ module.exports = {
   addUser,
   getThreads,
   addThread,
+  getReplies,
   addReply,
   getScores,
   addScore,
