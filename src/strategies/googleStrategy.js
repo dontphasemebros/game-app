@@ -16,12 +16,11 @@ passport.serializeUser((user, done) => {
 });
 
 // use passport deserialize user middleware
-
 passport.deserializeUser((user, done) => {
-  console.log('********SERIALIZE USER**********', user);
-  getUser(user[0].idDiscord) // connect function to db later
+  // console.log('********SERIALIZE USER**********', user);
+  getUser(user) // connect function to db later
     .then((foundUser) => {
-      if (foundUser.length) {
+      if (foundUser) {
         done(null, foundUser);
       } else {
         console.log('no user with that id found');
@@ -41,18 +40,19 @@ passport.use(new GoogleStrategy({
   callbackURL: process.env.GOOGLE_CALLBACK_URL,
 },
 ((accessToken, refreshToken, profile, done) => {
-  console.log('*******GOOGLE PROFILE OBJECT', profile);
   // deconstruct variables from profile object
   const { id, displayName } = profile;
-  getUser(id)
+  const userObj = {
+    idDiscord: id,
+    username: displayName,
+    profilePhotoUrl: profile.photos[0].value,
+  };
+  getUser(userObj)
     .then((gotUser) => {
-      if (gotUser.length) {
+      if (gotUser) {
         done(null, gotUser);
       } else {
-        addUser({
-          idDiscord: id,
-          username: displayName,
-        })
+        addUser(userObj)
           .then((newUser) => {
             done(null, newUser);
           });

@@ -2,8 +2,8 @@ const { Pool } = require('pg');
 
 const pool = new Pool({
   user: process.env.DB_USER,
-  password: process.env.DB_PASS,
   database: process.env.DB_NAME,
+  password: process.env.DB_PASS,
   host: process.env.DB_HOST || `/cloudsql/${process.env.DB_INSTANCE_CONNECTION_NAME}`,
 });
 
@@ -52,13 +52,13 @@ async function getUser(userObj) {
 
   try {
     let user = await pool.query(getUserCommand, [idDiscord]);
-    user = user.rows;
-    if (user.length) {
-      const { idUser } = user[0];
+    [user] = user.rows;
+    if (user) {
+      const { idUser } = user;
       user = await pool.query(updateUserCommand, [username, profilePhotoUrl, location, idUser]);
-      user = user.rows;
+      [user] = user.rows;
       const scores = await pool.query(getUserScoresCommand, [idUser]);
-      if (scores) user[0].scores = scores.rows;
+      if (scores) user.scores = scores.rows;
     }
     return user;
   } catch (error) {
@@ -197,6 +197,21 @@ async function addThread(threadObj) {
 
 // takes an object with reply properties: text, idUser, idThread
 // returns array containing newly created reply object with user info
+async function getReplies() {
+  const getRepliesCommand = `
+    <COMMAND>
+  `;
+  try {
+    // <CODE>
+    console.log(getRepliesCommand); // preventing Husky
+    return ''; // preventing Husky
+  } catch (error) {
+    return console.error('COULD NOT GET REPLY FROM DATABASE', error);
+  }
+}
+
+// takes an object with reply properties: text, idUser, idThread
+// returns array containing newly created reply object with user info
 async function addReply(replyObj) {
   const {
     text, idUser, idThread,
@@ -263,7 +278,7 @@ async function getScores(idGame) {
     scores = scores.rows;
     return scores;
   } catch (error) {
-    return console.error('COULD NOT ADD SCORE TO DATABASE', error);
+    return console.error('COULD NOT GET SCORES FROM DATABASE', error);
   }
 }
 
@@ -310,19 +325,13 @@ async function addScore(scoreObj) {
   }
 }
 
-/**
- * Checks to see if a user is logged in to protect api routes
- * @param {Object} user req.user
- */
-const authChecker = (user) => !!user;
-
 module.exports = {
   getUser,
   addUser,
   getThreads,
   addThread,
+  getReplies,
   addReply,
   getScores,
   addScore,
-  authChecker,
 };

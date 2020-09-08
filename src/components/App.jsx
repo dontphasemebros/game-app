@@ -10,6 +10,9 @@ import Forum from './Forum';
 import Chat from './Chat';
 import FooterPage from './Footer';
 import Profile from './Profile';
+import GamerNews from './forum-pages/GamerNews';
+import Channel from './forum-pages/Channel';
+import Login from './Login';
 
 const { getAuth, getTopScores } = require('../helpers/helpers.js');
 
@@ -20,8 +23,8 @@ function App() {
   useEffect(() => {
     getAuth()
       .then((result) => {
-        if (result[0]) {
-          setUser(result[0]);
+        if (result) {
+          setUser(result);
         }
       })
       .catch((err) => console.error('ERROR GETTING SESSION: ', err));
@@ -52,25 +55,28 @@ function App() {
             <Forum user={user} />
           </Route>
           <Route path="/replies">
-            <Forum user={user} />
+            <Channel user={user} />
           </Route>
-          <Route path="/discussion">
-            <Forum user={user} />
-          </Route>
-          <Route path="/suggestions">
-            <Forum user={user} />
+          <Route path="/general">
+            <Channel channel={{ name: 'General', idChannel: 1 }} user={user} />
           </Route>
           <Route path="/challenges">
-            <Forum user={user} />
+            <Channel channel={{ name: 'Challenges', idChannel: 2 }} user={user} />
+          </Route>
+          <Route path="/suggestions">
+            <Channel channel={{ name: 'Suggestions', idChannel: 3 }} user={user} />
           </Route>
           <Route path="/gamer-news">
-            <Forum user={user} />
+            <GamerNews />
           </Route>
           <Route path="/profile">
             <Profile user={user} />
           </Route>
           <Route path="/404">
             Not Found
+          </Route>
+          <Route path="/login">
+            <Login />
           </Route>
           <Route path="/">
             <SplashPage />

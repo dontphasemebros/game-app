@@ -15,8 +15,9 @@ logged in user associated with a given session */
 apiRouter.get('/session', (req, res) => {
   if (req.user) {
     res.status(200).json(req.user);
+    // res.send(req.user);
   } else {
-    res.status(200).json({});
+    res.status(200).json(req.user);
   }
 });
 

@@ -23,8 +23,7 @@ const Profile = ({ user }) => {
         <div className="user-high-scores scoreList card text-white bg-secondary mb-3" style={{ display: 'inline-block' }}>
           <h2>
             {username}
-            &apos;
-            s Scores:
+            &apos;s Scores:
           </h2>
           <div className="scoreList card text-white bg-secondary mb-3">
             <ul>
@@ -32,15 +31,15 @@ const Profile = ({ user }) => {
             </ul>
           </div>
         </div>
-        <div className="profile-picture text-white bg-dark mb-3" style={{ display: 'inline-block', alignSelf: 'flex-start' }}>
-          <img className="d-print-inline-block" src={profilePhotoUrl} alt="" style={{ display: 'inline-block' }} />
+        <div className="profile-picture text-white bg-dark mb-3 position-absolute" style={{ display: 'inline-block', alignSelf: 'flex-start' }}>
+          <img className="d-print-inline-block" src={profilePhotoUrl} height="100px" width="100px" alt="" style={{ display: 'inline-block' }} />
         </div>
         <div className="user-bio bg-light" style={{ maxWidth: '700px' }}>
           <div style={{ padding: '20px' }}>
             <div className="card text-white bg-secondary mb-3">
-              <h2 className="card-header" style={{ maxWidth: '700px' }}>
-                {`${username}'s bio`}
-              </h2>
+              {/* <h2 className="card-header" style={{ maxWidth: '700px' }}> */}
+              {/* Bobby&apos;s Bio */}
+              {/* </h2> */}
             </div>
           </div>
           <h4>{`username: ${username}`}</h4>
