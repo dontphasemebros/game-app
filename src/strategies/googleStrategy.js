@@ -16,8 +16,8 @@ passport.serializeUser((user, done) => {
 });
 
 // use passport deserialize user middleware
-
 passport.deserializeUser((user, done) => {
+  // console.log('********SERIALIZE USER**********', user);
   getUser(user) // connect function to db later
     .then((foundUser) => {
       if (foundUser) {

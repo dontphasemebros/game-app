@@ -14,7 +14,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 
 // import cookie parser from express framework
-// const cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 
 // import express-session module
 const session = require('express-session');
@@ -35,7 +35,7 @@ require('../src/strategies/googleStrategy');
 const app = express();
 
 // utilize cookie-parser middleware from express framework
-// app.use(cookieParser());
+app.use(cookieParser());
 
 // utilize body parser on incoming requests to server
 app.use(bodyParser.json());
