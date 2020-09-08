@@ -60,7 +60,6 @@ async function getUser(userObj) {
       const scores = await pool.query(getUserScoresCommand, [idUser]);
       if (scores) user.scores = scores.rows;
     }
-    console.log('USER IN DB: ', user);
     return user;
   } catch (error) {
     return console.error('COULD NOT GET USER FROM DATABASE', error);

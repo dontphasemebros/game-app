@@ -40,7 +40,6 @@ passport.use(new GoogleStrategy({
   callbackURL: process.env.GOOGLE_CALLBACK_URL,
 },
 ((accessToken, refreshToken, profile, done) => {
-  console.log('*******GOOGLE PROFILE OBJECT', profile);
   // deconstruct variables from profile object
   const { id, displayName } = profile;
   const userObj = {

@@ -10,6 +10,8 @@ import Forum from './Forum';
 import Chat from './Chat';
 import FooterPage from './Footer';
 import Profile from './Profile';
+import GamerNews from './forum-pages/GamerNews';
+import Channel from './forum-pages/Channel';
 import Login from './Login';
 
 const { getAuth, getTopScores } = require('../helpers/helpers.js');
@@ -21,7 +23,6 @@ function App() {
   useEffect(() => {
     getAuth()
       .then((result) => {
-        console.log('GET AUTH RESULT IN APP.JSX', result);
         if (result) {
           setUser(result);
         }
@@ -54,19 +55,19 @@ function App() {
             <Forum user={user} />
           </Route>
           <Route path="/replies">
-            <Forum user={user} />
+            <Channel user={user} />
           </Route>
-          <Route path="/discussion">
-            <Forum user={user} />
-          </Route>
-          <Route path="/suggestions">
-            <Forum user={user} />
+          <Route path="/general">
+            <Channel channel={{ name: 'General', idChannel: 1 }} user={user} />
           </Route>
           <Route path="/challenges">
-            <Forum user={user} />
+            <Channel channel={{ name: 'Challenges', idChannel: 2 }} user={user} />
+          </Route>
+          <Route path="/suggestions">
+            <Channel channel={{ name: 'Suggestions', idChannel: 3 }} user={user} />
           </Route>
           <Route path="/gamer-news">
-            <Forum user={user} />
+            <GamerNews />
           </Route>
           <Route path="/profile">
             <Profile user={user} />
