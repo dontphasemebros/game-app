@@ -11,7 +11,7 @@ const {
   addReply,
   getScores,
   addScore,
-  getReplies
+  getReplies,
 } = require('../database/index');
 /**
  * Checks to see if a user is logged in to protect api routes
