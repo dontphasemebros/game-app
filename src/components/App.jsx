@@ -45,7 +45,7 @@ function App() {
       <div className="container">
         <Switch>
           <Route path="/chat">
-            <Chat user={user} />
+            <Chat />
           </Route>
           <Route path="/highscore" />
           <Route path="/game">

@@ -5,7 +5,7 @@ require('dotenv').config();
 const express = require('express');
 
 // import socket.io for live chat
-const socket = require('socket.io');
+const socketStuff = require('socket.io');
 
 // import path module to serve static assets
 const path = require('path');
@@ -14,7 +14,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 
 // import cookie parser from express framework
-const cookieParser = require('cookie-parser');
+// const cookieParser = require('cookie-parser');
 
 // import express-session module
 const session = require('express-session');
@@ -35,7 +35,7 @@ require('../src/strategies/googleStrategy');
 const app = express();
 
 // utilize cookie-parser middleware from express framework
-app.use(cookieParser());
+// app.use(cookieParser());
 
 // utilize body parser on incoming requests to server
 app.use(bodyParser.json());
@@ -104,12 +104,12 @@ const server = app.listen(port, () => {
 });
 
 // Socket setup
-const io = socket(server);
+const io = socketStuff(server);
 
 // establish socket on
-io.on('connection', (socket1) => {
-  socket1.emit('your id', socket1.id);
-  socket1.on('send message', (body) => {
+io.on('connection', (socket) => {
+  socket.emit('your id', socket.id);
+  socket.on('send message', (body) => {
     io.emit('message', body);
   });
 });
