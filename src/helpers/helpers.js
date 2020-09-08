@@ -85,3 +85,17 @@ export const getThreadsByChannel = (idChannel) => new Promise((resolve, reject) 
       resolve(response.data);
     }).catch((err) => reject(err));
 });
+
+// gets a single thread and all its replies
+export const getThreadReplies = (idThread) => new Promise((resolve, reject) => {
+  axios({
+    method: 'get',
+    url: '/replies',
+    params: {
+      idThread,
+    },
+  })
+    .then((response) => {
+      resolve(response.data);
+    }).catch((err) => reject(err));
+});

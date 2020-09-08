@@ -11,6 +11,7 @@ const {
   addReply,
   getScores,
   addScore,
+  getReplies
 } = require('../database/index');
 /**
  * Checks to see if a user is logged in to protect api routes
@@ -54,8 +55,8 @@ dbRouter.get('/threads', (req, res) => {
   const { idChannel } = req.query;
   if (authChecker(req.user)) {
     getThreads(idChannel)
-      .then((thread) => {
-        res.send(thread);
+      .then((threads) => {
+        res.send(threads);
       })
       .catch((error) => {
         console.log(error);
@@ -64,6 +65,24 @@ dbRouter.get('/threads', (req, res) => {
     // Not Authorized
     res.sendStatus(401);
   }
+});
+
+// retrieves a single thread and its replies from the db by id ("idThread")
+dbRouter.get('/replies', (req, res) => {
+  // deconstruct "idChannel" number from req.body to pass to get threads form db
+  const { idThread } = req.query;
+  // if (authChecker(req.user)) {
+  getReplies(idThread)
+    .then((thread) => {
+      res.send(thread);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  // } else {
+  //   // Not Authorized
+  //   res.sendStatus(401);
+  // }
 });
 /*
 * route - retrieves gamespot API articles saved in database
