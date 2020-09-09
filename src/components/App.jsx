@@ -15,6 +15,7 @@ import Channel from './forum-pages/Channel';
 import Threads from './forum-pages/Threads';
 import Thread from './forum-pages/Thread';
 import Login from './Login';
+import Join from './Join';
 
 const { getAuth, getTopScores } = require('../helpers/helpers.js');
 
@@ -50,6 +51,9 @@ function App() {
       <NavBar user={user} scores={scores} />
       <div className="container">
         <Switch>
+          <Route path="/join">
+            <Join />
+          </Route>
           <Route path="/chat">
             <Chat />
           </Route>
