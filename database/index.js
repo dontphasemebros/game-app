@@ -145,7 +145,7 @@ async function getThreads(idChannel) {
       finishedThread.replies = replies.rows ? replies.rows : [];
       results.push(finishedThread);
     }));
-    return await results;
+    return results;
   } catch (error) {
     return console.error('COULD NOT GET THREADS FROM DATABASE', error);
   }
@@ -197,16 +197,52 @@ async function addThread(threadObj) {
 
 // takes an object with reply properties: text, idUser, idThread
 // returns array containing newly created reply object with user info
-async function getReplies() {
-  const getRepliesCommand = `
-    <COMMAND>
+async function getReplies(idThread) {
+  const getThreadsCommand = `
+    SELECT
+      t.id AS "idThread",
+      t.text,
+      t.id_channel AS "idChannel",
+      t.updated_at AS "updatedAt",
+      t.created_at AS "createdAt",
+      t.id_user AS "idUser",
+      u.id_discord AS "idDiscord",
+      u.username,
+      u.profile_photo_url AS "profilePhotoUrl",
+      u.location
+    FROM threads t
+    LEFT JOIN users u
+    ON t.id_user = u.id
+    WHERE t.id = $1
+    ORDER BY t.created_at DESC, t.id
   `;
+
+  const getRepliesCommand = `
+    SELECT
+      r.id AS "idReply",
+      r.text,
+      r.id_thread AS "idThread",
+      r.created_at AS "createdAt",
+      r.id_user AS "idUser",
+      u.id_discord AS "idDiscord",
+      u.username,
+      u.profile_photo_url AS "profilePhotoUrl",
+      u.location
+    FROM replies r
+    LEFT JOIN users u
+    ON r.id_user = u.id
+    WHERE id_thread = $1
+    ORDER BY r.created_at, r.id
+  `;
+
   try {
-    // <CODE>
-    console.log(getRepliesCommand); // preventing Husky
-    return ''; // preventing Husky
+    let thread = await pool.query(getThreadsCommand, [idThread]);
+    thread = thread.rows;
+    const replies = await pool.query(getRepliesCommand, [idThread]);
+    thread.replies = replies.rows ? replies.rows : [];
+    return thread[0];
   } catch (error) {
-    return console.error('COULD NOT GET REPLY FROM DATABASE', error);
+    return console.error('COULD NOT GET THREAD FROM DATABASE', error);
   }
 }
 
