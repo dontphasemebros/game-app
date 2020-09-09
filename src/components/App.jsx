@@ -12,7 +12,6 @@ import FooterPage from './Footer';
 import Profile from './Profile';
 import GamerNews from './forum-pages/GamerNews';
 import Channel from './forum-pages/Channel';
-import Replies from './forum-pages/Replies';
 import Threads from './forum-pages/Threads';
 import Thread from './forum-pages/Thread';
 import Login from './Login';
@@ -75,9 +74,6 @@ function App() {
           </Route>
           <Route path="/thread:threadId">
             <Thread />
-          </Route>
-          <Route path="/reply">
-            <Replies />
           </Route>
           <Route path="/gamer-news">
             <GamerNews />
