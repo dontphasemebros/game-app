@@ -62,7 +62,7 @@ const GamePage = React.memo(({ user }) => {
 
   const redirect = process.env.REACT_APP_CHAT || 'https://phaserbros.com/join';
   const handleSubmit = () => {
-    window.open(`${redirect}`, 'chat-window', 'height=500,width=530'); return false;
+    window.open(`${redirect}`, 'chat-window', 'height=900,width=750'); return false;
   };
   return (
     <div id="phaser-game">
