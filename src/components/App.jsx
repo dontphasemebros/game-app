@@ -12,6 +12,9 @@ import FooterPage from './Footer';
 import Profile from './Profile';
 import GamerNews from './forum-pages/GamerNews';
 import Channel from './forum-pages/Channel';
+import Replies from './forum-pages/Replies';
+import Threads from './forum-pages/Threads';
+import Thread from './forum-pages/Thread';
 import Login from './Login';
 import Join from './Join';
 
@@ -39,6 +42,10 @@ function App() {
       .catch((err) => console.error('ERROR GETTING SCORES: ', err));
   }, []);
 
+  // useEffect(() => {
+
+  // }, []);
+
   return (
     <BrowserRouter>
       <GameTimeLogo />
@@ -58,9 +65,6 @@ function App() {
           <Route path="/forum">
             <Forum user={user} />
           </Route>
-          <Route path="/replies">
-            <Channel user={user} />
-          </Route>
           <Route path="/general">
             <Channel channel={{ name: 'General', idChannel: 1 }} user={user} />
           </Route>
@@ -69,6 +73,15 @@ function App() {
           </Route>
           <Route path="/suggestions">
             <Channel channel={{ name: 'Suggestions', idChannel: 3 }} user={user} />
+          </Route>
+          <Route path="/thread">
+            <Threads />
+          </Route>
+          <Route path="/thread:threadId">
+            <Thread />
+          </Route>
+          <Route path="/reply">
+            <Replies />
           </Route>
           <Route path="/gamer-news">
             <GamerNews />

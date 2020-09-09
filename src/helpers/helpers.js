@@ -99,3 +99,45 @@ export const getThreadReplies = (idThread) => new Promise((resolve, reject) => {
       resolve(response.data);
     }).catch((err) => reject(err));
 });
+
+// adds a thread to the database from an object containing idChannel, idUser, text
+export const submitThread = (threadObj) => new Promise((resolve, reject) => {
+  const {
+    idChannel,
+    idUser,
+    text,
+  } = threadObj;
+  axios({
+    method: 'post',
+    url: '/threads',
+    params: {
+      idChannel,
+      idUser,
+      text,
+    },
+  })
+    .then((response) => {
+      resolve(response.data);
+    }).catch((err) => reject(err));
+});
+
+// adds a reply to the database from an object containing idChannel, idUser, text
+export const submitReply = (replyObj) => new Promise((resolve, reject) => {
+  const {
+    idChannel,
+    idUser,
+    text,
+  } = replyObj;
+  axios({
+    method: 'post',
+    url: '/replies',
+    params: {
+      idChannel,
+      idUser,
+      text,
+    },
+  })
+    .then((response) => {
+      resolve(response.data);
+    }).catch((err) => reject(err));
+});
