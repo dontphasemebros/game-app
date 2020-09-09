@@ -239,8 +239,8 @@ async function getReplies(idThread) {
     let thread = await pool.query(getThreadsCommand, [idThread]);
     thread = thread.rows;
     const replies = await pool.query(getRepliesCommand, [idThread]);
-    thread.replies = replies.rows ? replies.rows : [];
-    return thread[0];
+    thread[0].replies = replies.rows ? replies.rows : [];
+    return thread;
   } catch (error) {
     return console.error('COULD NOT GET THREAD FROM DATABASE', error);
   }
