@@ -38,7 +38,7 @@ const Thread = ({ user }) => {
     <div>
       {thread[0].replies ? (
         <div>
-          <div key={thread[0].idThread} className="panel-primary inline-block" id="GeneralDisussion" style={{ backgroundColor: '#D6DBDF', minWidth: '1100px' }}>
+          <div key={thread[0].idThread} className="panel-primary inline-block" id="GeneralDisussion" style={{ backgroundColor: '#D6DBDF', minWidth: '1100px', paddingTop: '10px' }}>
             <div className="profile-picture panel-body text-left inline-block">
               <div className="bg-secondary" style={{ display: 'inline-block', minWidth: '360px' }}>
                 <img className="d-print-inline-block" src={thread[0].profilePhotoUrl} height="100px" width="100px" alt="" style={{ display: 'inline-block' }} />
