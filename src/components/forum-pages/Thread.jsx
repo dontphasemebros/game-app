@@ -14,8 +14,6 @@ const Thread = ({ user }) => {
   const [thread, setThread] = useState([]);
 
   const onSubmit = (input) => {
-    console.log('INPUT IN THREAD.JSX: ', input);
-    console.log('USER IN THREAD.JSX: ', user);
     const replyObj = {
       text: input.textarea,
       idUser: user.idUser,
@@ -37,29 +35,27 @@ const Thread = ({ user }) => {
       .catch((err) => console.error('ERROR GETTING THREADS: ', err));
   }, [reload]);
 
-  console.log('THREAD IN THREAD.JSX: ', thread);
-
   return thread.length ? (
     <div>
-      <div key={thread.idThread} className="panel-primary inline-block" id="GeneralDisussion" style={{ backgroundColor: '#D6DBDF', minWidth: '1100px' }}>
+      <div key={thread[0].idThread} className="panel-primary inline-block" id="GeneralDisussion" style={{ backgroundColor: '#D6DBDF', minWidth: '1100px' }}>
         <div className="profile-picture panel-body text-left inline-block">
           <div className="bg-secondary" style={{ display: 'inline-block', minWidth: '360px' }}>
-            <img className="d-print-inline-block" src={thread.profilePhotoUrl} height="100px" width="100px" alt="" style={{ display: 'inline-block' }} />
+            <img className="d-print-inline-block" src={thread[0].profilePhotoUrl} height="100px" width="100px" alt="" style={{ display: 'inline-block' }} />
             <div className="username panel-body text-left inline-block" style={{ display: 'inline-block' }}>
-              <h5 style={{ marginLeft: '20px', marginRight: '20px', minWidth: '80px' }}>{thread.username}</h5>
+              <h5 style={{ marginLeft: '20px', marginRight: '20px', minWidth: '80px' }}>{thread[0].username}</h5>
             </div>
             <div className="date panel-body text-left inline-block" style={{ display: 'inline-block' }}>
-              <span style={{ marginRight: '20px' }}>{thread.createdAt.split('T')[0]}</span>
+              <span style={{ marginRight: '20px' }}>{thread[0].createdAt ? thread[0].createdAt.split('T')[0] : 'Please Wait...'}</span>
             </div>
           </div>
-          {thread.text}
+          {thread[0].text}
         </div>
       </div>
 
       <br />
       <br />
 
-      {thread.replies.map((reply) => (
+      {thread[0].replies ? thread[0].replies.map((reply) => (
         <div key={reply.idThread} className="panel-primary inline-block" id="GeneralDisussion" style={{ backgroundColor: '#D6DBDF', minWidth: '1100px' }}>
           <div className="profile-picture panel-body text-left inline-block">
             <div className="bg-secondary" style={{ display: 'inline-block', minWidth: '360px' }}>
@@ -68,13 +64,13 @@ const Thread = ({ user }) => {
                 <h5 style={{ marginLeft: '20px', marginRight: '20px', minWidth: '80px' }}>{reply.username}</h5>
               </div>
               <div className="date panel-body text-left inline-block" style={{ display: 'inline-block' }}>
-                <span style={{ marginRight: '20px' }}>{reply.createdAt.split('T')[0]}</span>
+                <span style={{ marginRight: '20px' }}>{reply.createdAt ? reply.createdAt.split('T')[0] : 'Please Wait...'}</span>
               </div>
             </div>
             {reply.text}
           </div>
         </div>
-      ))}
+      )) : 'This thread does not contain any replies'}
 
       <br />
 
