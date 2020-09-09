@@ -1,18 +1,25 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
 
 function Login() {
   return (
-    <div>
-      <h1>Pick One</h1>
+    <div clasName="d-flex flex-column">
       <br />
-      <Button href="/api/google" variant="primary" size="lg">
-        <h6>Google</h6>
-      </Button>
+      <h1 className="d-flex justify-content-center">Choose A Login Method!</h1>
       <br />
-      <Button href="/api" variant="secondary" size="lg">
-        <h6>Discord</h6>
-      </Button>
+      <div className="d-flex justify-content-center">
+        <a className="btn btn-outline-dark" href="/api/google" role="button" style={{ textTransform: 'none' }}>
+          <img width="20px" style={{ marginBottom: '3px', marginRight: '5px' }} alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+          Login with Google
+        </a>
+      </div>
+      <br />
+      <div className="d-flex justify-content-center">
+        <a className="btn btn-outline-dark" href="/api" role="button" style={{ textTransform: 'none' }}>
+          <img width="20px" style={{ marginBottom: '3px', marginRight: '5px' }} alt="Discord sign-in" src="https://icon-library.com/images/discord-app-icon/discord-app-icon-15.jpg" />
+          Login with Discord
+        </a>
+      </div>
+      <br />
     </div>
   );
 }

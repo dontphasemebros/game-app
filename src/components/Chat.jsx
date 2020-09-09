@@ -1,112 +1,71 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
+import queryString from 'query-string';
 import io from 'socket.io-client';
+import { withRouter } from 'react-router-dom';
+import InfoBar from './InfoBar';
+import Input from './Input';
+import Messages from './Messages';
 
-const Chat = () => {
-  const [yourID, setYourID] = useState();
-  const [messages, setMessages] = useState([{
-    username: 'GameTime Bot',
-    body: 'Welcome to the GameTime Chat!',
-  }]);
+import './CSS/Chat.css';
+
+let socket;
+
+const Chat = withRouter((props) => {
+  const [name1, setName] = useState('');
+  const [room1, setRoom] = useState('');
+  const [users1, setUsers] = useState('');
   const [message, setMessage] = useState('');
-  const [userName, setUsername] = useState('');
-  const [userSet, setUserSet] = useState(false);
-
-  const socketRef = useRef();
+  const [messages, setMessages] = useState([]);
+  const ENDPOINT = 'localhost:8080';
 
   useEffect(() => {
-    socketRef.current = io.connect('/');
+    const { name, room } = queryString.parse(props.location.search);
 
-    socketRef.current.on('your id', (id) => {
-      setYourID(id);
+    socket = io(ENDPOINT);
+    setName(name);
+    setRoom(room);
+
+    socket.emit('join', { name, room }, () => {
     });
 
-    function receivedMessage(message1) {
-      setMessages((oldMsgs) => [...oldMsgs, message1]);
-    }
-
-    socketRef.current.on('message', (messenger) => {
-      receivedMessage(messenger);
-    });
-  }, []);
-
-  const containerStyle = {
-    margin: 'auto',
-  };
-
-  const spacer = {
-    space: '       ',
-  };
-
-  const sendMessage = (e) => {
-    e.preventDefault();
-    const messageObject = {
-      username: userName,
-      body: message,
-      id: yourID,
+    return () => {
+      socket.emit('disconnect');
+      socket.off();
     };
-    setMessage('');
-    socketRef.current.emit('send message', messageObject);
-  };
+  }, [ENDPOINT, props.location.search]);
 
-  const handleChange = (event) => {
-    setMessage(event.target.value);
-  };
+  useEffect(() => {
+    socket.on('message', (messager) => {
+      setMessages([...messages, messager]);
+    });
 
-  const handleUsername = (e) => {
-    e.preventDefault();
-    setUserSet(true);
-  };
+    socket.on('roomData', ({ users }) => {
+      setUsers(users);
+    });
+  }, [messages]);
 
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
+  const sendMessage = (event) => {
+    event.preventDefault();
+
+    if (message) {
+      socket.emit('sendMessage', message, () => {
+        setMessage('');
+      });
+    }
   };
 
   return (
-    <div style={containerStyle}>
+    <div className="outerContainer">
       <br />
       <br />
-      <br />
-      <div>
-        {messages.map((value) => {
-          if (value.id === yourID) {
-            return (
-              <div key={Math.floor(Math.random() * 1000) + 1}>
-                <div>
-                  {value.username}
-                  :
-                  {spacer.space}
-                  {value.body}
-                </div>
-              </div>
-            );
-          }
-          return (
-            <div key={Math.floor(Math.random() * 1000) + 1}>
-              <div>
-                {value.username}
-                :
-                {spacer.space}
-                {value.body}
-              </div>
-            </div>
-          );
-        })}
+      <div className="chatcontainer">
+        <br />
+        <InfoBar room={room1} users={users1} />
+        <Messages messages={messages} name={name1} />
+        <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
       </div>
-      <br />
-      <br />
-      {!userSet ? (
-        <form onSubmit={handleUsername}>
-          <input type="text" value={userName} onChange={handleUsernameChange} placeholder="Add Username" />
-          <input type="submit" value="Submit" />
-        </form>
-      ) : null}
-      <br />
-      <form onSubmit={sendMessage}>
-        <input type="text" value={message} onChange={handleChange} placeholder="Say something..." />
-        <input type="submit" value="Submit" />
-      </form>
     </div>
   );
-};
+});
 
 export default Chat;
