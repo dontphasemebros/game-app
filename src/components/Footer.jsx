@@ -8,7 +8,7 @@ import 'font-awesome/css/font-awesome.min.css';
 const FooterPage = () => {
   const footerStyle = {
     position: 'absolute',
-    bottom: -300,
+    bottom: -280,
     width: '100%',
   };
 

@@ -7,6 +7,7 @@ import { Button } from 'react-bootstrap';
 import PlayScene from '../Game/scenes/playScenes';
 import PreloadScene from '../Game/scenes/PreloadScene';
 import GameOverScene from '../Game/scenes/GameOver';
+import PhaserBro from '../assets/PhaserBro.gif';
 
 const { saveScore } = require('../helpers/helpers.js');
 
@@ -102,7 +103,12 @@ const GamePage = React.memo(({ user }) => {
             <ToastContainer />
           </div>
         </div>
-      ) : <h1 style={{ textAlign: 'center' }}>Please Login With Discord or Google</h1> }
+      ) : (
+        <div style={{ textAlign: 'center' }}>
+          <h1>Please Login With Discord or Google</h1>
+          <img src={PhaserBro} alt="PhaserBro" />
+        </div>
+      ) }
       <br />
     </div>
   );

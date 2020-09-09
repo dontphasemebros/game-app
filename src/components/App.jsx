@@ -16,6 +16,7 @@ import Threads from './forum-pages/Threads';
 import Thread from './forum-pages/Thread';
 import Login from './Login';
 import Join from './Join';
+import DiscordChat from './DiscordChat';
 
 const { getAuth, getTopScores } = require('../helpers/helpers.js');
 
@@ -56,6 +57,9 @@ function App() {
           </Route>
           <Route path="/chat">
             <Chat />
+          </Route>
+          <Route path="/discord">
+            <DiscordChat />
           </Route>
           <Route path="/highscore" />
           <Route path="/game">
