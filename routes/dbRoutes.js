@@ -71,7 +71,6 @@ dbRouter.get('/threads', (req, res) => {
 dbRouter.get('/replies', (req, res) => {
   // deconstruct "idChannel" number from req.body to pass to get threads form db
   const { idThread } = req.query;
-  console.log('IDTHREAD IN DB ROUTES: ', idThread);
   // if (authChecker(req.user)) {
   getReplies(idThread)
     .then((thread) => {

@@ -2,39 +2,39 @@ import React, { useState, useEffect } from 'react';
 import {
   Link,
 } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import PropTypes from 'prop-types';
+// import { addThread } from '../../../database/index.js';
 
-const { getThreadsByChannel } = require('../../helpers/helpers.js');
+const { getThreadsByChannel, submitThread } = require('../../helpers/helpers.js');
 // ************** NOTE: SAMPLE DATA CHANNEL 1 IS EMPTY
 
-// export const Thread = () => (
-//   <div>
-//     THREAD
-//   </div>
-// );
-
-const Threads = ({ channel }) => {
+const Threads = ({ channel, user }) => {
   const { idChannel } = channel;
   const [threads, setThreads] = useState([]);
-  // const [threadId, setThreadId] = useState([]);
+  const { register, handleSubmit } = useForm();
+  const [reload, setReload] = useState([]);
+
+  const onSubmit = (input) => {
+    const threadObj = {
+      text: input.textarea,
+      idUser: user.idUser,
+      idChannel,
+    };
+    submitThread(threadObj)
+      .then(() => {
+        setReload('');
+      })
+      .catch((err) => console.error('ERROR SUBMITTING THREAD: ', err));
+  };
+
   useEffect(() => {
     getThreadsByChannel(idChannel)
       .then((result) => {
         setThreads(result);
       })
       .catch((err) => console.error('ERROR GETTING THREADS: ', err));
-  }, []);
-
-  // useEffect(() => {
-  //   setIdThread()
-  // }, []);
-
-  // const handleClick = (e) => {
-  //   // e.preventDefault();
-  //   setThreadId(e.target.id);
-  //   console.log('idThread after setting state: ', threadId);
-  // };
-  // onClick={(e) => { handleClick(e); }}
+  }, [reload]);
 
   return (
     <div>
@@ -53,16 +53,26 @@ const Threads = ({ channel }) => {
             <Link to={`/thread${thread.idThread}`} id={thread.idThread} variant="primary" size="lg">
               {thread.text}
             </Link>
-
           </div>
-          {/* <Route path="/thread/:threadId" component={Thread} /> */}
         </div>
       ))}
+
+      <br />
+
+      <div className="createThread">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <span>Start a thread:</span>
+          <input name="textarea" className="form-control" rows="3" ref={register} />
+
+          <input style={{ textAlign: 'right' }} type="submit" />
+        </form>
+      </div>
     </div>
   );
 };
 
 Threads.propTypes = {
+  user: PropTypes.objectOf.isRequired,
   channel: PropTypes.shape({
     name: PropTypes.string,
     idChannel: PropTypes.number,

@@ -88,12 +88,53 @@ export const getThreadsByChannel = (idChannel) => new Promise((resolve, reject) 
 
 // gets a single thread and all its replies
 export const getThreadReplies = (idThread) => new Promise((resolve, reject) => {
-  console.log('idThread in helpers: ', idThread);
   axios({
     method: 'get',
     url: '/replies',
     params: {
       idThread,
+    },
+  })
+    .then((response) => {
+      resolve(response.data);
+    }).catch((err) => reject(err));
+});
+
+// adds a thread to the database from an object containing idChannel, idUser, text
+export const submitThread = (threadObj) => new Promise((resolve, reject) => {
+  const {
+    idChannel,
+    idUser,
+    text,
+  } = threadObj;
+  axios({
+    method: 'post',
+    url: '/threads',
+    params: {
+      idChannel,
+      idUser,
+      text,
+    },
+  })
+    .then((response) => {
+      resolve(response.data);
+    }).catch((err) => reject(err));
+});
+
+// adds a reply to the database from an object containing idChannel, idUser, text
+export const submitReply = (replyObj) => new Promise((resolve, reject) => {
+  const {
+    idChannel,
+    idUser,
+    text,
+  } = replyObj;
+  axios({
+    method: 'post',
+    url: '/replies',
+    params: {
+      idChannel,
+      idUser,
+      text,
     },
   })
     .then((response) => {
