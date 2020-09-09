@@ -35,14 +35,13 @@ const Chat = withRouter((props) => {
   }, [ENDPOINT, props.location.search]);
 
   useEffect(() => {
-    socket.on('message', (messager) => {
-      setMessages([...messages, messager]);
+    socket.on('message', (message1) => {
+      setMessages((msgs) => [...msgs, message1]);
     });
-
     socket.on('roomData', ({ users }) => {
       setUsers(users);
     });
-  }, [messages]);
+  }, []);
 
   const sendMessage = (event) => {
     event.preventDefault();
