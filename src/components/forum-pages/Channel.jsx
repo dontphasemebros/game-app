@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Thread from './Thread';
+import Threads from './Threads';
 
-const Channel = ({ channel }) => (
+const Channel = ({ channel, threadId }) => (
   <div>
     <div style={{ marginTop: '20px', padding: '15px' }}>
       <div className="card text-white bg-secondary mb-3">
@@ -12,7 +12,7 @@ const Channel = ({ channel }) => (
       </div>
     </div>
 
-    <Thread channel={channel} />
+    <Threads threadId={threadId} channel={channel} />
 
   </div>
 );
@@ -22,6 +22,7 @@ Channel.propTypes = {
     name: PropTypes.string,
     idChannel: PropTypes.number,
   }).isRequired,
+  threadId: PropTypes.number.isRequired,
 };
 
 export default Channel;
