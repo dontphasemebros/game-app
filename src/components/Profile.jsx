@@ -18,6 +18,9 @@ const Profile = ({ user }) => {
       </div>
       <div className="username" style={{ textAlign: 'right' }}>
         <h2>{username}</h2>
+        <div>
+          <img src={profilePhotoUrl} height="200px" width="200px" alt="profile" />
+        </div>
       </div>
       <div className="user-profile">
         <div className="user-high-scores scoreList card text-white bg-secondary mb-3" style={{ display: 'inline-block' }}>
@@ -30,9 +33,6 @@ const Profile = ({ user }) => {
               {userScores.map((score) => <li key={score.idScore}>{score.value}</li>)}
             </ul>
           </div>
-        </div>
-        <div className="profile-picture text-white bg-dark mb-3 position-absolute" style={{ display: 'inline-block', alignSelf: 'flex-start' }}>
-          <img className="d-print-inline-block" src={profilePhotoUrl} height="100px" width="100px" alt="" style={{ display: 'inline-block' }} />
         </div>
         <div className="user-bio bg-light" style={{ maxWidth: '700px' }}>
           <div style={{ padding: '20px' }}>
