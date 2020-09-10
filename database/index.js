@@ -122,8 +122,7 @@ async function getThreads(idChannel) {
   try {
     let threads = await pool.query(getThreadsCommand, [idChannel]);
     threads = threads.rows;
-    const results = [];
-    await Promise.all(threads.map(async (thread) => {
+    threads = await Promise.all(threads.map(async (thread) => {
       const { idThread } = thread;
       const getRepliesCommand = `
         SELECT
@@ -145,9 +144,9 @@ async function getThreads(idChannel) {
       const replies = await pool.query(getRepliesCommand);
       const finishedThread = thread;
       finishedThread.replies = replies.rows ? replies.rows : [];
-      results.push(finishedThread);
+      return finishedThread;
     }));
-    return results;
+    return threads;
   } catch (error) {
     return console.error('COULD NOT GET THREADS FROM DATABASE', error);
   }
@@ -307,7 +306,7 @@ async function getScores(idGame) {
     LEFT JOIN users u
     ON s.id_user = u.id
     WHERE id_game = $1
-    ORDER BY s.value DESC
+    ORDER BY s.value DESC, s.created_at DESC
     LIMIT 10
   `;
 
@@ -352,7 +351,7 @@ async function addScore(scoreObj) {
       LEFT JOIN users u
       ON s.id_user = u.id
       WHERE s.id = ${idScore}
-      ORDER BY s.value DESC
+      ORDER BY s.value DESC, s.created_at DESC
       LIMIT 10
     `;
     let addedScore = await pool.query(getAddedScoreCommand);
