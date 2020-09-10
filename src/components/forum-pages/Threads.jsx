@@ -4,28 +4,31 @@ import {
 } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import PropTypes from 'prop-types';
-// import { addThread } from '../../../database/index.js';
+import { Button } from 'react-bootstrap';
 
 const { getThreadsByChannel, submitThread } = require('../../helpers/helpers.js');
-// ************** NOTE: SAMPLE DATA CHANNEL 1 IS EMPTY
 
 const Threads = ({ channel, user }) => {
-  const { idChannel } = channel;
+  const idChannel = channel ? channel.idChannel : 0;
+  // const { idChannel } = channel;
   const [threads, setThreads] = useState([]);
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const [reload, setReload] = useState([]);
 
-  const onSubmit = (input) => {
-    const threadObj = {
-      text: input.textarea,
-      idUser: user.idUser,
-      idChannel,
-    };
-    submitThread(threadObj)
-      .then(() => {
-        setReload('');
-      })
-      .catch((err) => console.error('ERROR SUBMITTING THREAD: ', err));
+  const onSubmit = ({ textarea }) => {
+    if (textarea !== '') {
+      const threadObj = {
+        text: textarea,
+        idUser: user.idUser,
+        idChannel,
+      };
+      submitThread(threadObj)
+        .then(() => {
+          reset();
+          setReload([]);
+        })
+        .catch((err) => console.error('ERROR SUBMITTING THREAD: ', err));
+    }
   };
 
   useEffect(() => {
@@ -38,35 +41,45 @@ const Threads = ({ channel, user }) => {
 
   return (
     <div>
-      {threads.map((thread) => (
-        <div key={thread.idThread} className="panel-primary inline-block" id="GeneralDisussion" style={{ backgroundColor: '#D6DBDF', minWidth: '1100px' }}>
-          <div className="profile-picture panel-body text-left inline-block">
-            <div className="bg-secondary" style={{ display: 'inline-block', minWidth: '360px' }}>
-              <img className="d-print-inline-block" src={thread.profilePhotoUrl} height="100px" width="100px" alt="" style={{ display: 'inline-block' }} />
-              <div className="username panel-body text-left inline-block" style={{ display: 'inline-block' }}>
-                <h5 style={{ marginLeft: '20px', marginRight: '20px', minWidth: '80px' }}>{thread.username}</h5>
-              </div>
-              <div className="date panel-body text-left inline-block" style={{ display: 'inline-block' }}>
-                <span style={{ marginRight: '20px' }}>{thread.createdAt.split('T')[0]}</span>
+      {channel && !Array.isArray(user) ? (
+        <div>
+          {threads.map((thread) => (
+            <div key={thread.idThread} className="panel-primary inline-block" id="GeneralDisussion" style={{ backgroundColor: '#D6DBDF', minWidth: '1100px' }}>
+              <div className="profile-picture panel-body text-left inline-block">
+                <div className="bg-secondary" style={{ display: 'inline-block', minWidth: '360px' }}>
+                  <img className="d-print-inline-block" src={thread.profilePhotoUrl} height="100px" width="100px" alt="" style={{ display: 'inline-block' }} />
+                  <div className="username panel-body text-left inline-block" style={{ display: 'inline-block' }}>
+                    <h5 style={{ marginLeft: '20px', marginRight: '20px', minWidth: '80px' }}>{thread.username}</h5>
+                  </div>
+                  <div className="date panel-body text-left inline-block" style={{ display: 'inline-block' }}>
+                    <span style={{ marginRight: '20px' }}>{thread.createdAt.split('T')[0]}</span>
+                  </div>
+                </div>
+                <Link to={`/thread${thread.idThread}`} id={thread.idThread} variant="primary" size="lg">
+                  {thread.text}
+                </Link>
               </div>
             </div>
-            <Link to={`/thread${thread.idThread}`} id={thread.idThread} variant="primary" size="lg">
-              {thread.text}
-            </Link>
+          ))}
+
+          <br />
+
+          <div className="createThread">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <span>Start a thread:</span>
+              <input name="textarea" className="form-control" rows="3" ref={register} />
+
+              <Button variant="primary" size="sm" type="submit" ref={register}>
+                <h6>submit</h6>
+              </Button>
+            </form>
           </div>
         </div>
-      ))}
-
-      <br />
-
-      <div className="createThread">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <span>Start a thread:</span>
-          <input name="textarea" className="form-control" rows="3" ref={register} />
-
-          <input style={{ textAlign: 'right' }} type="submit" />
-        </form>
-      </div>
+      ) : (
+        <div>
+          No Replies Here!
+        </div>
+      )}
     </div>
   );
 };

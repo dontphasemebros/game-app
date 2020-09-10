@@ -235,6 +235,7 @@ export default class PlayScene extends Phaser.Scene {
     setTimeout(() => { explosion.destroy(); }, 250);
     this.score += 10;
     window.score = this.score;
+    window.submitted = false;
     this.scoreText.setText(`Score: ${this.score}`);
 
     if (this.score % 100 === 0) {
