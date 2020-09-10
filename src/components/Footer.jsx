@@ -19,7 +19,7 @@ const FooterPage = () => {
           <hr className="clearfix w-100 d-md-none" />
           <Col md="6">
             <h5 className="text-uppercase mb-4 mt-3 font-weight-bold">Our History</h5>
-            <li><a href="#!">About Us</a></li>
+            <li><a href="/aboutus">About Us</a></li>
           </Col>
           <hr className="clearfix w-100 d-md-none" />
           <Col md="6">

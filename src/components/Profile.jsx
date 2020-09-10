@@ -10,7 +10,7 @@ const Profile = ({ user }) => {
 
   return (
     <div>
-      {user.location !== undefined ? (
+      {user.username !== undefined ? (
         <div style={{ marginLeft: '200px' }}>
           <div style={{ padding: '20px' }}>
             <div className="card text-white bg-secondary mb-3">

@@ -17,6 +17,7 @@ import Thread from './forum-pages/Thread';
 import Login from './Login';
 import Join from './Join';
 import DiscordChat from './DiscordChat';
+import AboutUs from './AboutUs';
 
 const { getAuth, getTopScores } = require('../helpers/helpers.js');
 
@@ -54,6 +55,9 @@ function App() {
         <Switch>
           <Route path="/join">
             <Join />
+          </Route>
+          <Route path="/aboutus">
+            <AboutUs />
           </Route>
           <Route path="/chat">
             <Chat />
