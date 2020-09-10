@@ -23,8 +23,8 @@ const NavBar = ({ user, scores }) => {
         <Nav.Link onClick={handleShow}>
           <h3>HighScore</h3>
         </Nav.Link>
-        <Nav.Link href="/game">
-          <h3>Game</h3>
+        <Nav.Link href="/games">
+          <h3>Games</h3>
         </Nav.Link>
         <Nav.Link href="/forum">
           <h3>Forum</h3>

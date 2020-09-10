@@ -4,14 +4,12 @@ import PropTypes from 'prop-types';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button } from 'react-bootstrap';
-import PlayScene from '../Game/scenes/playScenes';
-import PreloadScene from '../Game/scenes/PreloadScene';
-import GameOverScene from '../Game/scenes/GameOver';
+import GameTwo from '../Game2/scenes/GameTwo';
 import PhaserBro from '../assets/PhaserBro.gif';
 
 const { saveScore } = require('../helpers/helpers.js');
 
-const GamePage = React.memo(({ user }) => {
+const Game2 = React.memo(({ user }) => {
   const descriptionStyle = {
     float: 'right',
     marginTop: '50px',
@@ -34,10 +32,8 @@ const GamePage = React.memo(({ user }) => {
   };
   if (!Array.isArray(user)) {
     const game = new Phaser.Game(config);
-    game.scene.add('PlayScene', PlayScene);
-    game.scene.add('preload', PreloadScene);
-    game.scene.add('gameOver', GameOverScene);
-    game.scene.start('preload');
+    game.scene.add('GameTwo', GameTwo);
+    game.scene.start('GameTwo');
   }
 
   const notify = () => toast(`Your Score of ${window.score} Was Submitted!`);
@@ -70,11 +66,9 @@ const GamePage = React.memo(({ user }) => {
       <br />
       {!Array.isArray(user) ? (
         <div style={descriptionStyle}>
-          <h4>Space Blaster</h4>
+          <h4>Star Hunter</h4>
           <p>
-            Destroy asteroids and aliens to
-            <br />
-            increase your score!
+            Get your team to 500 points!
             <br />
             Join the Leader Board by submitting
             <br />
@@ -86,9 +80,6 @@ const GamePage = React.memo(({ user }) => {
           <p>
             Arrow keys: Navigate your ship
             <br />
-            Spacebar: Fire your lasers
-            <br />
-            Shift: Launch a salvo of missiles
           </p>
           <br />
           <br />
@@ -114,8 +105,8 @@ const GamePage = React.memo(({ user }) => {
   );
 });
 
-GamePage.propTypes = {
+export default Game2;
+
+Game2.propTypes = {
   user: PropTypes.objectOf.isRequired,
 };
-
-export default GamePage;

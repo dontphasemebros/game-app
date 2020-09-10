@@ -24,7 +24,8 @@ const FooterPage = () => {
           <hr className="clearfix w-100 d-md-none" />
           <Col md="6">
             <h5 className="text-uppercase mb-4 mt-3 font-weight-bold">Games</h5>
-            <li><a href="/game">Space Roids</a></li>
+            <li><a href="/gameone">Space Blaster</a></li>
+            <li><a href="/gametwo">Star Hunter</a></li>
           </Col>
         </Row>
       </Container>

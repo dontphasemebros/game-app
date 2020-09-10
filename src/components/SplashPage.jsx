@@ -42,13 +42,13 @@ const SplashPage = () => {
         <br />
         <div>
           <h3>
-            Space Roids is a high octane space shooter!
+            GameTime provides users with fun and interactive web games.
           </h3>
           <h3>
-            Avoid the asteroids and aliens, shoot them down to increase your score!
+            All of our games are developed using Phaser 3!
           </h3>
           <h3>
-            Try and beat the highscores!
+            Feel free to try out our games and let us know your thoughts in the forums!
           </h3>
         </div>
       </div>
