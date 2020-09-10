@@ -12,6 +12,7 @@ const {
   getScores,
   addScore,
   getReplies,
+  getUserScores,
 } = require('../database/index');
 /**
  * Checks to see if a user is logged in to protect api routes
@@ -143,6 +144,34 @@ dbRouter.post('/scores', (req, res) => {
     res.sendStatus(401);
   }
 });
+// POST routes
+/*
+* route - adds users scores to Database into scores table
+* use - uses "addScore" function to save users scores in db
+* inputs - "addScore" receives a object
+*       scoresObj = { value, idUser, idGame }
+* {Param} - deconstructed from req.query
+* returns - an array containing an object with all user information, saved score, game info
+*/
+dbRouter.get('/scores/:id', (req, res) => {
+  // console.log('REQ OBJECT: ', req);
+  // const { value, idUser, idGame } = req.query;
+  // const scoreObj = { value, idUser, idGame };
+  let { idUser } = req.query;
+  if (authChecker(req.user)) {
+    idUser = req.user.idUser;
+    getUserScores(idUser)
+      .then((success) => {
+        res.send(success);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  } else {
+    // Not Authorized
+    res.sendStatus(401);
+  }
+});
 /*
 * route - adds new user information to the db
 * use - uses "addThread" function to add new thread information to DB
@@ -176,7 +205,7 @@ dbRouter.post('/threads', (req, res) => {
 * returns - an array with object containing reply and user information who made reply
 */
 dbRouter.post('/replies', (req, res) => {
-  const { text, idUser, idThread } = req.body;
+  const { text, idUser, idThread } = req.query;
   const replyObj = { text, idUser, idThread };
   if (authChecker(req.user)) {
     addReply(replyObj)

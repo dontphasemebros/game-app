@@ -21,11 +21,11 @@ import Game from './Game';
 import GameTwo from './Game2';
 import GamePage from './GamePage';
 
-const { getAuth, getTopScores } = require('../helpers/helpers.js');
+const { getAuth } = require('../helpers/helpers.js');
 
 function App() {
   const [user, setUser] = useState([]);
-  const [scores, setScores] = useState([]);
+
 
   useEffect(() => {
     getAuth()
@@ -37,22 +37,10 @@ function App() {
       .catch((err) => console.error('ERROR GETTING SESSION: ', err));
   }, []);
 
-  useEffect(() => {
-    getTopScores({ idGame: 1 })
-      .then((result) => {
-        setScores(result);
-      })
-      .catch((err) => console.error('ERROR GETTING SCORES: ', err));
-  }, []);
-
-  // useEffect(() => {
-
-  // }, []);
-
   return (
     <BrowserRouter>
       <GameTimeLogo />
-      <NavBar user={user} scores={scores} />
+      <NavBar user={user} />
       <div className="container">
         <Switch>
           <Route path="/join">
@@ -93,7 +81,7 @@ function App() {
             <Threads />
           </Route>
           <Route path="/thread:threadId">
-            <Thread />
+            <Thread user={user} />
           </Route>
           <Route path="/gamer-news">
             <GamerNews />

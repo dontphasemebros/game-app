@@ -1,18 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Nav, Navbar, Modal,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-const NavBar = ({ user, scores }) => {
+const { getTopScores } = require('../helpers/helpers.js');
+
+const NavBar = ({ user }) => {
   const [show, setShow] = useState(false);
 
-  // const [user, setUser] = useState();
+  const [scores, setScores] = useState([]);
 
   const handleShow = () => {
     setShow(true);
   };
   const handleClose = () => setShow(false);
+
+  useEffect(() => {
+    getTopScores({ idGame: 1 })
+      .then((result) => {
+        setScores(result);
+      })
+      .catch((err) => console.error('ERROR GETTING SCORES: ', err));
+  }, [show]);
 
   return (
     <Navbar bg="dark" variant="dark">
@@ -47,7 +57,7 @@ const NavBar = ({ user, scores }) => {
         <Modal.Body>
           <ul>
             {scores
-              ? scores.map((score) => <li key={score.idScore}>{`${score.username}: ${score.value}`}</li>)
+              ? scores.map((score) => <li key={score.idScore}>{`${score.username}: ${score.value} --- ${score.createdAt.split('T')[0]}`}</li>)
               : 'no scores to show'}
           </ul>
         </Modal.Body>
@@ -58,7 +68,6 @@ const NavBar = ({ user, scores }) => {
 
 NavBar.propTypes = {
   user: PropTypes.objectOf.isRequired,
-  scores: PropTypes.element.isRequired,
 };
 
 export default NavBar;

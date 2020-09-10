@@ -3,27 +3,31 @@ import {
   useParams,
 } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import PropTypes from 'prop-types';
+import PropTypes, { array } from 'prop-types';
+import { Button } from 'react-bootstrap';
 
 const { getThreadReplies, submitReply } = require('../../helpers/helpers.js');
 
 const Thread = ({ user }) => {
-  const { register, handleSubmit } = useForm();
-  // const [reload, setReload] = useState([]);
+  const { register, handleSubmit, reset } = useForm();
+  const [reload, setReload] = useState([]);
   const { threadId } = useParams();
   const [thread, setThread] = useState([{}]);
 
-  const onSubmit = (input) => {
-    const replyObj = {
-      text: input.textarea,
-      idUser: user.idUser,
-      idThread: threadId,
-    };
-    submitReply(replyObj)
-      .then((result) => {
-        console.log('SUBMIT REPLY RESULT IN THREAD.JSX', result);
-      })
-      .catch((err) => console.error('ERROR SUBMITTING REPLY: ', err));
+  const onSubmit = ({ textarea }) => {
+    if (textarea !== '') {
+      const replyObj = {
+        text: textarea,
+        idUser: user.idUser,
+        idThread: threadId,
+      };
+      submitReply(replyObj)
+        .then(() => {
+          reset();
+          setReload([]);
+        })
+        .catch((err) => console.error('ERROR SUBMITTING REPLY: ', err));
+    }
   };
 
   useEffect(() => {
@@ -32,11 +36,11 @@ const Thread = ({ user }) => {
         setThread(result);
       })
       .catch((err) => console.error('ERROR GETTING THREADS: ', err));
-  }, []);
+  }, [reload]);
 
   return (
     <div>
-      {thread[0].replies ? (
+      {thread[0] && thread[0].replies && !Array.isArray(user) ? (
         <div>
           <div key={thread[0].idThread} className="panel-primary inline-block" id="GeneralDisussion" style={{ backgroundColor: '#D6DBDF', minWidth: '1100px', paddingTop: '10px' }}>
             <div className="profile-picture panel-body text-left inline-block">
@@ -73,15 +77,18 @@ const Thread = ({ user }) => {
           ))}
 
           <br />
-
+          {/* {!Array.isArray(user) ? ( */}
           <div className="createReply">
             <form onSubmit={handleSubmit(onSubmit)}>
               <span>Reply:</span>
               <input name="textarea" className="form-control" rows="3" ref={register} />
 
-              <input style={{ textAlign: 'right' }} type="submit" />
+              <Button variant="primary" size="sm" type="submit" ref={register}>
+                <h6>submit</h6>
+              </Button>
             </form>
           </div>
+          {/* ) : (<div>Please Login With Discord or Google</div>)} */}
         </div>
       ) : (
         <div>
