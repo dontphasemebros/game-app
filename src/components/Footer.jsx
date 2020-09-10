@@ -8,7 +8,7 @@ import 'font-awesome/css/font-awesome.min.css';
 const FooterPage = () => {
   const footerStyle = {
     position: 'absolute',
-    bottom: -300,
+    bottom: -280,
     width: '100%',
   };
 
@@ -19,12 +19,13 @@ const FooterPage = () => {
           <hr className="clearfix w-100 d-md-none" />
           <Col md="6">
             <h5 className="text-uppercase mb-4 mt-3 font-weight-bold">Our History</h5>
-            <li><a href="#!">About Us</a></li>
+            <li><a href="/aboutus">About Us</a></li>
           </Col>
           <hr className="clearfix w-100 d-md-none" />
           <Col md="6">
             <h5 className="text-uppercase mb-4 mt-3 font-weight-bold">Games</h5>
-            <li><a href="/game">Space Roids</a></li>
+            <li><a href="/gameone">Space Blaster</a></li>
+            <li><a href="/gametwo">Star Hunter</a></li>
           </Col>
         </Row>
       </Container>

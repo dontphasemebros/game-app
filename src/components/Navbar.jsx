@@ -26,15 +26,15 @@ const NavBar = ({ user }) => {
 
   return (
     <Navbar bg="dark" variant="dark">
-      <Nav className="mr-auto">
+      <Nav className="m-auto">
         <Navbar.Brand href="/">
           <h3>GameTime</h3>
         </Navbar.Brand>
         <Nav.Link onClick={handleShow}>
           <h3>HighScore</h3>
         </Nav.Link>
-        <Nav.Link href="/game">
-          <h3>Game</h3>
+        <Nav.Link href="/games">
+          <h3>Games</h3>
         </Nav.Link>
         <Nav.Link href="/forum">
           <h3>Forum</h3>
@@ -47,11 +47,10 @@ const NavBar = ({ user }) => {
             <Nav.Link href="/api/logout"><h3>Logout</h3></Nav.Link>
           </>
         ) : (
-          // <Nav.Link href="/api/google"><h3>Login</h3></Nav.Link>
           <Nav.Link href="/login"><h3>Login</h3></Nav.Link>
         )}
       </Nav>
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
           <Modal.Title>High Scores!</Modal.Title>
         </Modal.Header>
@@ -69,7 +68,6 @@ const NavBar = ({ user }) => {
 
 NavBar.propTypes = {
   user: PropTypes.objectOf.isRequired,
-  scores: PropTypes.element.isRequired,
 };
 
 export default NavBar;
