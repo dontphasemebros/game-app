@@ -124,7 +124,7 @@ export const submitThread = (threadObj) => new Promise((resolve, reject) => {
 // adds a reply to the database from an object containing idChannel, idUser, text
 export const submitReply = (replyObj) => new Promise((resolve, reject) => {
   const {
-    idChannel,
+    idThread,
     idUser,
     text,
   } = replyObj;
@@ -132,9 +132,23 @@ export const submitReply = (replyObj) => new Promise((resolve, reject) => {
     method: 'post',
     url: '/replies',
     params: {
-      idChannel,
+      idThread,
       idUser,
       text,
+    },
+  })
+    .then((response) => {
+      resolve(response.data);
+    }).catch((err) => reject(err));
+});
+
+// gets all scores for one user from db by user id
+export const getScoresByUser = (idUser) => new Promise((resolve, reject) => {
+  axios({
+    method: 'get',
+    url: `/scores/${idUser}`,
+    params: {
+      idUser,
     },
   })
     .then((response) => {
