@@ -1,11 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+const { getScoresByUser } = require('../helpers/helpers.js');
+
 const Profile = ({ user }) => {
-  const userScores = user.scores || [];
+  // const [userScores, setUserScores] = useState(user.scores || []);
+  const [userScores, setUserScores] = useState([]);
+  // const userScores = user.scores || [];
+
   const {
-    username, location, profilePhotoUrl,
+    username, profilePhotoUrl, idUser,
   } = user;
+
+  useEffect(() => {
+    getScoresByUser(idUser)
+      .then((result) => {
+        setUserScores(result);
+      })
+      .catch((err) => console.error('ERROR GETTING USER SCORES: ', err));
+  }, []);
 
   return (
     <div style={{ marginLeft: '200px' }}>
@@ -18,6 +31,9 @@ const Profile = ({ user }) => {
       </div>
       <div className="username" style={{ textAlign: 'right' }}>
         <h2>{username}</h2>
+        <div>
+          <img src={profilePhotoUrl} height="200px" width="200px" alt="profile" />
+        </div>
       </div>
       <div className="user-profile">
         <div className="user-high-scores scoreList card text-white bg-secondary mb-3" style={{ display: 'inline-block' }}>
@@ -27,26 +43,19 @@ const Profile = ({ user }) => {
           </h2>
           <div className="scoreList card text-white bg-secondary mb-3">
             <ul>
-              {userScores.map((score) => <li key={score.idScore}>{score.value}</li>)}
+              {userScores.map((score) => (
+                <li key={score.idScore}>
+                  {`${score.value} --- ${score.createdAt.split('T')[0]}`}
+                </li>
+              ))}
             </ul>
           </div>
         </div>
-        <div className="profile-picture text-white bg-dark mb-3 position-absolute" style={{ display: 'inline-block', alignSelf: 'flex-start' }}>
-          <img className="d-print-inline-block" src={profilePhotoUrl} height="100px" width="100px" alt="" style={{ display: 'inline-block' }} />
-        </div>
         <div className="user-bio bg-light" style={{ maxWidth: '700px' }}>
           <div style={{ padding: '20px' }}>
-            <div className="card text-white bg-secondary mb-3">
-              {/* <h2 className="card-header" style={{ maxWidth: '700px' }}> */}
-              {/* Bobby&apos;s Bio */}
-              {/* </h2> */}
-            </div>
+            <div className="card text-white bg-secondary mb-3" />
           </div>
           <h4>{`username: ${username}`}</h4>
-          <h4>
-            Location:
-            {location}
-          </h4>
         </div>
       </div>
 
@@ -56,8 +65,8 @@ const Profile = ({ user }) => {
 
 Profile.propTypes = {
   user: PropTypes.shape({
+    idUser: PropTypes.number.isRequired,
     username: PropTypes.objectOf.isRequired,
-    location: PropTypes.string.isRequired,
     profilePhotoUrl: PropTypes.string.isRequired,
     scores: PropTypes.arrayOf.isRequired,
   }).isRequired,

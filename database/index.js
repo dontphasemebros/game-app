@@ -7,6 +7,8 @@ const pool = new Pool({
   host: process.env.DB_HOST || `/cloudsql/${process.env.DB_INSTANCE_CONNECTION_NAME}`,
 });
 
+// takes an object containing user properties: idDiscord, username, profilePhotoUrl, and location
+// adds user to database if doesn't exist/updates if does exist; returns all user info in an object
 async function getUser(userObj) {
   const {
     idDiscord, username, profilePhotoUrl, location,
@@ -195,8 +197,8 @@ async function addThread(threadObj) {
   }
 }
 
-// takes an object with reply properties: text, idUser, idThread
-// returns array containing newly created reply object with user info
+// takes a number representing thread id
+// returns thread object with user info with a nested array of replies with user info
 async function getReplies(idThread) {
   const getThreadsCommand = `
     SELECT
@@ -247,7 +249,7 @@ async function getReplies(idThread) {
 }
 
 // takes an object with reply properties: text, idUser, idThread
-// returns array containing newly created reply object with user info
+// returns newly created reply object with user info
 async function addReply(replyObj) {
   const {
     text, idUser, idThread,
@@ -314,7 +316,7 @@ async function getScores(idGame) {
     scores = scores.rows;
     return scores;
   } catch (error) {
-    return console.error('COULD NOT GET SCORES FROM DATABASE', error);
+    return console.error('COULD NOT GET TOP SCORES FROM DATABASE', error);
   }
 }
 
@@ -361,6 +363,30 @@ async function addScore(scoreObj) {
   }
 }
 
+// takes a number representing the game ID
+// returns array of scores with user info
+async function getUserScores(idUser) {
+  const getUserScoresCommand = `
+    SELECT
+      s.id AS "idScore",
+      s.value,
+      s.id_user AS "idUser",
+      s.id_game AS "idGame",
+      s.created_at AS "createdAt"
+    FROM scores AS s
+    WHERE id_user = $1
+    ORDER BY s.id_game, s.value DESC
+  `;
+
+  try {
+    let scores = await pool.query(getUserScoresCommand, [idUser]);
+    scores = scores.rows;
+    return scores;
+  } catch (error) {
+    return console.error('COULD NOT GET USER SCORES FROM DATABASE', error);
+  }
+}
+
 module.exports = {
   getUser,
   addUser,
@@ -370,4 +396,5 @@ module.exports = {
   addReply,
   getScores,
   addScore,
+  getUserScores,
 };
