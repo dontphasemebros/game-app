@@ -15,9 +15,7 @@ const Thread = ({ user }) => {
   const [thread, setThread] = useState([{}]);
 
   const onSubmit = ({ textarea }) => {
-    console.log('TEXTAREA: ', [textarea.trim()]);
     if (textarea.split(/[\s\n\r\t]/).filter((str) => str.length).length) {
-      console.log('TEXTAREA TEST: ', textarea.split(/\n /).filter((chars) => chars.length).length);
       const replyObj = {
         text: textarea.trim(),
         idUser: user.idUser,
