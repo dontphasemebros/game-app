@@ -88,7 +88,7 @@ const Game2 = React.memo(({ user }) => {
           </p>
           <br />
           <br />
-          <Button onClick={handleRedirect} variant="danger">
+          <Button onClick={handleRedirect} variant="primary">
             <h6>Live Game Chat</h6>
           </Button>
           <br />
