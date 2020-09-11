@@ -21,7 +21,7 @@ class GameTwo extends Phaser.Scene {
     this.add.image(0, 0, 'background').setOrigin(0).setScale(0.6);
     this.add.image(0, 400, 'background').setOrigin(0).setScale(0.6);
 
-    this.socket = io('http://localhost:8080');
+    this.socket = io(process.env.DEVELOPMENT_CHAT || 'https://phaserbros.com');
     this.otherPlayers = this.physics.add.group();
     this.socket.on('currentPlayers', (players) => {
       Object.keys(players).forEach((id) => {
