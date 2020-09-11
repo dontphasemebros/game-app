@@ -47,26 +47,30 @@ const GamePage = React.memo(({ user }) => {
   const alreadySubmitted = () => toast(`Score of ${window.score} already submitted!`);
 
   const submitScore = () => {
-    const scoreObj = {
-      idUser: user.idUser,
-      idGame: 1,
-      value: window.score,
-    };
-    if (window.submitted === false) {
-      saveScore(scoreObj)
-        .then((score) => {
-          if (score) {
-            notify();
-          }
-        })
-        .then(() => {
-          window.submitted = true;
-        })
-        .catch(() => {
-          scoreError();
-        });
-    } else if (window.submitted === true) {
-      alreadySubmitted();
+    if (window.score) {
+      const scoreObj = {
+        idUser: user.idUser,
+        idGame: window.idGame,
+        value: window.score,
+      };
+      if (window.submitted === false) {
+        saveScore(scoreObj)
+          .then((score) => {
+            if (score) {
+              notify();
+            }
+          })
+          .then(() => {
+            window.submitted = true;
+          })
+          .catch(() => {
+            scoreError();
+          });
+      } else if (window.submitted === true) {
+        alreadySubmitted();
+      }
+    } else if (!window.score) {
+      scoreError();
     }
   };
 
