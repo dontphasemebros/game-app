@@ -40,17 +40,17 @@ async function getUser(userObj) {
       location
   `;
 
-  const getUserScoresCommand = `
-    SELECT
-      s.id AS "idScore",
-      s.value,
-      s.id_user AS "idUser",
-      s.id_game AS "idGame",
-      s.created_at AS "createdAt"
-    FROM scores AS s
-    WHERE id_user = $1
-    ORDER BY s.id_game, s.value DESC
-  `;
+  // const getUserScoresCommand = `
+  //   SELECT
+  //     s.id AS "idScore",
+  //     s.value,
+  //     s.id_user AS "idUser",
+  //     s.id_game AS "idGame",
+  //     s.created_at AS "createdAt"
+  //   FROM scores AS s
+  //   WHERE id_user = $1
+  //   ORDER BY s.id_game, s.value DESC
+  // `;
 
   try {
     let user = await pool.query(getUserCommand, [idDiscord]);
@@ -59,8 +59,8 @@ async function getUser(userObj) {
       const { idUser } = user;
       user = await pool.query(updateUserCommand, [username, profilePhotoUrl, location, idUser]);
       [user] = user.rows;
-      const scores = await pool.query(getUserScoresCommand, [idUser]);
-      if (scores) user.scores = scores.rows;
+      // const scores = await pool.query(getUserScoresCommand, [idUser]);
+      // if (scores) user.scores = scores.rows;
     }
     return user;
   } catch (error) {
@@ -290,30 +290,44 @@ async function addReply(replyObj) {
 
 // takes a number representing the game ID
 // returns array of scores with user info
-async function getScores(idGame) {
-  const getScoresCommand = `
+async function getScores() {
+  const getGamesCommand = `
     SELECT
-      s.id,
-      s.value,
-      s.id_game AS "idGame",
-      s.created_at AS "createdAt",
-      s.id_user AS "idUser",
-      u.id_discord AS "idDiscord",
-      u.username,
-      u.profile_photo_url AS "profilePhotoUrl",
-      u.location
-    FROM scores s
-    LEFT JOIN users u
-    ON s.id_user = u.id
-    WHERE id_game = $1
-    ORDER BY s.value DESC, s.created_at DESC
-    LIMIT 10
+      games.id AS "idGame",
+      games.name,
+      games.description
+    FROM games
   `;
 
   try {
-    let scores = await pool.query(getScoresCommand, [idGame]);
-    scores = scores.rows;
-    return scores;
+    let games = await pool.query(getGamesCommand);
+    games = games.rows;
+    games = await Promise.all(games.map(async (game) => {
+      const { idGame } = game;
+      const getScoresCommand = `
+        SELECT
+          s.id,
+          s.value,
+          s.id_game AS "idGame",
+          s.created_at AS "createdAt",
+          s.id_user AS "idUser",
+          u.id_discord AS "idDiscord",
+          u.username,
+          u.profile_photo_url AS "profilePhotoUrl",
+          u.location
+        FROM scores s
+        LEFT JOIN users u
+        ON s.id_user = u.id
+        WHERE id_game = ${idGame}
+        ORDER BY s.value DESC, s.created_at DESC
+        LIMIT 10
+      `;
+      const scores = await pool.query(getScoresCommand);
+      const finishedGame = game;
+      finishedGame.scores = scores.rows ? scores.rows : [];
+      return finishedGame;
+    }));
+    return games;
   } catch (error) {
     return console.error('COULD NOT GET TOP SCORES FROM DATABASE', error);
   }
@@ -330,33 +344,37 @@ async function addScore(scoreObj) {
     INSERT INTO scores AS s (value, id_user, id_game)
     VALUES ($1, $2, $3)
     RETURNING
-      s.id AS "idScore"
+      s.id AS "idScore",
+      s.value,
+      s.id_game AS "idGame",
+      s.id_user AS "idUser"
   `;
 
   try {
     const score = await pool.query(addScoreCommand, [value, idUser, idGame]);
-    const { idScore } = score.rows[0];
-    const getAddedScoreCommand = `
-      SELECT
-        s.id AS "idScore",
-        s.value,
-        s.id_game AS "idGame",
-        s.created_at AS "createdAt",
-        s.id_user AS "idUser",
-        u.id_discord AS "idDiscord",
-        u.username,
-        u.profile_photo_url AS "profilePhotoUrl",
-        u.location
-      FROM scores s
-      LEFT JOIN users u
-      ON s.id_user = u.id
-      WHERE s.id = ${idScore}
-      ORDER BY s.value DESC, s.created_at DESC
-      LIMIT 10
-    `;
-    let addedScore = await pool.query(getAddedScoreCommand);
-    addedScore = addedScore.rows;
-    return addedScore;
+    // const { idScore } = score.rows[0];
+    // const getAddedScoreCommand = `
+    //   SELECT
+    //     s.id AS "idScore",
+    //     s.value,
+    //     s.id_game AS "idGame",
+    //     s.created_at AS "createdAt",
+    //     s.id_user AS "idUser",
+    //     u.id_discord AS "idDiscord",
+    //     u.username,
+    //     u.profile_photo_url AS "profilePhotoUrl",
+    //     u.location
+    //   FROM scores s
+    //   LEFT JOIN users u
+    //   ON s.id_user = u.id
+    //   WHERE s.id = ${idScore}
+    //   ORDER BY s.value DESC, s.created_at DESC
+    //   LIMIT 10
+    // `;
+    // let addedScore = await pool.query(getAddedScoreCommand);
+    // addedScore = addedScore.rows;
+    // return addedScore;
+    return score;
   } catch (error) {
     return console.error('COULD NOT ADD SCORE TO DATABASE', error);
   }
@@ -365,25 +383,66 @@ async function addScore(scoreObj) {
 // takes a number representing the game ID
 // returns array of scores with user info
 async function getUserScores(idUser) {
-  const getUserScoresCommand = `
+  const getGamesCommand = `
     SELECT
-      s.id AS "idScore",
-      s.value,
-      s.id_user AS "idUser",
-      s.id_game AS "idGame",
-      s.created_at AS "createdAt"
-    FROM scores AS s
-    WHERE id_user = $1
-    ORDER BY s.id_game, s.value DESC
+      games.id AS "idGame",
+      games.name,
+      games.description
+    FROM games
   `;
 
   try {
-    let scores = await pool.query(getUserScoresCommand, [idUser]);
-    scores = scores.rows;
-    return scores;
+    let games = await pool.query(getGamesCommand);
+    games = games.rows;
+    games = await Promise.all(games.map(async (game) => {
+      const { idGame } = game;
+      const getScoresCommand = `
+        SELECT
+          s.id,
+          s.value,
+          s.id_game AS "idGame",
+          s.created_at AS "createdAt",
+          s.id_user AS "idUser",
+          u.id_discord AS "idDiscord",
+          u.username,
+          u.profile_photo_url AS "profilePhotoUrl",
+          u.location
+        FROM scores s
+        LEFT JOIN users u
+        ON s.id_user = u.id
+        WHERE id_game = ${idGame} AND id_user= $1
+        ORDER BY s.value DESC, s.created_at DESC
+        LIMIT 10
+      `;
+      const scores = await pool.query(getScoresCommand, [idUser]);
+      const finishedGame = game;
+      finishedGame.scores = scores.rows ? scores.rows : [];
+      return finishedGame;
+    }));
+    return games;
   } catch (error) {
-    return console.error('COULD NOT GET USER SCORES FROM DATABASE', error);
+    return console.error('COULD NOT GET TOP SCORES FROM DATABASE', error);
   }
+
+  // const getUserScoresCommand = `
+  //   SELECT
+  //     s.id AS "idScore",
+  //     s.value,
+  //     s.id_user AS "idUser",
+  //     s.id_game AS "idGame",
+  //     s.created_at AS "createdAt"
+  //   FROM scores AS s
+  //   WHERE id_user = $1
+  //   ORDER BY s.id_game, s.value DESC
+  // `;
+
+  // try {
+  //   let scores = await pool.query(getUserScoresCommand, [idUser]);
+  //   scores = scores.rows;
+  //   return scores;
+  // } catch (error) {
+  //   return console.error('COULD NOT GET USER SCORES FROM DATABASE', error);
+  // }
 }
 
 module.exports = {

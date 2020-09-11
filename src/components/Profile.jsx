@@ -5,9 +5,7 @@ import PhaserBro from '../assets/PhaserBro.gif';
 const { getScoresByUser } = require('../helpers/helpers.js');
 
 const Profile = ({ user }) => {
-  // const [userScores, setUserScores] = useState(user.scores || []);
-  const [userScores, setUserScores] = useState([]);
-  // const userScores = user.scores || [];
+  const [userScoresByGame, setUserScoresByGame] = useState([]);
 
   const {
     username, profilePhotoUrl, idUser,
@@ -16,7 +14,7 @@ const Profile = ({ user }) => {
   useEffect(() => {
     getScoresByUser(idUser)
       .then((result) => {
-        setUserScores(result);
+        setUserScoresByGame(result);
       })
       .catch((err) => console.error('ERROR GETTING USER SCORES: ', err));
   }, []);
@@ -46,7 +44,7 @@ const Profile = ({ user }) => {
               </h2>
               <div className="scoreList card text-white bg-secondary mb-3">
                 <ul>
-                  {userScores.map((score) => (
+                  {userScoresByGame[0].scores.map((score) => ( // *** REFACTOR FOR MULTI-GAME SCORES
                     <li key={score.idScore}>
                       {`${score.value} --- ${score.createdAt.split('T')[0]}`}
                     </li>

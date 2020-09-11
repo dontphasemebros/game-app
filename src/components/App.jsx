@@ -26,7 +26,6 @@ const { getAuth } = require('../helpers/helpers.js');
 function App() {
   const [user, setUser] = useState([]);
 
-
   useEffect(() => {
     getAuth()
       .then((result) => {
