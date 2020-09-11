@@ -9,7 +9,7 @@ const { getTopScores } = require('../helpers/helpers.js');
 const NavBar = ({ user }) => {
   const [show, setShow] = useState(false);
 
-  const [scores, setScores] = useState([]);
+  const [scoresByGame, setScoresByGame] = useState([]);
 
   const handleShow = () => {
     setShow(true);
@@ -17,9 +17,9 @@ const NavBar = ({ user }) => {
   const handleClose = () => setShow(false);
 
   useEffect(() => {
-    getTopScores({ idGame: 1 })
+    getTopScores()
       .then((result) => {
-        setScores(result);
+        setScoresByGame(result);
       })
       .catch((err) => console.error('ERROR GETTING SCORES: ', err));
   }, [show]);
@@ -56,8 +56,8 @@ const NavBar = ({ user }) => {
         </Modal.Header>
         <Modal.Body>
           <ul>
-            {scores
-              ? scores.map((score) => <li key={score.idScore}>{`${score.username}: ${score.value} --- ${score.createdAt.split('T')[0]}`}</li>)
+            {scoresByGame[0] // *** REFACTOR BELOW FOR SCORES FOR MULTIPLE GAMES
+              ? scoresByGame[0].scores.map((score) => <li key={score.idScore}>{`${score.username}: ${score.value} --- ${score.createdAt.split('T')[0]}`}</li>)
               : 'no scores to show'}
           </ul>
         </Modal.Body>
