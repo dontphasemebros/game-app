@@ -1,7 +1,19 @@
 const { expect } = require('chai');
 const axios = require('axios');
+// const express = require('express');
+// const vhost = require('vhost');
+// const io = require('socket.io-client');
 require('dotenv').config();
 const { Pool } = require('pg');
+// const { server } = require('../server/server');
+// const app = express();
+// const server = express();
+// server.use(vhost('localhost', require('../server/server')));
+
+// server.listen(80);
+
+// const socketUrl = server;
+
 const {
   getUser, addUser, addScore, getScores, addReply, getReplies, getThreads, addThread,
 } = require('../database/index');
@@ -13,6 +25,82 @@ const pool = new Pool({
   password: '',
   host: 'localhost',
 });
+
+// const options = {
+//   transports: ['websocket'],
+//   'force new connection': true,
+// };
+
+// const room = 'lobby';
+// describe('Web Socket', () => {
+//   let client1;
+//   let client2;
+//   let client3;
+
+//   it('should send and recieve a message', (done) => {
+//     client1 = io.connect(socketUrl, options);
+//     client1.on('message', (msg) => {
+//       expect(msg).to.equal('test');
+//       // Disconnect both client connections
+//       console.log('does it hit?');
+//       client1.disconnect();
+//       client2.disconnect();
+//       done();
+//     });
+
+//     client1.on('connect', () => {
+//       client1.emit('join room', room);
+
+//       // Set up client2 connection
+//       client2 = io.connect(socketUrl, options);
+
+//       client2.on('connect', () => {
+//         // Emit event when all clients are connected.
+//         client2.emit('join room', room);
+//         client2.emit('message', 'test');
+//       });
+//     });
+//   });
+//   it('should send and receive a message only to users in the same room', (done) => {
+//     let client2CallCount = 0;
+//     let client3CallCount = 0;
+
+//     client1 = io.connect(socketUrl, options);
+
+//     client1.on('connect', () => {
+//       client1.emit('join room', room);
+
+//       client2 = io.connect(socketUrl, options);
+//       client2.emit('join room', room);
+
+//       client2.on('connect', () => {
+//         client3 = io.connect(socketUrl, options);
+//         client3.emit('join room', 'test');
+
+//         client3.on('connect', () => {
+//           client1.emit('message', 'test');
+//         });
+
+//         client3.on('message', () => {
+//           client3CallCount += 1;
+//         });
+//       });
+
+//       client2.on('message', () => {
+//         client2CallCount += 1;
+//       });
+//     });
+
+//     setTimeout(() => {
+//       expect(client2CallCount).to.equal(1);
+//       expect(client3CallCount).to.equal(0);
+//       client1.disconnect();
+//       client2.disconnect();
+//       client3.disconnect();
+//       done();
+//     }, 25);
+//   });
+// });
 
 describe('Database', () => {
   it('User information should be passed in/out of Database', (done) => {
@@ -110,7 +198,7 @@ describe('DBroutes - Server-side', () => {
     // axios.get('/scores', { proxy: { host: 'localhost', port: 8080 }, params: { idGame: 1 } })
     //   .then((result) => {
     //     // filling out later when further information is provided
-    //     expect(result.status).to.equal(401);
+    //     console.log(result);
     //     // expect(result.data).to.be.a('array');
     //     done();
     //   }).catch((err) => console.error(err));
