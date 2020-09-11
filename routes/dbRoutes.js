@@ -109,9 +109,8 @@ dbRouter.get('/articles', (req, res) => { // route will be used once articles ar
 * returns - an array of objects with information for the users who saved scores for that game
 */
 dbRouter.get('/scores', (req, res) => {
-  const { idGame } = req.query;
-  // if (authChecker(req.user[0])) {
-  getScores(idGame)
+  // if (authChecker(req.user)) {
+  getScores()
     .then((score) => {
       res.send(score);
     })

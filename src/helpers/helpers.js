@@ -30,14 +30,10 @@ export const getUserData = (userObj) => new Promise((resolve, reject) => {
 });
 
 // gets top ten scores from db by game id
-export const getTopScores = (gameObj) => new Promise((resolve, reject) => {
-  const { idGame } = gameObj;
+export const getTopScores = () => new Promise((resolve, reject) => {
   axios({
     method: 'get',
     url: '/scores',
-    params: {
-      idGame,
-    },
   })
     .then((response) => {
       resolve(response.data);
