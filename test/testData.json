@@ -1,0 +1,153 @@
+{
+    "newsData": [
+        {
+            "id": 1,
+            "date": "10-10-2021",
+            "api_id": 2131421443253,
+            "authors": "Rob Hother",
+            "title": "Amazon web service (the game) is out on playstation V!",
+            "thumbail": "https://media.playstation.com/is/image/SCEA/ps4-systems-and-bundles-gallery-pro-jet-black-03-04mar20-ja-jp?$native_t$",
+            "photo": "https://media.playstation.com/is/image/SCEA/ps4-systems-and-bundles-gallery-pro-jet-black-03-04mar20-ja-jp?$native_t$",
+            "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            "lede": "NAN",
+            "url":  "https://cnn.com/fakenews"
+        },
+        {
+            "id": 2,
+            "date": "10-12-2021",
+            "api_id": 213232415,
+            "authors": "Don Stone",
+            "title": "Another great encounter by the battle frontier?",
+            "thumbail": "https://www.phaserbros.com/8d94c5f2f94c0052b13d0a3ad23e7001.gif",
+            "photo": "https://www.phaserbros.com/8d94c5f2f94c0052b13d0a3ad23e7001.gif",
+            "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            "lede": "NAN",
+            "url":  "https://cnn.com/fakenews"
+        },
+        {
+            "id": 3,
+            "date": "10-12-1983",
+            "api_id": 21323242,
+            "authors": "Random Name",
+            "title": "2752623968872682",
+            "thumbail": "https://www.phaserbros.com/8d94c5f2f94c0052b13d0a3ad23e7001.gif",
+            "photo": "https://www.phaserbros.com/8d94c5f2f94c0052b13d0a3ad23e7001.gif",
+            "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            "lede": "NAN",
+            "url":  "https://cnn.com/fakenews"
+        },
+        {
+            "id": 4,
+            "date": "10-12-1934",
+            "api_id": 213233,
+            "authors": "Random Name",
+            "title": "2752623968872682",
+            "thumbail": "https://www.phaserbros.com/8d94c5f2f94c0052b13d0a3ad23e7001.gif",
+            "photo": "https://www.phaserbros.com/8d94c5f2f94c0052b13d0a3ad23e7001.gif",
+            "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            "lede": "NAN",
+            "url":  "https://cnn.com/fakenews"
+        },
+        {
+            "id": 5,
+            "date": "10-12-1983",
+            "api_id": 21323242,
+            "authors": "Random Name",
+            "title": "2752623968872682",
+            "thumbail": "https://www.phaserbros.com/8d94c5f2f94c0052b13d0a3ad23e7001.gif",
+            "photo": "https://www.phaserbros.com/8d94c5f2f94c0052b13d0a3ad23e7001.gif",
+            "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            "lede": "NAN",
+            "url":  "https://cnn.com/fakenews"
+        },
+        {
+            "id": 6,
+            "date": "10-12-1983",
+            "api_id": 21323242,
+            "authors": "Random Name",
+            "title": "2752623968872682",
+            "thumbail": "https://www.phaserbros.com/8d94c5f2f94c0052b13d0a3ad23e7001.gif",
+            "photo": "https://www.phaserbros.com/8d94c5f2f94c0052b13d0a3ad23e7001.gif",
+            "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            "lede": "NAN",
+            "url":  "https://cnn.com/fakenews"
+        },
+        {
+            "id": 7,
+            "date": "10-12-1983",
+            "api_id": 21323242,
+            "authors": "Random Name",
+            "title": "2752623968872682",
+            "thumbail": "https://www.phaserbros.com/8d94c5f2f94c0052b13d0a3ad23e7001.gif",
+            "photo": "https://www.phaserbros.com/8d94c5f2f94c0052b13d0a3ad23e7001.gif",
+            "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            "lede": "NAN",
+            "url":  "https://cnn.com/fakenews"
+        },
+        {
+            "id": 8,
+            "date": "10-12-1983",
+            "api_id": 21323242,
+            "authors": "Random Name",
+            "title": "2752623968872682",
+            "thumbail": "https://www.phaserbros.com/8d94c5f2f94c0052b13d0a3ad23e7001.gif",
+            "photo": "https://www.phaserbros.com/8d94c5f2f94c0052b13d0a3ad23e7001.gif",
+            "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            "lede": "NAN",
+            "url":  "https://cnn.com/fakenews"
+        },
+        {
+            "id": 9,
+            "date": "10-12-1983",
+            "api_id": 21323242,
+            "authors": "Random Name",
+            "title": "2752623968872682",
+            "thumbail": "https://www.phaserbros.com/8d94c5f2f94c0052b13d0a3ad23e7001.gif",
+            "photo": "https://www.phaserbros.com/8d94c5f2f94c0052b13d0a3ad23e7001.gif",
+            "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            "lede": "NAN",
+            "url":  "https://cnn.com/fakenews"
+        },
+        {
+            "id": 10,
+            "date": "10-12-1983",
+            "api_id": 21323242,
+            "authors": "Random Name",
+            "title": "2752623968872682",
+            "thumbail": "https://www.phaserbros.com/8d94c5f2f94c0052b13d0a3ad23e7001.gif",
+            "photo": "https://www.phaserbros.com/8d94c5f2f94c0052b13d0a3ad23e7001.gif",
+            "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            "lede": "NAN",
+            "url":  "https://cnn.com/fakenews"
+        }
+    ],
+    "userData": [
+        {
+            "idDiscord": "12345",
+            "username": "Ben",
+            "profilePhotoUrl": "https://avatars1.githubusercontent.com/u/43221771?s=400&u=df8c77de50068df1e09041de441840cff350e47f&v=4",
+            "location": "Mandeville"
+          }
+    ],
+    "scoreData": [
+        {
+            "value": 1,
+            "idUser": 1,
+            "idGame": 1
+          }
+    ],
+    "threadData": [
+        {
+            "text": "I am wondering if you could test something for me?",
+            "idUser": 1,
+            "idChannel": 3
+          }
+    ],
+    "replyData": [
+        {
+            "text": "Lorem Ipsum Est Sic Mundos",
+            "idUser": 1,
+            "idThread": 2
+          }
+    ]
+}

@@ -17,9 +17,12 @@ import Login from './Login';
 import Join from './Join';
 import DiscordChat from './DiscordChat';
 import AboutUs from './AboutUs';
-import Game from './Game';
+import SpaceBlaster from './SpaceBlaster';
 import GameTwo from './Game2';
+import GameThree from './Game3';
 import GamePage from './GamePage';
+import BreakOut from './BreakOut';
+import Germs from './Germs';
 
 const { getAuth } = require('../helpers/helpers.js');
 
@@ -49,10 +52,19 @@ function App() {
             <GamePage />
           </Route>
           <Route path="/gameone">
-            <Game user={user} />
+            <SpaceBlaster user={user} />
+          </Route>
+          <Route path="/breakout">
+            <BreakOut user={user} />
+          </Route>
+          <Route path="/germs">
+            <Germs user={user} />
           </Route>
           <Route path="/gametwo">
             <GameTwo user={user} />
+          </Route>
+          <Route path="/gamethree">
+            <GameThree user={user} />
           </Route>
           <Route path="/aboutus">
             <AboutUs />
