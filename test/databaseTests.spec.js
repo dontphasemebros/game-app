@@ -11,10 +11,10 @@ const {
 } = testData;
 
 const pool = new Pool({
-  user: 'postgres',
-  database: 'test',
-  password: '',
-  host: 'localhost',
+  user: process.env.DB_USER,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASS,
+  host: process.env.DB_HOST,
 });
 
 describe('Database', () => {
