@@ -5,7 +5,6 @@ import {
 import NavBar from './Navbar';
 import SplashPage from './SplashPage';
 import GameTimeLogo from './GameTimeLogo';
-import GamePage from './Game';
 import Forum from './Forum';
 import Chat from './Chat';
 import FooterPage from './Footer';
@@ -16,12 +15,17 @@ import Threads from './forum-pages/Threads';
 import Thread from './forum-pages/Thread';
 import Login from './Login';
 import Join from './Join';
+import DiscordChat from './DiscordChat';
+import AboutUs from './AboutUs';
+import Game from './Game';
+import GameTwo from './Game2';
+import GameThree from './Game3';
+import GamePage from './GamePage';
 
 const { getAuth } = require('../helpers/helpers.js');
 
 function App() {
   const [user, setUser] = useState([]);
-
 
   useEffect(() => {
     getAuth()
@@ -42,13 +46,28 @@ function App() {
           <Route path="/join">
             <Join />
           </Route>
+          <Route path="/games">
+            <GamePage />
+          </Route>
+          <Route path="/gameone">
+            <Game user={user} />
+          </Route>
+          <Route path="/gametwo">
+            <GameTwo user={user} />
+          </Route>
+          <Route path="/gamethree">
+            <GameThree user={user} />
+          </Route>
+          <Route path="/aboutus">
+            <AboutUs />
+          </Route>
           <Route path="/chat">
             <Chat />
           </Route>
-          <Route path="/highscore" />
-          <Route path="/game">
-            <GamePage user={user} />
+          <Route path="/discord">
+            <DiscordChat />
           </Route>
+          <Route path="/highscore" />
           <Route path="/forum">
             <Forum user={user} />
           </Route>

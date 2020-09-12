@@ -3,7 +3,7 @@ import {
   useParams,
 } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import PropTypes, { array } from 'prop-types';
+import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
 
 const { getThreadReplies, submitReply } = require('../../helpers/helpers.js');
@@ -15,9 +15,9 @@ const Thread = ({ user }) => {
   const [thread, setThread] = useState([{}]);
 
   const onSubmit = ({ textarea }) => {
-    if (textarea !== '') {
+    if (textarea.split(/[\s\n\r\t]/).filter((str) => str.length).length) {
       const replyObj = {
-        text: textarea,
+        text: textarea.trim(),
         idUser: user.idUser,
         idThread: threadId,
       };

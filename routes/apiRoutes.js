@@ -51,7 +51,7 @@ apiRouter.get('/google', passport.authenticate('google', {
   scope: ['profile', 'email'],
 }));
 
-// create redirect route for discord authentication
+// create redirect route for google authentication
 apiRouter.get('/callback', passport.authenticate('google', {
   failureRedirect: '/failed',
   successRedirect: '/',

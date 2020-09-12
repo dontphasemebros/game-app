@@ -1,7 +1,9 @@
 // import express module into file
 const express = require('express');
+
 // create variable set to new Router instance from express module
 const dbRouter = express.Router();
+
 // import database helper functions from ../database/index.js
 const {
   getUser,
@@ -14,6 +16,10 @@ const {
   getReplies,
   getUserScores,
 } = require('../database/index');
+
+// import GCS storage function
+const { uploadImage } = require('../GCS_Helpers/gcshelpers.js');
+
 /**
  * Checks to see if a user is logged in to protect api routes
  * @param {Object} user req.user
@@ -103,9 +109,8 @@ dbRouter.get('/articles', (req, res) => { // route will be used once articles ar
 * returns - an array of objects with information for the users who saved scores for that game
 */
 dbRouter.get('/scores', (req, res) => {
-  const { idGame } = req.query;
-  // if (authChecker(req.user[0])) {
-  getScores(idGame)
+  // if (authChecker(req.user)) {
+  getScores()
     .then((score) => {
       res.send(score);
     })
@@ -220,6 +225,7 @@ dbRouter.post('/replies', (req, res) => {
     res.sendStatus(401);
   }
 });
+
 /*
 * route - adds new user information to the db
 * use - uses "addUser" function to add new user information to DB
@@ -245,6 +251,33 @@ dbRouter.post('/users', (req, res) => {
       })
       .catch((err) => {
         console.log(err);
+      });
+  } else {
+    // Not Authorized
+    res.sendStatus(401);
+  }
+});
+
+/*
+* route - adds user photos to google cloud storage bucket
+* use - route uses uploadImage() function to store user image in GCS bucket
+* inputs - loads the image file from request body that users uploads
+*      myFile = req.file;
+* {Param} - deconstructed form request object
+* returns - url to photo in GCS storage bucket
+*/
+dbRouter.post('/uploads', (req, res) => {
+  const myFile = req.file;
+  if (authChecker(req.user)) {
+    uploadImage(myFile)
+      .then((photoUrl) => {
+        res.json({
+          message: 'Upload was successful',
+          data: photoUrl,
+        }).send();
+      })
+      .catch((error) => {
+        res.sendStatus(500).json(error);
       });
   } else {
     // Not Authorized

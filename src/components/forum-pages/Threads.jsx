@@ -16,9 +16,9 @@ const Threads = ({ channel, user }) => {
   const [reload, setReload] = useState([]);
 
   const onSubmit = ({ textarea }) => {
-    if (textarea !== '') {
+    if (textarea.split(/[\s\n\r\t]/).filter((str) => str.length).length) {
       const threadObj = {
-        text: textarea,
+        text: textarea.trim(),
         idUser: user.idUser,
         idChannel,
       };

@@ -4,40 +4,32 @@ import PropTypes from 'prop-types';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button } from 'react-bootstrap';
-import PlayScene from '../Game/scenes/playScenes';
-import PreloadScene from '../Game/scenes/PreloadScene';
-import GameOverScene from '../Game/scenes/GameOver';
+import GameThree from '../Game3/GameThree';
 import PhaserBro from '../assets/PhaserBro.gif';
 
 const { saveScore } = require('../helpers/helpers.js');
 
-const GamePage = React.memo(({ user }) => {
+const Game3 = React.memo(({ user }) => {
   const descriptionStyle = {
     float: 'right',
     marginTop: '50px',
   };
   const config = {
+    type: Phaser.AUTO,
     width: 800,
     height: 600,
-    type: Phaser.AUTO,
-    parent: 'phaser-game',
-    audio: {
-      disableWebAudio: true,
-    },
     physics: {
       default: 'arcade',
       arcade: {
-        fps: 60,
-        gravity: { y: 0 },
+        gravity: { y: 300 },
+        debug: false,
       },
     },
   };
   if (!Array.isArray(user)) {
     const game = new Phaser.Game(config);
-    game.scene.add('PlayScene', PlayScene);
-    game.scene.add('preload', PreloadScene);
-    game.scene.add('gameOver', GameOverScene);
-    game.scene.start('preload');
+    game.scene.add('GameThree', GameThree);
+    game.scene.start('GameThree');
   }
 
   const notify = () => toast(`Your Score of ${window.score} Was Submitted!`);
@@ -83,11 +75,9 @@ const GamePage = React.memo(({ user }) => {
       <br />
       {!Array.isArray(user) ? (
         <div style={descriptionStyle}>
-          <h4>Space Blaster</h4>
+          <h4>Star Pickup</h4>
           <p>
-            Destroy asteroids and aliens to
-            <br />
-            increase your score!
+            Collect stars and avoid dangers!
             <br />
             Join the Leader Board by submitting
             <br />
@@ -97,11 +87,8 @@ const GamePage = React.memo(({ user }) => {
           <br />
           <h4>Controls</h4>
           <p>
-            Arrow keys: Navigate your ship
+            Arrow keys: Move your avatar
             <br />
-            Spacebar: Fire your lasers
-            <br />
-            Shift: Launch a salvo of missiles
           </p>
           <br />
           <br />
@@ -127,8 +114,8 @@ const GamePage = React.memo(({ user }) => {
   );
 });
 
-GamePage.propTypes = {
+export default Game3;
+
+Game3.propTypes = {
   user: PropTypes.objectOf.isRequired,
 };
-
-export default GamePage;
