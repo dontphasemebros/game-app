@@ -135,5 +135,19 @@
             "idUser": 1,
             "idGame": 1
           }
+    ],
+    "threadData": [
+        {
+            "text": "I am wondering if you could test something for me?",
+            "idUser": 1,
+            "idChannel": 3
+          }
+    ],
+    "replyData": [
+        {
+            "text": "Lorem Ipsum Est Sic Mundos",
+            "idUser": 1,
+            "idThread": 2
+          }
     ]
 }
