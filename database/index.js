@@ -352,28 +352,6 @@ async function addScore(scoreObj) {
 
   try {
     const score = await pool.query(addScoreCommand, [value, idUser, idGame]);
-    // const { idScore } = score.rows[0];
-    // const getAddedScoreCommand = `
-    //   SELECT
-    //     s.id AS "idScore",
-    //     s.value,
-    //     s.id_game AS "idGame",
-    //     s.created_at AS "createdAt",
-    //     s.id_user AS "idUser",
-    //     u.id_discord AS "idDiscord",
-    //     u.username,
-    //     u.profile_photo_url AS "profilePhotoUrl",
-    //     u.location
-    //   FROM scores s
-    //   LEFT JOIN users u
-    //   ON s.id_user = u.id
-    //   WHERE s.id = ${idScore}
-    //   ORDER BY s.value DESC, s.created_at DESC
-    //   LIMIT 10
-    // `;
-    // let addedScore = await pool.query(getAddedScoreCommand);
-    // addedScore = addedScore.rows;
-    // return addedScore;
     return score;
   } catch (error) {
     return console.error('COULD NOT ADD SCORE TO DATABASE', error);
@@ -423,26 +401,6 @@ async function getUserScores(idUser) {
   } catch (error) {
     return console.error('COULD NOT GET TOP SCORES FROM DATABASE', error);
   }
-
-  // const getUserScoresCommand = `
-  //   SELECT
-  //     s.id AS "idScore",
-  //     s.value,
-  //     s.id_user AS "idUser",
-  //     s.id_game AS "idGame",
-  //     s.created_at AS "createdAt"
-  //   FROM scores AS s
-  //   WHERE id_user = $1
-  //   ORDER BY s.id_game, s.value DESC
-  // `;
-
-  // try {
-  //   let scores = await pool.query(getUserScoresCommand, [idUser]);
-  //   scores = scores.rows;
-  //   return scores;
-  // } catch (error) {
-  //   return console.error('COULD NOT GET USER SCORES FROM DATABASE', error);
-  // }
 }
 
 module.exports = {

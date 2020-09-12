@@ -5,6 +5,7 @@ import {
 import { useForm } from 'react-hook-form';
 import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
+import PhotoUpload from './PhotoUpload';
 
 const { getThreadReplies, submitReply } = require('../../helpers/helpers.js');
 
@@ -13,9 +14,35 @@ const Thread = ({ user }) => {
   const [reload, setReload] = useState([]);
   const { threadId } = useParams();
   const [thread, setThread] = useState([{}]);
+  const [file, setFile] = useState(null);
 
-  const onSubmit = ({ textarea }) => {
-    if (textarea.split(/[\s\n\r\t]/).filter((str) => str.length).length) {
+  const onSubmit = (data) => {
+    console.log('DATA: ', data);
+    const formData = new FormData();
+    console.log('FORMDATA: ', formData);
+    const { textarea } = data;
+    if (!file) {
+      if (textarea.split(/[\s\n\r\t]/).filter((str) => str.length).length) {
+        const replyObj = {
+          text: textarea.trim(),
+          idUser: user.idUser,
+          idThread: threadId,
+        };
+        submitReply(replyObj)
+          .then(() => {
+            reset();
+            setReload([]);
+          })
+          .catch((err) => console.error('ERROR SUBMITTING REPLY: ', err));
+      }
+    } else {
+      formData.append('file', file.file);
+      const config = {
+        method: 'post',
+        url: '/uploads',
+        data: formData,
+        headers: { 'Content-type': 'multipart/form-data' },
+      };
       const replyObj = {
         text: textarea.trim(),
         idUser: user.idUser,
@@ -37,6 +64,19 @@ const Thread = ({ user }) => {
       })
       .catch((err) => console.error('ERROR GETTING THREADS: ', err));
   }, [reload]);
+
+  const fileChangeHandler = (e) => {
+    setFile(null);
+    e.persist();
+    if (e.target.files) {
+      const newImage = {
+        name: e.target.files[0].name,
+        url: URL.createObjectURL(e.target.files[0]),
+        file: e.target.files[0],
+      };
+      setFile(newImage);
+    }
+  };
 
   return (
     <div>
@@ -77,18 +117,18 @@ const Thread = ({ user }) => {
           ))}
 
           <br />
-          {/* {!Array.isArray(user) ? ( */}
+
           <div className="createReply">
             <form onSubmit={handleSubmit(onSubmit)}>
               <span>Reply:</span>
               <input name="textarea" className="form-control" rows="3" ref={register} />
-
+              <br />
+              <PhotoUpload file={file} changeHandler={fileChangeHandler} />
               <Button variant="primary" size="sm" type="submit" ref={register}>
                 <h6>submit</h6>
               </Button>
             </form>
           </div>
-          {/* ) : (<div>Please Login With Discord or Google</div>)} */}
         </div>
       ) : (
         <div>

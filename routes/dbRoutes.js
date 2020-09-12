@@ -268,21 +268,22 @@ dbRouter.post('/users', (req, res) => {
 */
 dbRouter.post('/uploads', (req, res) => {
   const myFile = req.file;
-  if (authChecker(req.user)) {
-    uploadImage(myFile)
-      .then((photoUrl) => {
-        res.json({
-          message: 'Upload was successful',
-          data: photoUrl,
-        }).send();
-      })
-      .catch((error) => {
-        res.sendStatus(500).json(error);
+  // if (authChecker(req.user)) {
+  uploadImage(myFile)
+    .then((photoUrl) => {
+      res.send({
+        message: 'Upload was successful',
+        data: photoUrl,
       });
-  } else {
-    // Not Authorized
-    res.sendStatus(401);
-  }
+    })
+    .catch((error) => {
+      console.error(error);
+      res.sendStatus(500);
+    });
+//   } else {
+//     // Not Authorized
+//     res.sendStatus(401);
+//   }
 });
 
 module.exports = dbRouter;
