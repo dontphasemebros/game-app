@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './CSS/Input.css';
 
@@ -17,3 +18,9 @@ const Input = ({ message, setMessage, sendMessage }) => (
 );
 
 export default Input;
+
+Input.propTypes = {
+  message: PropTypes.string.isRequired,
+  setMessage: PropTypes.func.isRequired,
+  sendMessage: PropTypes.func.isRequired,
+};

@@ -4,40 +4,30 @@ import PropTypes from 'prop-types';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button } from 'react-bootstrap';
-import PlayScene from '../Game/scenes/playScenes';
-import PreloadScene from '../Game/scenes/PreloadScene';
-import GameOverScene from '../Game/scenes/GameOver';
+import BreakOut from './BreakOut/breakout';
 import PhaserBro from '../assets/PhaserBro.gif';
 
 const { saveScore } = require('../helpers/helpers.js');
 
-const GamePage = React.memo(({ user }) => {
+const Snake = React.memo(({ user }) => {
   const descriptionStyle = {
     float: 'right',
     marginTop: '50px',
   };
+
   const config = {
+    type: Phaser.WEBGL,
     width: 800,
     height: 600,
-    type: Phaser.AUTO,
     parent: 'phaser-game',
-    audio: {
-      disableWebAudio: true,
-    },
     physics: {
       default: 'arcade',
-      arcade: {
-        fps: 60,
-        gravity: { y: 0 },
-      },
     },
   };
   if (!Array.isArray(user)) {
     const game = new Phaser.Game(config);
-    game.scene.add('PlayScene', PlayScene);
-    game.scene.add('preload', PreloadScene);
-    game.scene.add('gameOver', GameOverScene);
-    game.scene.start('preload');
+    game.scene.add('BreakOut', BreakOut);
+    game.scene.start('BreakOut');
   }
 
   const notify = () => toast(`Your Score of ${window.score} Was Submitted!`);
@@ -76,7 +66,7 @@ const GamePage = React.memo(({ user }) => {
   // };
 
   const handleRedirect = () => {
-    window.open('https://phaserbros.com/join', 'new-chat', 'height=900,width=750'); return false;
+    window.open('http://localhost:8080/join', 'new-chat', 'height=900,width=750'); return false;
   };
 
   return (
@@ -84,27 +74,21 @@ const GamePage = React.memo(({ user }) => {
       <br />
       {!Array.isArray(user) ? (
         <div style={descriptionStyle}>
-          <h4>Space Blaster</h4>
+          <h4>Breakout!</h4>
           <p>
-            Destroy asteroids and aliens to
+            Use the paddle to blast
             <br />
-            increase your score!
+            apart all the blocks
             <br />
             Join the Leader Board by submitting
             <br />
             your score!
           </p>
           <br />
-          <br />
           <h4>Controls</h4>
           <p>
-            Arrow keys: Navigate your ship
-            <br />
-            Spacebar: Fire your lasers
-            <br />
-            Shift: Launch a salvo of missiles
+            Mouse: Controls the paddle
           </p>
-          <br />
           <br />
           <Button onClick={handleRedirect} variant="danger">
             <h6>Live Game Chat</h6>
@@ -128,8 +112,8 @@ const GamePage = React.memo(({ user }) => {
   );
 });
 
-GamePage.propTypes = {
+Snake.propTypes = {
   user: PropTypes.objectOf.isRequired,
 };
 
-export default GamePage;
+export default Snake;

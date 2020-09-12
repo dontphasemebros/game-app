@@ -10,25 +10,29 @@ class GameTwo extends Phaser.Scene {
     super('GameTwo');
   }
 
+  init(data) {
+    this.room = data.room;
+  }
+
   preload() {
     this.load.image('ship', ship);
     this.load.image('otherPlayer', enemy);
     this.load.image('star', game);
     this.load.image('background', background);
+    this.socket = io('http://localhost:8080', { query: `roomName=${this.room}` });
   }
 
   create() {
     this.add.image(0, 0, 'background').setOrigin(0).setScale(0.6);
     this.add.image(0, 400, 'background').setOrigin(0).setScale(0.6);
-
-    this.socket = io(process.env.DEPLOY_GAME_ENDPOINT);
     this.otherPlayers = this.physics.add.group();
+    this.socket.emit('join', this.room);
     this.socket.on('currentPlayers', (players) => {
-      Object.keys(players).forEach((id) => {
-        if (players[id].playerId === this.socket.id) {
-          this.addPlayer(players[id]);
+      players.forEach((player) => {
+        if (player.id === this.socket.id) {
+          this.addPlayer(player);
         } else {
-          this.addOtherPlayers(players[id]);
+          this.addOtherPlayers(player);
         }
       });
     });
@@ -111,6 +115,7 @@ class GameTwo extends Phaser.Scene {
           x: this.ship.x,
           y: this.ship.y,
           rotation: this.ship.rotation,
+          room: this.room,
         });
       }
 

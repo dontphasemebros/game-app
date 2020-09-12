@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Phaser from 'phaser';
 import PropTypes from 'prop-types';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button } from 'react-bootstrap';
-import GameTwo from '../Game2/scenes/GameTwo';
+import PlayScene from '../Game/scenes/playScenes';
+import PreloadScene from '../Game/scenes/PreloadScene';
+import GameOverScene from '../Game/scenes/GameOver';
 import PhaserBro from '../assets/PhaserBro.gif';
-import TitleScene from '../Game2/scenes/TitleScene';
 
 const { saveScore } = require('../helpers/helpers.js');
 
-const Game2 = React.memo(({ user }) => {
-  const [count, setCount] = useState(0);
-  const [room, setRoom] = useState('');
-
+const SpaceBlaster = React.memo(({ user }) => {
   const descriptionStyle = {
     float: 'right',
     marginTop: '50px',
@@ -34,21 +32,19 @@ const Game2 = React.memo(({ user }) => {
       },
     },
   };
-  if (!Array.isArray(user) && count === 0) {
+  if (!Array.isArray(user)) {
     const game = new Phaser.Game(config);
-    game.scene.add('GameTwo', GameTwo);
-    game.scene.add('TitleScene', TitleScene);
-    game.scene.start('TitleScene', { room });
-    setCount(1);
+    game.scene.add('PlayScene', PlayScene);
+    game.scene.add('preload', PreloadScene);
+    game.scene.add('gameOver', GameOverScene);
+    game.scene.start('preload');
   }
-
-  useEffect(() => {
-    setRoom(window.location.href.split('?')[1]);
-  }, []);
 
   const notify = () => toast(`Your Score of ${window.score} Was Submitted!`);
 
   const scoreError = () => toast('There was an error submitting your score!');
+
+  const alreadySubmitted = () => toast(`Score of ${window.score} already submitted!`);
 
   const submitScore = () => {
     const scoreObj = {
@@ -56,15 +52,22 @@ const Game2 = React.memo(({ user }) => {
       idGame: 1,
       value: window.score,
     };
-    saveScore(scoreObj)
-      .then((score) => {
-        if (score) {
-          notify();
-        }
-      })
-      .catch(() => {
-        scoreError();
-      });
+    if (window.submitted === false) {
+      saveScore(scoreObj)
+        .then((score) => {
+          if (score) {
+            notify();
+          }
+        })
+        .then(() => {
+          window.submitted = true;
+        })
+        .catch(() => {
+          scoreError();
+        });
+    } else if (window.submitted === true) {
+      alreadySubmitted();
+    }
   };
 
   // const redirect = 'https://phaserbros.com/join';
@@ -73,7 +76,6 @@ const Game2 = React.memo(({ user }) => {
   // };
 
   const handleRedirect = () => {
-    console.log(room);
     window.open('http://localhost:8080/join', 'new-chat', 'height=900,width=750'); return false;
   };
 
@@ -82,9 +84,11 @@ const Game2 = React.memo(({ user }) => {
       <br />
       {!Array.isArray(user) ? (
         <div style={descriptionStyle}>
-          <h4>Star Hunter</h4>
+          <h4>Space Blaster</h4>
           <p>
-            Get your team to 250 points!
+            Destroy asteroids and aliens to
+            <br />
+            increase your score!
             <br />
             Join the Leader Board by submitting
             <br />
@@ -96,10 +100,13 @@ const Game2 = React.memo(({ user }) => {
           <p>
             Arrow keys: Navigate your ship
             <br />
+            Spacebar: Fire your lasers
+            <br />
+            Shift: Launch a salvo of missiles
           </p>
           <br />
           <br />
-          <Button onClick={handleRedirect} variant="primary">
+          <Button onClick={handleRedirect} variant="danger">
             <h6>Live Game Chat</h6>
           </Button>
           <br />
@@ -121,8 +128,8 @@ const Game2 = React.memo(({ user }) => {
   );
 });
 
-export default Game2;
-
-Game2.propTypes = {
+SpaceBlaster.propTypes = {
   user: PropTypes.objectOf.isRequired,
 };
+
+export default SpaceBlaster;

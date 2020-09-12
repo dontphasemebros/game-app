@@ -4,14 +4,15 @@ import PropTypes from 'prop-types';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button } from 'react-bootstrap';
-import GameTwo from '../Game2/scenes/GameTwo';
 import PhaserBro from '../assets/PhaserBro.gif';
-import TitleScene from '../Game2/scenes/TitleScene';
+import Boot from '../AvoidTheGerms/Boot';
+import Preloader from '../AvoidTheGerms/Preloader';
+import MainMenu from '../AvoidTheGerms/MainMenu';
+import MainGame from '../AvoidTheGerms/Game';
 
 const { saveScore } = require('../helpers/helpers.js');
 
-const Game2 = React.memo(({ user }) => {
-  const [count, setCount] = useState(0);
+const Germs = React.memo(({ user }) => {
   const [room, setRoom] = useState('');
 
   const descriptionStyle = {
@@ -19,27 +20,20 @@ const Game2 = React.memo(({ user }) => {
     marginTop: '50px',
   };
   const config = {
+    type: Phaser.AUTO,
     width: 800,
     height: 600,
-    type: Phaser.AUTO,
+    backgroundColor: '#000000',
     parent: 'phaser-game',
-    audio: {
-      disableWebAudio: true,
-    },
+    scene: [Boot, Preloader, MainMenu, MainGame],
     physics: {
       default: 'arcade',
-      arcade: {
-        fps: 60,
-        gravity: { y: 0 },
-      },
+      arcade: { debug: false },
     },
   };
-  if (!Array.isArray(user) && count === 0) {
+  if (!Array.isArray(user)) {
     const game = new Phaser.Game(config);
-    game.scene.add('GameTwo', GameTwo);
-    game.scene.add('TitleScene', TitleScene);
-    game.scene.start('TitleScene', { room });
-    setCount(1);
+    console.log(game);
   }
 
   useEffect(() => {
@@ -121,8 +115,8 @@ const Game2 = React.memo(({ user }) => {
   );
 });
 
-export default Game2;
+export default Germs;
 
-Game2.propTypes = {
+Germs.propTypes = {
   user: PropTypes.objectOf.isRequired,
 };
