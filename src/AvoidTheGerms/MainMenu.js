@@ -6,9 +6,14 @@ export default class MainMenu extends Phaser.Scene {
   }
 
   create() {
-    this.music = this.sound.play('music', { loop: true });
+    this.music = this.sound.play('music', {
+      loop: true,
+      volume: 0.15,
+    });
 
-    this.sound.play('laugh');
+    this.sound.play('laugh', {
+      volume: 0.15,
+    });
 
     this.add.image(400, 300, 'background').setScale(2);
 

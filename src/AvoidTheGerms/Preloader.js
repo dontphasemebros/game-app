@@ -9,6 +9,7 @@ import music from './assets/sounds/music.mp3';
 import pickup from './assets/sounds/pickup.mp3';
 import start from './assets/sounds/start.mp3';
 import victory from './assets/sounds/victory.mp3';
+import pill from './assets/pill.png';
 
 export default class Preloader extends Phaser.Scene {
   constructor() {
@@ -22,6 +23,7 @@ export default class Preloader extends Phaser.Scene {
 
     this.load.atlas('assets', germ, germJSON);
     this.load.glsl('goo', googlsl);
+    this.load.image('pill', pill);
 
     //  Audio ...
 
