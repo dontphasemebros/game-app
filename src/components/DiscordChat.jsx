@@ -2,7 +2,7 @@ import React from 'react';
 
 const DiscordChat = () => {
   const discordSignUp = () => {
-    window.open('https://discord.gg/vFrBu8', 'signup-window', 'height=900,width=750'); return false;
+    window.open('https://discord.gg/NzNK97E', 'signup-window', 'height=900,width=750'); return false;
   };
 
   return (

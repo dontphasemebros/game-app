@@ -25,7 +25,7 @@ const Chat = withRouter((props) => {
     setName(name);
     setRoom(room);
 
-    socket.emit('join', { name, room }, () => {
+    socket.emit('join1', { name, room }, () => {
     });
 
     return () => {
