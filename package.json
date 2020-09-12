@@ -7,7 +7,7 @@
     "start": "node server/server.js",
     "dev": "NODE_ENV='development' webpack --mode development && nodemon server/server.js",
     "build": "webpack --mode production --watch",
-    "test": "mocha test/apptests.spec.js",
+    "test": "mocha test",
     "pretest": "./node_modules/.bin/eslint --ignore-path .gitignore . --fix"
   },
   "repository": {
@@ -94,6 +94,7 @@
     "react-router-dom": "^5.2.0",
     "react-scroll-to-bottom": "^4.0.0",
     "react-toastify": "^6.0.8",
+    "request": "^2.88.2",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",
     "style-loader": "^1.2.1",
