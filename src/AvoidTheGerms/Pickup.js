@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import pill from './assets/pill.png';
 
 export default class Pickups extends Phaser.Physics.Arcade.Group {
   constructor(world, scene) {
@@ -9,11 +10,11 @@ export default class Pickups extends Phaser.Physics.Arcade.Group {
   }
 
   start() {
-    this.create(400, 100, 'assets', 'ring');
-    this.create(100, 380, 'assets', 'ring');
-    this.create(700, 380, 'assets', 'ring');
-    this.create(300, 500, 'assets', 'ring');
-    this.create(500, 500, 'assets', 'ring');
+    this.create(400, 100, 'pill', pill).setScale(0.05);
+    this.create(100, 380, 'pill', pill).setScale(0.05);
+    this.create(700, 380, 'pill', pill).setScale(0.05);
+    this.create(300, 500, 'pill', pill).setScale(0.05);
+    this.create(500, 500, 'pill', pill).setScale(0.05);
   }
 
   collect(pickup) {

@@ -24,7 +24,9 @@ export default class Germ extends Phaser.Physics.Arcade.Sprite {
       // eslint-disable-next-line no-param-reassign
       chaseDelay = Phaser.Math.RND.between(3000, 8000);
 
-      this.scene.sound.play('appear');
+      this.scene.sound.play('appear', {
+        volume: 0.15,
+      });
     }
 
     this.scene.tweens.add({
