@@ -41,7 +41,9 @@ export default class MainGame extends Phaser.Scene {
       this.player.start();
       this.germs.start();
 
-      this.sound.play('start');
+      this.sound.play('start', {
+        volume: 0.15,
+      });
 
       this.tweens.add({
         targets: this.introText,
@@ -79,14 +81,20 @@ export default class MainGame extends Phaser.Scene {
     if (!this.newHighscore && this.score > this.highscore) {
       if (this.highscore > 0) {
         //  Only play the victory sound if they actually set a new highscore
-        this.sound.play('victory');
+        this.sound.play('victory', {
+          volume: 0.15,
+        });
       } else {
-        this.sound.play('pickup');
+        this.sound.play('pickup', {
+          volume: 0.15,
+        });
       }
 
       this.newHighscore = true;
     } else {
-      this.sound.play('pickup');
+      this.sound.play('pickup', {
+        volume: 0.15,
+      });
     }
 
     this.pickups.collect(pickup);
@@ -97,7 +105,9 @@ export default class MainGame extends Phaser.Scene {
     this.germs.stop();
 
     this.sound.stopAll();
-    this.sound.play('fail');
+    this.sound.play('fail', {
+      volume: 0.15,
+    });
 
     this.introText.setText('Game Over!');
 
