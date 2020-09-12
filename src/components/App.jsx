@@ -24,6 +24,7 @@ import GameThree from './Game3';
 import GamePage from './GamePage';
 import BreakOut from './BreakOut';
 import Germs from './Germs';
+import Flood from './Flood';
 
 const { getAuth } = require('../helpers/helpers.js');
 
@@ -66,6 +67,9 @@ function App() {
           </Route>
           <Route path="/gamethree">
             <GameThree user={user} />
+          </Route>
+          <Route path="/flood">
+            <Flood user={user} />
           </Route>
           <Route path="/aboutus">
             <AboutUs />
