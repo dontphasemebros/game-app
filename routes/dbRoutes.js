@@ -186,8 +186,12 @@ dbRouter.get('/scores/:id', (req, res) => {
 * returns - an array containing thread content, user information, & array of corresponding replies
 */
 dbRouter.post('/threads', (req, res) => {
-  const { text, idUser, idChannel } = req.query;
-  const threadObj = { text, idUser, idChannel };
+  const {
+    text, photoUrl, idUser, idChannel,
+  } = req.query;
+  const threadObj = {
+    text, photoUrl, idUser, idChannel,
+  };
   if (authChecker(req.user)) {
     addThread(threadObj)
       .then((success) => {
@@ -210,8 +214,12 @@ dbRouter.post('/threads', (req, res) => {
 * returns - an array with object containing reply and user information who made reply
 */
 dbRouter.post('/replies', (req, res) => {
-  const { text, idUser, idThread } = req.query;
-  const replyObj = { text, idUser, idThread };
+  const {
+    text, photoUrl, idUser, idThread,
+  } = req.query;
+  const replyObj = {
+    text, photoUrl, idUser, idThread,
+  };
   if (authChecker(req.user)) {
     addReply(replyObj)
       .then((success) => {
@@ -268,22 +276,22 @@ dbRouter.post('/users', (req, res) => {
 */
 dbRouter.post('/uploads', (req, res) => {
   const myFile = req.file;
-  // if (authChecker(req.user)) {
-  uploadImage(myFile)
-    .then((photoUrl) => {
-      res.send({
-        message: 'Upload was successful',
-        data: photoUrl,
+  if (authChecker(req.user)) {
+    uploadImage(myFile)
+      .then((photoUrl) => {
+        res.send({
+          message: 'Upload was successful',
+          photoUrl,
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+        res.sendStatus(500);
       });
-    })
-    .catch((error) => {
-      console.error(error);
-      res.sendStatus(500);
-    });
-//   } else {
-//     // Not Authorized
-//     res.sendStatus(401);
-//   }
+  } else {
+    // Not Authorized
+    res.sendStatus(401);
+  }
 });
 
 module.exports = dbRouter;
