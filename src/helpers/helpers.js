@@ -99,17 +99,19 @@ export const getThreadReplies = (idThread) => new Promise((resolve, reject) => {
 // adds a thread to the database from an object containing idChannel, idUser, text
 export const submitThread = (threadObj) => new Promise((resolve, reject) => {
   const {
-    idChannel,
-    idUser,
     text,
+    photoUrl,
+    idUser,
+    idChannel,
   } = threadObj;
   axios({
     method: 'post',
     url: '/threads',
     params: {
-      idChannel,
-      idUser,
       text,
+      photoUrl,
+      idUser,
+      idChannel,
     },
   })
     .then((response) => {
@@ -120,17 +122,19 @@ export const submitThread = (threadObj) => new Promise((resolve, reject) => {
 // adds a reply to the database from an object containing idChannel, idUser, text
 export const submitReply = (replyObj) => new Promise((resolve, reject) => {
   const {
-    idThread,
-    idUser,
     text,
+    photoUrl,
+    idUser,
+    idThread,
   } = replyObj;
   axios({
     method: 'post',
     url: '/replies',
     params: {
-      idThread,
-      idUser,
       text,
+      photoUrl,
+      idUser,
+      idThread,
     },
   })
     .then((response) => {
@@ -150,4 +154,19 @@ export const getScoresByUser = (idUser) => new Promise((resolve, reject) => {
     .then((response) => {
       resolve(response.data);
     }).catch((err) => reject(err));
+});
+
+export const uploadPhoto = (data) => new Promise((resolve, reject) => {
+  axios({
+    method: 'post',
+    url: '/uploads',
+    data,
+    headers: { 'Content-Type': 'multipart/form-data' },
+  })
+    .then((response) => {
+      resolve(response.data.photoUrl);
+    })
+    .catch((err) => {
+      reject(err);
+    });
 });
