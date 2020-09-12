@@ -76,9 +76,9 @@ const Germs = React.memo(({ user }) => {
       <br />
       {!Array.isArray(user) ? (
         <div style={descriptionStyle}>
-          <h4>Star Hunter</h4>
+          <h4>Germs!</h4>
           <p>
-            Get your team to 250 points!
+            Collect rings to increase your score!
             <br />
             Join the Leader Board by submitting
             <br />
@@ -88,7 +88,7 @@ const Germs = React.memo(({ user }) => {
           <br />
           <h4>Controls</h4>
           <p>
-            Arrow keys: Navigate your ship
+            Mouse: Move your germ!
             <br />
           </p>
           <br />

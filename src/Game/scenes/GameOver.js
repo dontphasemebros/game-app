@@ -18,6 +18,9 @@ class GameOverScene extends Phaser.Scene {
   }
 
   create() {
+    window.idGame = 1;
+    window.score = this.score;
+    window.submitted = false;
     this.cursors = this.input.keyboard.createCursorKeys();
     this.add.image(0, 0, 'background').setOrigin(0, 0).setScale(0.6);
     this.add.image(400, 200, 'logo').setScale(2);

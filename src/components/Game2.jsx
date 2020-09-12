@@ -50,21 +50,34 @@ const Game2 = React.memo(({ user }) => {
 
   const scoreError = () => toast('There was an error submitting your score!');
 
+  const alreadySubmitted = () => toast(`Score of ${window.score} already submitted!`);
+
   const submitScore = () => {
-    const scoreObj = {
-      idUser: user.idUser,
-      idGame: 1,
-      value: window.score,
-    };
-    saveScore(scoreObj)
-      .then((score) => {
-        if (score) {
-          notify();
-        }
-      })
-      .catch(() => {
-        scoreError();
-      });
+    if (window.score) {
+      const scoreObj = {
+        idUser: user.idUser,
+        idGame: window.idGame,
+        value: window.score,
+      };
+      if (window.submitted === false) {
+        saveScore(scoreObj)
+          .then((score) => {
+            if (score) {
+              notify();
+            }
+          })
+          .then(() => {
+            window.submitted = true;
+          })
+          .catch(() => {
+            scoreError();
+          });
+      } else if (window.submitted === true) {
+        alreadySubmitted();
+      }
+    } else if (!window.score) {
+      scoreError();
+    }
   };
 
   // const redirect = 'https://phaserbros.com/join';

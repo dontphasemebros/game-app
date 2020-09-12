@@ -19,6 +19,7 @@ import DiscordChat from './DiscordChat';
 import AboutUs from './AboutUs';
 import SpaceBlaster from './SpaceBlaster';
 import GameTwo from './Game2';
+import GameThree from './Game3';
 import GamePage from './GamePage';
 import BreakOut from './BreakOut';
 import Germs from './Germs';
@@ -61,6 +62,9 @@ function App() {
           </Route>
           <Route path="/gametwo">
             <GameTwo user={user} />
+          </Route>
+          <Route path="/gamethree">
+            <GameThree user={user} />
           </Route>
           <Route path="/aboutus">
             <AboutUs />

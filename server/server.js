@@ -13,17 +13,15 @@ const path = require('path');
 // import express body-parser module
 const bodyParser = require('body-parser');
 
-// import cookie parser from express framework
-// const cookieParser = require('cookie-parser');
-
 // import express-session module
 const session = require('express-session');
 
-// import cookie-session module
-// const cookieSession = require('cookie-session');
-
 // import passport module
 const passport = require('passport');
+
+// import multer module =>
+// multer parses files that were part of request object
+const multer = require('multer');
 
 // import DiscordStrategy authentication strategy
 require('../src/strategies/discordStrategy');
@@ -34,8 +32,17 @@ require('../src/strategies/googleStrategy');
 // create variable set to new express instance
 const app = express();
 
-// utilize cookie-parser middleware from express framework
-// app.use(cookieParser());
+// initialize multer options for GCS upload
+const multerMid = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 5 * 1024 * 1024,
+  },
+});
+
+// set middleware for GCS uploads
+app.disable('x-powered-by');
+app.use(multerMid.single('file'));
 
 // utilize body parser on incoming requests to server
 app.use(bodyParser.json());
@@ -61,11 +68,7 @@ app.use(session({
   name: 'discord.oauth2',
 }));
 
-// Configure Cookie-Session Storage - google related
-// app.use(cookieSession({
-//   name: 'session-name',
-//   keys: ['key1', 'key2'],
-// }));
+//  initialize the express session - google related
 app.use(session({
   secret: 'some random secret',
   cookie: {
