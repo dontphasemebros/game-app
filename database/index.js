@@ -104,6 +104,7 @@ async function getThreads(idChannel) {
     SELECT
       t.id AS "idThread",
       t.text,
+      t.photo_url AS "photoUrl",
       t.id_channel AS "idChannel",
       t.updated_at AS "updatedAt",
       t.created_at AS "createdAt",
@@ -128,6 +129,7 @@ async function getThreads(idChannel) {
         SELECT
           r.id AS "idReply",
           r.text,
+          r.photo_url AS "photoUrl",
           r.id_thread AS "idThread",
           r.created_at AS "createdAt",
           r.id_user AS "idUser",
@@ -156,23 +158,24 @@ async function getThreads(idChannel) {
 // returns array containing newly created thread object with user info
 async function addThread(threadObj) {
   const {
-    text, idUser, idChannel,
+    text, photoUrl, idUser, idChannel,
   } = threadObj;
 
   const addThreadCommand = `
-    INSERT INTO threads AS t (text, id_user, id_channel)
-    VALUES ($1, $2, $3)
+    INSERT INTO threads AS t (text, photo_url, id_user, id_channel)
+    VALUES ($1, $2, $3, $4)
     RETURNING
       t.id AS "idThread"
   `;
 
   try {
-    const thread = await pool.query(addThreadCommand, [text, idUser, idChannel]);
+    const thread = await pool.query(addThreadCommand, [text, photoUrl, idUser, idChannel]);
     const { idThread } = thread.rows[0];
     const getAddedThreadCommand = `
       SELECT
         t.id AS "idThread",
         t.text,
+        t.photo_url AS "photoUrl",
         t.id_channel AS "idChannel",
         t.updated_at AS "updatedAt",
         t.created_at AS "createdAt",
@@ -203,6 +206,7 @@ async function getReplies(idThread) {
     SELECT
       t.id AS "idThread",
       t.text,
+      t.photo_url AS "photoUrl",
       t.id_channel AS "idChannel",
       t.updated_at AS "updatedAt",
       t.created_at AS "createdAt",
@@ -222,6 +226,7 @@ async function getReplies(idThread) {
     SELECT
       r.id AS "idReply",
       r.text,
+      r.photo_url AS "photoUrl",
       r.id_thread AS "idThread",
       r.created_at AS "createdAt",
       r.id_user AS "idUser",
@@ -251,22 +256,23 @@ async function getReplies(idThread) {
 // returns newly created reply object with user info
 async function addReply(replyObj) {
   const {
-    text, idUser, idThread,
+    text, photoUrl, idUser, idThread,
   } = replyObj;
 
   const addReplyCommand = `
-    INSERT INTO replies AS r (text, id_user, id_thread)
-    VALUES ($1, $2, $3)
+    INSERT INTO replies AS r (text, photo_url, id_user, id_thread)
+    VALUES ($1, $2, $3, $4)
     RETURNING
       r.id AS "idReply"
   `;
   try {
-    const reply = await pool.query(addReplyCommand, [text, idUser, idThread]);
+    const reply = await pool.query(addReplyCommand, [text, photoUrl, idUser, idThread]);
     const { idReply } = reply.rows[0];
     const getRepliesCommand = `
       SELECT
         r.id AS "idReply",
         r.text,
+        r.photo_url AS "photoUrl",
         r.id_thread AS "idThread",
         r.created_at AS "createdAt",
         r.id_user AS "idUser",
@@ -352,28 +358,6 @@ async function addScore(scoreObj) {
 
   try {
     const score = await pool.query(addScoreCommand, [value, idUser, idGame]);
-    // const { idScore } = score.rows[0];
-    // const getAddedScoreCommand = `
-    //   SELECT
-    //     s.id AS "idScore",
-    //     s.value,
-    //     s.id_game AS "idGame",
-    //     s.created_at AS "createdAt",
-    //     s.id_user AS "idUser",
-    //     u.id_discord AS "idDiscord",
-    //     u.username,
-    //     u.profile_photo_url AS "profilePhotoUrl",
-    //     u.location
-    //   FROM scores s
-    //   LEFT JOIN users u
-    //   ON s.id_user = u.id
-    //   WHERE s.id = ${idScore}
-    //   ORDER BY s.value DESC, s.created_at DESC
-    //   LIMIT 10
-    // `;
-    // let addedScore = await pool.query(getAddedScoreCommand);
-    // addedScore = addedScore.rows;
-    // return addedScore;
     return score;
   } catch (error) {
     return console.error('COULD NOT ADD SCORE TO DATABASE', error);
@@ -423,26 +407,6 @@ async function getUserScores(idUser) {
   } catch (error) {
     return console.error('COULD NOT GET TOP SCORES FROM DATABASE', error);
   }
-
-  // const getUserScoresCommand = `
-  //   SELECT
-  //     s.id AS "idScore",
-  //     s.value,
-  //     s.id_user AS "idUser",
-  //     s.id_game AS "idGame",
-  //     s.created_at AS "createdAt"
-  //   FROM scores AS s
-  //   WHERE id_user = $1
-  //   ORDER BY s.id_game, s.value DESC
-  // `;
-
-  // try {
-  //   let scores = await pool.query(getUserScoresCommand, [idUser]);
-  //   scores = scores.rows;
-  //   return scores;
-  // } catch (error) {
-  //   return console.error('COULD NOT GET USER SCORES FROM DATABASE', error);
-  // }
 }
 
 module.exports = {

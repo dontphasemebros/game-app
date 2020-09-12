@@ -6,7 +6,7 @@ import Ben from '../assets/ben.jpg';
 
 const AboutUs = () => {
   const imgStyle = {
-    borderRadius: '15px',
+    borderRadius: '5px',
     height: '120px',
     width: '120px',
   };

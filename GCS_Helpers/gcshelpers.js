@@ -16,7 +16,6 @@ const bucket = gc.bucket(process.env.GCLOUD_BUCKET_NAME); // should be your buck
  */
 
 const uploadImage = (file) => new Promise((resolve, reject) => {
-  console.log('hit the helper');
   const { originalname, buffer } = file;
 
   const blob = bucket.file(originalname.replace(/ /g, '_'));
@@ -28,7 +27,7 @@ const uploadImage = (file) => new Promise((resolve, reject) => {
     resolve(publicUrl);
   })
     .on('error', (error) => {
-      console.log(error);
+      console.error(error);
       reject(error, 'Unable to upload image, something went wrong');
     })
     .end(buffer);
