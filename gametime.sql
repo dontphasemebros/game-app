@@ -39,6 +39,7 @@ CREATE TABLE threads (
   text VARCHAR(255),
   id_user INT,
   id_channel INT,
+  photo_url VARCHAR(510),
   updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
   FOREIGN KEY (id_user) REFERENCES users(id),
@@ -50,6 +51,7 @@ CREATE TABLE replies (
   text VARCHAR(255),
   id_user INT,
   id_thread INT,
+  photo_url VARCHAR(510),
   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
   FOREIGN KEY (id_user) REFERENCES users(id),
   FOREIGN KEY (id_thread) REFERENCES threads(id)
@@ -88,17 +90,18 @@ INSERT INTO users (id_discord, username, profile_photo_url, location) VALUES ('3
 INSERT INTO users (id_discord, username, profile_photo_url, location) VALUES ('45678', 'Connor', 'https://avatars1.githubusercontent.com/u/60720268?s=400&u=2236cf34f7c8010753eea568f245a80d9bd77b03&v=4', 'NOLA');
 INSERT INTO users (id_discord, username, profile_photo_url, location) VALUES ('750878048223494184', 'robreau', '', 'en-US');
 
-INSERT INTO games (name) VALUES ('spaceship laser blaster "pew pew pew" game');
+INSERT INTO games (name, description) VALUES ('Space Blaster', 'Destroy asteroids and aliens to increase your score!');
+INSERT INTO games (name, description) VALUES ('Star Hunter', 'Collect stars with your friends. Be the first team to hit 200 to win!');
 
 INSERT INTO scores (value, id_user, id_game) VALUES (370, 3, 1);
 INSERT INTO scores (value, id_user, id_game) VALUES (500, 1, 1);
 INSERT INTO scores (value, id_user, id_game) VALUES (510, 4, 1);
 INSERT INTO scores (value, id_user, id_game) VALUES (260, 3, 1);
-INSERT INTO scores (value, id_user, id_game) VALUES (480, 4, 1);
-INSERT INTO scores (value, id_user, id_game) VALUES (310, 1, 1);
-INSERT INTO scores (value, id_user, id_game) VALUES (430, 4, 1);
-INSERT INTO scores (value, id_user, id_game) VALUES (240, 3, 1);
-INSERT INTO scores (value, id_user, id_game) VALUES (350, 1, 1);
+INSERT INTO scores (value, id_user, id_game) VALUES (480, 4, 2);
+INSERT INTO scores (value, id_user, id_game) VALUES (310, 1, 2);
+INSERT INTO scores (value, id_user, id_game) VALUES (430, 4, 2);
+INSERT INTO scores (value, id_user, id_game) VALUES (240, 3, 2);
+INSERT INTO scores (value, id_user, id_game) VALUES (350, 1, 2);
 
 INSERT INTO channels (name) VALUES ('General Discussion');
 INSERT INTO channels (name) VALUES ('Challenges');

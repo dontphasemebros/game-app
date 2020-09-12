@@ -5,28 +5,69 @@ import {
 import { useForm } from 'react-hook-form';
 import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
+import PhotoUpload from './PhotoUpload';
 
-const { getThreadReplies, submitReply } = require('../../helpers/helpers.js');
+const { getThreadReplies, submitReply, uploadPhoto } = require('../../helpers/helpers.js');
 
 const Thread = ({ user }) => {
   const { register, handleSubmit, reset } = useForm();
   const [reload, setReload] = useState([]);
   const { threadId } = useParams();
   const [thread, setThread] = useState([{}]);
+  const [file, setFile] = useState(null);
 
-  const onSubmit = ({ textarea }) => {
-    if (textarea.split(/[\s\n\r\t]/).filter((str) => str.length).length) {
-      const replyObj = {
-        text: textarea.trim(),
-        idUser: user.idUser,
-        idThread: threadId,
+  const fileChangeHandler = (e) => {
+    setFile(null);
+    e.persist();
+    if (e.target.files) {
+      const newImage = {
+        name: e.target.files[0].name,
+        url: URL.createObjectURL(e.target.files[0]),
+        file: e.target.files[0],
       };
-      submitReply(replyObj)
-        .then(() => {
-          reset();
-          setReload([]);
-        })
-        .catch((err) => console.error('ERROR SUBMITTING REPLY: ', err));
+      setFile(newImage);
+    }
+  };
+
+  const onSubmit = (data) => {
+    const formData = new FormData();
+    const { textarea } = data;
+
+    async function photoUploader(photoData) {
+      try {
+        const photoUrl = await uploadPhoto(photoData);
+        const replyObj = {
+          text: textarea.trim(),
+          photoUrl,
+          idUser: user.idUser,
+          idThread: threadId,
+        };
+        const submittedReply = await submitReply(replyObj);
+        reset();
+        setReload([]);
+        return submittedReply;
+      } catch (err) {
+        return console.error('ERROR SUBMITTING PHOTO REPLY: ', err);
+      }
+    }
+    if (file) {
+      formData.append('file', file.file);
+      photoUploader(formData);
+    }
+    if (!file) {
+      if (textarea.split(/[\s\n\r\t]/).filter((str) => str.length).length) {
+        const replyObj = {
+          text: textarea.trim(),
+          idUser: user.idUser,
+          idThread: threadId,
+        };
+        submitReply(replyObj)
+          .then(() => {
+            reset();
+            setReload([]);
+          })
+          .catch((err) => console.error('ERROR SUBMITTING REPLY: ', err));
+      }
     }
   };
 
@@ -72,23 +113,25 @@ const Thread = ({ user }) => {
                   </div>
                 </div>
                 {reply.text}
+                <br />
+                <img className="d-print-inline-block" src={reply.photoUrl} alt="" style={{ display: 'inline-block' }} />
               </div>
             </div>
           ))}
 
           <br />
-          {/* {!Array.isArray(user) ? ( */}
+
           <div className="createReply">
             <form onSubmit={handleSubmit(onSubmit)}>
               <span>Reply:</span>
               <input name="textarea" className="form-control" rows="3" ref={register} />
-
+              <br />
+              <PhotoUpload file={file} changeHandler={fileChangeHandler} ref={register} />
               <Button variant="primary" size="sm" type="submit" ref={register}>
                 <h6>submit</h6>
               </Button>
             </form>
           </div>
-          {/* ) : (<div>Please Login With Discord or Google</div>)} */}
         </div>
       ) : (
         <div>
