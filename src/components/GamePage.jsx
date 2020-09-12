@@ -43,6 +43,17 @@ const GamePage = () => {
           Star Hunter
         </a>
       </div>
+      <br />
+      <img src={starhunter} alt="asteroid-gameplay" style={gifStyle} />
+      <h5>
+        Collect stars from all platforms while avoiding bombs!
+      </h5>
+      <div className="d-flex justify-content-center">
+        <a className="btn btn-outline-dark" href="/gamethree" role="button">
+          <img width="20px" style={styles} alt="Discord sign-in" src={GTL} />
+          Pickup Stars
+        </a>
+      </div>
     </div>
   );
 };

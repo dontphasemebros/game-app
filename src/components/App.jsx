@@ -19,6 +19,7 @@ import DiscordChat from './DiscordChat';
 import AboutUs from './AboutUs';
 import Game from './Game';
 import GameTwo from './Game2';
+import GameThree from './Game3';
 import GamePage from './GamePage';
 
 const { getAuth } = require('../helpers/helpers.js');
@@ -53,6 +54,9 @@ function App() {
           </Route>
           <Route path="/gametwo">
             <GameTwo user={user} />
+          </Route>
+          <Route path="/gamethree">
+            <GameThree user={user} />
           </Route>
           <Route path="/aboutus">
             <AboutUs />
