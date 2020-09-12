@@ -7,7 +7,7 @@
     "start": "node server/server.js",
     "dev": "NODE_ENV='development' webpack --mode development && nodemon server/server.js",
     "build": "webpack --mode production --watch",
-    "test": "node test/apptests.spec.js",
+    "test": "mocha test",
     "pretest": "./node_modules/.bin/eslint --ignore-path .gitignore . --fix"
   },
   "repository": {
@@ -33,12 +33,14 @@
     "eslint-config-airbnb": "^18.2.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-mocha": "^8.0.0",
     "eslint-plugin-react": "^7.20.6",
     "eslint-plugin-react-hooks": "^4.1.0",
     "html-webpack-plugin": "^4.4.1",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.13",
     "nodemon": "^2.0.4",
+    "sinon": "^9.0.3",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
@@ -98,10 +100,13 @@
     "react-router-dom": "^5.2.0",
     "react-scroll-to-bottom": "^4.0.0",
     "react-toastify": "^6.0.8",
+    "request": "^2.88.2",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",
     "style-loader": "^1.2.1",
-    "utils": "^0.3.1",
-    "uuid": "^8.3.0"
+    "uuid": "^8.3.0",
+    "webpack-glsl-loader": "^1.0.1",
+    "xml-loader": "^1.2.1",
+    "utils": "^0.3.1"
   }
 }

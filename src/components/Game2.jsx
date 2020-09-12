@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Phaser from 'phaser';
 import PropTypes from 'prop-types';
 import { ToastContainer, toast } from 'react-toastify';
@@ -6,10 +6,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Button } from 'react-bootstrap';
 import GameTwo from '../Game2/scenes/GameTwo';
 import PhaserBro from '../assets/PhaserBro.gif';
+import TitleScene from '../Game2/scenes/TitleScene';
 
 const { saveScore } = require('../helpers/helpers.js');
 
 const Game2 = React.memo(({ user }) => {
+  const [count, setCount] = useState(0);
+  const [room, setRoom] = useState('');
+
   const descriptionStyle = {
     float: 'right',
     marginTop: '50px',
@@ -30,11 +34,17 @@ const Game2 = React.memo(({ user }) => {
       },
     },
   };
-  if (!Array.isArray(user)) {
+  if (!Array.isArray(user) && count === 0) {
     const game = new Phaser.Game(config);
     game.scene.add('GameTwo', GameTwo);
-    game.scene.start('GameTwo');
+    game.scene.add('TitleScene', TitleScene);
+    game.scene.start('TitleScene', { room });
+    setCount(1);
   }
+
+  useEffect(() => {
+    setRoom(window.location.href.split('?')[1]);
+  }, []);
 
   const notify = () => toast(`Your Score of ${window.score} Was Submitted!`);
 
@@ -70,10 +80,16 @@ const Game2 = React.memo(({ user }) => {
     }
   };
 
-  const redirect = process.env.REACT_APP_CHAT || 'https://phaserbros.com/join';
-  const handleSubmit = () => {
-    window.open(`${redirect}`, 'chat-window', 'height=900,width=750'); return false;
+  // const redirect = 'https://phaserbros.com/join';
+  // const handleSubmit = () => {
+  //   window.open('https://phaserbros.com/join', 'chat-window', 'height=900,width=750'); return false;
+  // };
+
+  const handleRedirect = () => {
+    console.log(room);
+    window.open('http://localhost:8080/join', 'new-chat', 'height=900,width=750'); return false;
   };
+
   return (
     <div id="phaser-game">
       <br />
@@ -81,7 +97,7 @@ const Game2 = React.memo(({ user }) => {
         <div style={descriptionStyle}>
           <h4>Star Hunter</h4>
           <p>
-            Get your team to 500 points!
+            Get your team to 250 points!
             <br />
             Join the Leader Board by submitting
             <br />
@@ -96,7 +112,7 @@ const Game2 = React.memo(({ user }) => {
           </p>
           <br />
           <br />
-          <Button onClick={handleSubmit} variant="danger">
+          <Button onClick={handleRedirect} variant="primary">
             <h6>Live Game Chat</h6>
           </Button>
           <br />

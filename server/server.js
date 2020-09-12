@@ -113,7 +113,7 @@ const {
 } = require('./user');
 
 // Server side game assets
-const players = {};
+const players = [];
 
 const star = {
   x: Math.floor(Math.random() * 700) + 50,
@@ -129,45 +129,88 @@ const scores = {
 io.on('connection', (socket) => {
   console.log('a user connected');
   // create a new player and add it to our players object
-  players[socket.id] = {
-    rotation: 0,
-    x: Math.floor(Math.random() * 700) + 50,
-    y: Math.floor(Math.random() * 500) + 50,
-    playerId: socket.id,
-    team: (Math.floor(Math.random() * 2) === 0) ? 'red' : 'blue',
-  };
-  // send the players object to the new player
-  socket.emit('currentPlayers', players);
-  // send the star object to the new player
-  socket.emit('starLocation', star);
-  // send the current scores
-  socket.emit('scoreUpdate', scores);
+  const { roomName } = socket.handshake.query;
+  console.log('roomName', roomName);
 
+  if (socket.handshake.headers.referer.split('?')[0] === 'http://localhost:8080/gametwo') {
+    socket.join(roomName);
+    console.log('Got here');
+  }
+
+  socket.on('join', (room) => {
+    const player = {
+      rotation: 0,
+      x: Math.floor(Math.random() * 700) + 50,
+      y: Math.floor(Math.random() * 500) + 50,
+      id: socket.id,
+      team: (Math.floor(Math.random() * 2) === 0) ? 'red' : 'blue',
+      room,
+    };
+
+    players.push(player);
+
+    const newPlayer = players.find((playee) => playee.id === socket.id);
+
+    console.log(newPlayer);
+
+    const activeRoomPlayers = players.filter((playee) => playee.room === room);
+
+    console.log(activeRoomPlayers);
+
+    // send the players object to the new player
+    socket.emit('currentPlayers', activeRoomPlayers);
+    // send the star object to the new player
+    socket.emit('starLocation', star);
+    // send the current scores
+    socket.emit('scoreUpdate', scores);
+    // update all other players of the new player
+    socket.to(room).emit('newPlayer', newPlayer);
+  });
+
+  // players[socket.id] = {
+  //   rotation: 0,
+  //   x: Math.floor(Math.random() * 700) + 50,
+  //   y: Math.floor(Math.random() * 500) + 50,
+  //   playerId: socket.id,
+  //   team: (Math.floor(Math.random() * 2) === 0) ? 'red' : 'blue',
+  // };
+
+  // send the players object to the new player
+  // socket.emit('currentPlayers', players);
+  // send the star object to the new player
+  // socket.emit('starLocation', star);
+  // send the current scores
+  // socket.emit('scoreUpdate', scores);
   // update all other players of the new player
-  socket.broadcast.emit('newPlayer', players[socket.id]);
+  // socket.to(room).emit('newPlayer', players[socket.id]);
+
+  // socket.emit('currentPlayers', players);
 
   socket.on('playerMovement', (movementData) => {
-    players[socket.id].x = movementData.x;
-    players[socket.id].y = movementData.y;
-    players[socket.id].rotation = movementData.rotation;
-    socket.broadcast.emit('playerMoved', players[socket.id]);
-  });
-
-  socket.on('starCollected', () => {
-    if (players[socket.id].team === 'red') {
-      scores.red += 10;
-    } else {
-      scores.blue += 10;
+    if (movementData.room === roomName) {
+      const index = players.findIndex((playee) => playee.id === socket.id);
+      players[index].x = movementData.x;
+      players[index].y = movementData.y;
+      players[index].rotation = movementData.rotation;
+      socket.to(roomName).emit('playerMoved', players[index]);
     }
-    star.x = Math.floor(Math.random() * 700) + 50;
-
-    star.y = Math.floor(Math.random() * 500) + 50;
-
-    io.emit('starLocation', star);
-    io.emit('scoreUpdate', scores);
   });
 
-  socket.on('join', ({ name, room }, callback) => {
+  // socket.on('starCollected', () => {
+  //   if (players[socket.id].team === 'red') {
+  //     scores.red += 10;
+  //   } else {
+  //     scores.blue += 10;
+  //   }
+  //   star.x = Math.floor(Math.random() * 700) + 50;
+
+  //   star.y = Math.floor(Math.random() * 500) + 50;
+
+  //   io.to(roomName).emit('starLocation', star);
+  //   io.to(roomName).emit('scoreUpdate', scores);
+  // });
+
+  socket.on('join1', ({ name, room }, callback) => {
     const { error, user } = addUser({ id: socket.id, name, room });
     if (error) return callback(error);
 
@@ -201,7 +244,11 @@ io.on('connection', (socket) => {
     }
     console.log('user disconnected');
     // remove this player from our players object
-    delete players[socket.id];
+    if (socket.handshake.headers.referer.split('?')[0] === 'http://localhost:8080/gametwo') {
+      delete players[socket.id];
+      scores.blue = 0;
+      scores.red = 0;
+    }
     // emit a message to all players to remove this player
     io.emit('disconnect', socket.id);
   });

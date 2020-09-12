@@ -49,12 +49,14 @@ const GamerNews = () => {
                 >
                   <h4 style={{ fontWeight: 'bold' }}>{article.title}</h4>
                   <h5 style={{ display: 'inline-block', paddingTop: '20px', maxHeight: '200px' }}>{article.lede}</h5>
-                  <h6 style={{
-                    display: 'inline-block', paddingTop: '10px', cursor: 'pointer', color: 'blue', marginBottom: '10px',
-                  }}
+                  <a
+                    style={{
+                      display: 'inline-block', paddingTop: '10px', cursor: 'pointer', color: 'blue', marginBottom: '10px',
+                    }}
+                    href={article.site_detail_url}
                   >
                     {article.site_detail_url}
-                  </h6>
+                  </a>
                 </div>
                 <div style={{ marginLeft: '20px' }}>
                   <h6>{`${article.authors}`}</h6>
