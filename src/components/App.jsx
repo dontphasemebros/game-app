@@ -25,6 +25,7 @@ import GamePage from './GamePage';
 import BreakOut from './BreakOut';
 import Germs from './Germs';
 import Flood from './Flood';
+import Multiplayer from './Multiplayer';
 
 const { getAuth } = require('../helpers/helpers.js');
 
@@ -49,6 +50,9 @@ function App() {
         <Switch>
           <Route path="/join">
             <Join />
+          </Route>
+          <Route path="/multiplayer">
+            <Multiplayer />
           </Route>
           <Route path="/games">
             <GamePage />

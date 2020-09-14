@@ -50,22 +50,10 @@ const GamePage = () => {
         Collect stars with your friends, be the first team to hit 200 to win!
       </h5>
       <div className="d-flex justify-content-center">
-        <a className="btn btn-outline-dark" href={`/gametwo?${room}`} role="button">
+        <a className="btn btn-outline-dark" href="/multiplayer" role="button">
           <img width="20px" style={styles} alt="starhunter" src={GTL} />
           Star Hunter
         </a>
-      </div>
-      <div>
-        <Form>
-          <Form.Group controlId="setUpRoom">
-            <Form.Label>Room Name</Form.Label>
-            <Form.Control type="text" placeholder="Enter Room Name" onChange={handleRoom} />
-          </Form.Group>
-          <Button variant="primary" type="button" onClick={roomToast}>
-            Submit
-          </Button>
-          <ToastContainer />
-        </Form>
       </div>
       <br />
       <img src={starsollector} alt="starcollector-gameplay" style={gifStyle} />

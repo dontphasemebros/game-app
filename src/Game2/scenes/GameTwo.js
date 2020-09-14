@@ -29,6 +29,7 @@ class GameTwo extends Phaser.Scene {
     this.socket.emit('join', this.room);
     this.socket.on('currentPlayers', (players) => {
       players.forEach((player) => {
+        console.log(player);
         if (player.id === this.socket.id) {
           this.addPlayer(player);
         } else {
@@ -41,7 +42,7 @@ class GameTwo extends Phaser.Scene {
     });
     this.socket.on('disconnect', (playerId) => {
       this.otherPlayers.getChildren().forEach((otherPlayer) => {
-        if (playerId === otherPlayer.playerId) {
+        if (playerId === otherPlayer.id) {
           otherPlayer.destroy();
         }
       });
@@ -51,7 +52,7 @@ class GameTwo extends Phaser.Scene {
 
     this.socket.on('playerMoved', (playerInfo) => {
       this.otherPlayers.getChildren().forEach((otherPlayer) => {
-        if (playerInfo.playerId === otherPlayer.playerId) {
+        if (playerInfo.id === otherPlayer.id) {
           otherPlayer.setRotation(playerInfo.rotation);
           otherPlayer.setPosition(playerInfo.x, playerInfo.y);
         }
@@ -146,7 +147,7 @@ class GameTwo extends Phaser.Scene {
     } else {
       otherPlayer.setTint(0xff0000);
     }
-    otherPlayer.playerId = playerInfo.playerId;
+    otherPlayer.id = playerInfo.id;
     this.otherPlayers.add(otherPlayer);
   }
 }

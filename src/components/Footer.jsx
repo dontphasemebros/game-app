@@ -18,7 +18,7 @@ const FooterPage = () => (
         <Col md="6">
           <h5 className="text-uppercase mb-4 mt-3 font-weight-bold">Games</h5>
           <li><a href="/gameone">Space Blaster</a></li>
-          <li><a href="/gametwo">Star Hunter</a></li>
+          <li><a href="/multiplayer">Star Hunter</a></li>
           <li><a href="/gamethree">Star Pickup</a></li>
           <li><a href="/breakout">Breakout</a></li>
           <li><a href="/germs">Germs</a></li>
