@@ -7,6 +7,8 @@ const pool = new Pool({
   host: process.env.DB_HOST || `/cloudsql/${process.env.DB_INSTANCE_CONNECTION_NAME}`,
 });
 
+// takes an object containing user properties: idDiscord, username, profilePhotoUrl, and location
+// adds user to database if doesn't exist/updates if does exist; returns all user info in an object
 async function getUser(userObj) {
   const {
     idDiscord, username, profilePhotoUrl, location,
@@ -38,17 +40,17 @@ async function getUser(userObj) {
       location
   `;
 
-  const getUserScoresCommand = `
-    SELECT
-      s.id AS "idScore",
-      s.value,
-      s.id_user AS "idUser",
-      s.id_game AS "idGame",
-      s.created_at AS "createdAt"
-    FROM scores AS s
-    WHERE id_user = $1
-    ORDER BY s.id_game, s.value DESC
-  `;
+  // const getUserScoresCommand = `
+  //   SELECT
+  //     s.id AS "idScore",
+  //     s.value,
+  //     s.id_user AS "idUser",
+  //     s.id_game AS "idGame",
+  //     s.created_at AS "createdAt"
+  //   FROM scores AS s
+  //   WHERE id_user = $1
+  //   ORDER BY s.id_game, s.value DESC
+  // `;
 
   try {
     let user = await pool.query(getUserCommand, [idDiscord]);
@@ -57,8 +59,8 @@ async function getUser(userObj) {
       const { idUser } = user;
       user = await pool.query(updateUserCommand, [username, profilePhotoUrl, location, idUser]);
       [user] = user.rows;
-      const scores = await pool.query(getUserScoresCommand, [idUser]);
-      if (scores) user.scores = scores.rows;
+      // const scores = await pool.query(getUserScoresCommand, [idUser]);
+      // if (scores) user.scores = scores.rows;
     }
     return user;
   } catch (error) {
@@ -102,6 +104,7 @@ async function getThreads(idChannel) {
     SELECT
       t.id AS "idThread",
       t.text,
+      t.photo_url AS "photoUrl",
       t.id_channel AS "idChannel",
       t.updated_at AS "updatedAt",
       t.created_at AS "createdAt",
@@ -120,13 +123,13 @@ async function getThreads(idChannel) {
   try {
     let threads = await pool.query(getThreadsCommand, [idChannel]);
     threads = threads.rows;
-    const results = [];
-    await Promise.all(threads.map(async (thread) => {
+    threads = await Promise.all(threads.map(async (thread) => {
       const { idThread } = thread;
       const getRepliesCommand = `
         SELECT
           r.id AS "idReply",
           r.text,
+          r.photo_url AS "photoUrl",
           r.id_thread AS "idThread",
           r.created_at AS "createdAt",
           r.id_user AS "idUser",
@@ -143,9 +146,9 @@ async function getThreads(idChannel) {
       const replies = await pool.query(getRepliesCommand);
       const finishedThread = thread;
       finishedThread.replies = replies.rows ? replies.rows : [];
-      results.push(finishedThread);
+      return finishedThread;
     }));
-    return results;
+    return threads;
   } catch (error) {
     return console.error('COULD NOT GET THREADS FROM DATABASE', error);
   }
@@ -155,23 +158,24 @@ async function getThreads(idChannel) {
 // returns array containing newly created thread object with user info
 async function addThread(threadObj) {
   const {
-    text, idUser, idChannel,
+    text, photoUrl, idUser, idChannel,
   } = threadObj;
 
   const addThreadCommand = `
-    INSERT INTO threads AS t (text, id_user, id_channel)
-    VALUES ($1, $2, $3)
+    INSERT INTO threads AS t (text, photo_url, id_user, id_channel)
+    VALUES ($1, $2, $3, $4)
     RETURNING
       t.id AS "idThread"
   `;
 
   try {
-    const thread = await pool.query(addThreadCommand, [text, idUser, idChannel]);
+    const thread = await pool.query(addThreadCommand, [text, photoUrl, idUser, idChannel]);
     const { idThread } = thread.rows[0];
     const getAddedThreadCommand = `
       SELECT
         t.id AS "idThread",
         t.text,
+        t.photo_url AS "photoUrl",
         t.id_channel AS "idChannel",
         t.updated_at AS "updatedAt",
         t.created_at AS "createdAt",
@@ -195,13 +199,14 @@ async function addThread(threadObj) {
   }
 }
 
-// takes an object with reply properties: text, idUser, idThread
-// returns array containing newly created reply object with user info
+// takes a number representing thread id
+// returns thread object with user info with a nested array of replies with user info
 async function getReplies(idThread) {
   const getThreadsCommand = `
     SELECT
       t.id AS "idThread",
       t.text,
+      t.photo_url AS "photoUrl",
       t.id_channel AS "idChannel",
       t.updated_at AS "updatedAt",
       t.created_at AS "createdAt",
@@ -221,6 +226,7 @@ async function getReplies(idThread) {
     SELECT
       r.id AS "idReply",
       r.text,
+      r.photo_url AS "photoUrl",
       r.id_thread AS "idThread",
       r.created_at AS "createdAt",
       r.id_user AS "idUser",
@@ -247,25 +253,26 @@ async function getReplies(idThread) {
 }
 
 // takes an object with reply properties: text, idUser, idThread
-// returns array containing newly created reply object with user info
+// returns newly created reply object with user info
 async function addReply(replyObj) {
   const {
-    text, idUser, idThread,
+    text, photoUrl, idUser, idThread,
   } = replyObj;
 
   const addReplyCommand = `
-    INSERT INTO replies AS r (text, id_user, id_thread)
-    VALUES ($1, $2, $3)
+    INSERT INTO replies AS r (text, photo_url, id_user, id_thread)
+    VALUES ($1, $2, $3, $4)
     RETURNING
       r.id AS "idReply"
   `;
   try {
-    const reply = await pool.query(addReplyCommand, [text, idUser, idThread]);
+    const reply = await pool.query(addReplyCommand, [text, photoUrl, idUser, idThread]);
     const { idReply } = reply.rows[0];
     const getRepliesCommand = `
       SELECT
         r.id AS "idReply",
         r.text,
+        r.photo_url AS "photoUrl",
         r.id_thread AS "idThread",
         r.created_at AS "createdAt",
         r.id_user AS "idUser",
@@ -289,32 +296,46 @@ async function addReply(replyObj) {
 
 // takes a number representing the game ID
 // returns array of scores with user info
-async function getScores(idGame) {
-  const getScoresCommand = `
+async function getScores() {
+  const getGamesCommand = `
     SELECT
-      s.id,
-      s.value,
-      s.id_game AS "idGame",
-      s.created_at AS "createdAt",
-      s.id_user AS "idUser",
-      u.id_discord AS "idDiscord",
-      u.username,
-      u.profile_photo_url AS "profilePhotoUrl",
-      u.location
-    FROM scores s
-    LEFT JOIN users u
-    ON s.id_user = u.id
-    WHERE id_game = $1
-    ORDER BY s.value DESC
-    LIMIT 10
+      games.id AS "idGame",
+      games.name,
+      games.description
+    FROM games
   `;
 
   try {
-    let scores = await pool.query(getScoresCommand, [idGame]);
-    scores = scores.rows;
-    return scores;
+    let games = await pool.query(getGamesCommand);
+    games = games.rows;
+    games = await Promise.all(games.map(async (game) => {
+      const { idGame } = game;
+      const getScoresCommand = `
+        SELECT
+          s.id,
+          s.value,
+          s.id_game AS "idGame",
+          s.created_at AS "createdAt",
+          s.id_user AS "idUser",
+          u.id_discord AS "idDiscord",
+          u.username,
+          u.profile_photo_url AS "profilePhotoUrl",
+          u.location
+        FROM scores s
+        LEFT JOIN users u
+        ON s.id_user = u.id
+        WHERE id_game = ${idGame}
+        ORDER BY s.value DESC, s.created_at DESC
+        LIMIT 10
+      `;
+      const scores = await pool.query(getScoresCommand);
+      const finishedGame = game;
+      finishedGame.scores = scores.rows ? scores.rows : [];
+      return finishedGame;
+    }));
+    return games;
   } catch (error) {
-    return console.error('COULD NOT GET SCORES FROM DATABASE', error);
+    return console.error('COULD NOT GET TOP SCORES FROM DATABASE', error);
   }
 }
 
@@ -329,35 +350,62 @@ async function addScore(scoreObj) {
     INSERT INTO scores AS s (value, id_user, id_game)
     VALUES ($1, $2, $3)
     RETURNING
-      s.id AS "idScore"
+      s.id AS "idScore",
+      s.value,
+      s.id_game AS "idGame",
+      s.id_user AS "idUser"
   `;
 
   try {
     const score = await pool.query(addScoreCommand, [value, idUser, idGame]);
-    const { idScore } = score.rows[0];
-    const getAddedScoreCommand = `
-      SELECT
-        s.id AS "idScore",
-        s.value,
-        s.id_game AS "idGame",
-        s.created_at AS "createdAt",
-        s.id_user AS "idUser",
-        u.id_discord AS "idDiscord",
-        u.username,
-        u.profile_photo_url AS "profilePhotoUrl",
-        u.location
-      FROM scores s
-      LEFT JOIN users u
-      ON s.id_user = u.id
-      WHERE s.id = ${idScore}
-      ORDER BY s.value DESC
-      LIMIT 10
-    `;
-    let addedScore = await pool.query(getAddedScoreCommand);
-    addedScore = addedScore.rows;
-    return addedScore;
+    return score;
   } catch (error) {
     return console.error('COULD NOT ADD SCORE TO DATABASE', error);
+  }
+}
+
+// takes a number representing the game ID
+// returns array of scores with user info
+async function getUserScores(idUser) {
+  const getGamesCommand = `
+    SELECT
+      games.id AS "idGame",
+      games.name,
+      games.description
+    FROM games
+  `;
+
+  try {
+    let games = await pool.query(getGamesCommand);
+    games = games.rows;
+    games = await Promise.all(games.map(async (game) => {
+      const { idGame } = game;
+      const getScoresCommand = `
+        SELECT
+          s.id,
+          s.value,
+          s.id_game AS "idGame",
+          s.created_at AS "createdAt",
+          s.id_user AS "idUser",
+          u.id_discord AS "idDiscord",
+          u.username,
+          u.profile_photo_url AS "profilePhotoUrl",
+          u.location
+        FROM scores s
+        LEFT JOIN users u
+        ON s.id_user = u.id
+        WHERE id_game = ${idGame} AND id_user= $1
+        ORDER BY s.value DESC, s.created_at DESC
+        LIMIT 10
+      `;
+      const scores = await pool.query(getScoresCommand, [idUser]);
+      const finishedGame = game;
+      finishedGame.scores = scores.rows ? scores.rows : [];
+      return finishedGame;
+    }));
+    return games;
+  } catch (error) {
+    return console.error('COULD NOT GET TOP SCORES FROM DATABASE', error);
   }
 }
 
@@ -370,4 +418,5 @@ module.exports = {
   addReply,
   getScores,
   addScore,
+  getUserScores,
 };

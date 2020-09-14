@@ -109,6 +109,6 @@ dist
 # app.yaml
 app.yaml
 
-# config 
-
-config
+# Google user information
+config/dontphasemebros-cloud-storage.json
+config/keys.js

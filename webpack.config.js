@@ -32,6 +32,18 @@ module.exports = {
           'file-loader',
         ],
       },
+      {
+        test: /\.(xml)$/,
+        use: [
+          'xml-loader',
+        ],
+      },
+      {
+        test: /\.(glsl)$/,
+        use: [
+          'webpack-glsl-loader',
+        ],
+      },
     ],
   },
   resolve: {

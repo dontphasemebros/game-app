@@ -1,30 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Nav, Navbar, Modal,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-const NavBar = ({ user, scores }) => {
+const { getTopScores } = require('../helpers/helpers.js');
+
+const NavBar = ({ user }) => {
   const [show, setShow] = useState(false);
 
-  // const [user, setUser] = useState();
+  const [scoresByGame, setScoresByGame] = useState([]);
 
   const handleShow = () => {
     setShow(true);
   };
   const handleClose = () => setShow(false);
 
+  useEffect(() => {
+    getTopScores()
+      .then((result) => {
+        setScoresByGame(result);
+      })
+      .catch((err) => console.error('ERROR GETTING SCORES: ', err));
+  }, [show]);
+
   return (
     <Navbar bg="dark" variant="dark">
-      <Nav className="mr-auto">
+      <Nav className="m-auto">
         <Navbar.Brand href="/">
           <h3>GameTime</h3>
         </Navbar.Brand>
         <Nav.Link onClick={handleShow}>
           <h3>HighScore</h3>
         </Nav.Link>
-        <Nav.Link href="/game">
-          <h3>Game</h3>
+        <Nav.Link href="/games">
+          <h3>Games</h3>
         </Nav.Link>
         <Nav.Link href="/forum">
           <h3>Forum</h3>
@@ -37,18 +47,17 @@ const NavBar = ({ user, scores }) => {
             <Nav.Link href="/api/logout"><h3>Logout</h3></Nav.Link>
           </>
         ) : (
-          // <Nav.Link href="/api/google"><h3>Login</h3></Nav.Link>
           <Nav.Link href="/login"><h3>Login</h3></Nav.Link>
         )}
       </Nav>
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
           <Modal.Title>High Scores!</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <ul>
-            {scores
-              ? scores.map((score) => <li key={score.idScore}>{`${score.username}: ${score.value}`}</li>)
+            {scoresByGame[0] // *** REFACTOR BELOW FOR SCORES FOR MULTIPLE GAMES
+              ? scoresByGame[0].scores.map((score) => <li key={score.idScore}>{`${score.username}: ${score.value} --- ${score.createdAt.split('T')[0]}`}</li>)
               : 'no scores to show'}
           </ul>
         </Modal.Body>
@@ -59,7 +68,6 @@ const NavBar = ({ user, scores }) => {
 
 NavBar.propTypes = {
   user: PropTypes.objectOf.isRequired,
-  scores: PropTypes.element.isRequired,
 };
 
 export default NavBar;

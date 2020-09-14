@@ -1,7 +1,9 @@
 // import express module into file
 const express = require('express');
+
 // create variable set to new Router instance from express module
 const dbRouter = express.Router();
+
 // import database helper functions from ../database/index.js
 const {
   getUser,
@@ -12,7 +14,12 @@ const {
   getScores,
   addScore,
   getReplies,
+  getUserScores,
 } = require('../database/index');
+
+// import GCS storage function
+const { uploadImage } = require('../GCS_Helpers/gcshelpers.js');
+
 /**
  * Checks to see if a user is logged in to protect api routes
  * @param {Object} user req.user
@@ -102,9 +109,8 @@ dbRouter.get('/articles', (req, res) => { // route will be used once articles ar
 * returns - an array of objects with information for the users who saved scores for that game
 */
 dbRouter.get('/scores', (req, res) => {
-  const { idGame } = req.query;
-  // if (authChecker(req.user[0])) {
-  getScores(idGame)
+  // if (authChecker(req.user)) {
+  getScores()
     .then((score) => {
       res.send(score);
     })
@@ -143,6 +149,34 @@ dbRouter.post('/scores', (req, res) => {
     res.sendStatus(401);
   }
 });
+// POST routes
+/*
+* route - adds users scores to Database into scores table
+* use - uses "addScore" function to save users scores in db
+* inputs - "addScore" receives a object
+*       scoresObj = { value, idUser, idGame }
+* {Param} - deconstructed from req.query
+* returns - an array containing an object with all user information, saved score, game info
+*/
+dbRouter.get('/scores/:id', (req, res) => {
+  // console.log('REQ OBJECT: ', req);
+  // const { value, idUser, idGame } = req.query;
+  // const scoreObj = { value, idUser, idGame };
+  let { idUser } = req.query;
+  if (authChecker(req.user)) {
+    idUser = req.user.idUser;
+    getUserScores(idUser)
+      .then((success) => {
+        res.send(success);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  } else {
+    // Not Authorized
+    res.sendStatus(401);
+  }
+});
 /*
 * route - adds new user information to the db
 * use - uses "addThread" function to add new thread information to DB
@@ -152,8 +186,12 @@ dbRouter.post('/scores', (req, res) => {
 * returns - an array containing thread content, user information, & array of corresponding replies
 */
 dbRouter.post('/threads', (req, res) => {
-  const { text, idUser, idChannel } = req.query;
-  const threadObj = { text, idUser, idChannel };
+  const {
+    text, photoUrl, idUser, idChannel,
+  } = req.query;
+  const threadObj = {
+    text, photoUrl, idUser, idChannel,
+  };
   if (authChecker(req.user)) {
     addThread(threadObj)
       .then((success) => {
@@ -176,8 +214,12 @@ dbRouter.post('/threads', (req, res) => {
 * returns - an array with object containing reply and user information who made reply
 */
 dbRouter.post('/replies', (req, res) => {
-  const { text, idUser, idThread } = req.body;
-  const replyObj = { text, idUser, idThread };
+  const {
+    text, photoUrl, idUser, idThread,
+  } = req.query;
+  const replyObj = {
+    text, photoUrl, idUser, idThread,
+  };
   if (authChecker(req.user)) {
     addReply(replyObj)
       .then((success) => {
@@ -191,6 +233,7 @@ dbRouter.post('/replies', (req, res) => {
     res.sendStatus(401);
   }
 });
+
 /*
 * route - adds new user information to the db
 * use - uses "addUser" function to add new user information to DB
@@ -216,6 +259,34 @@ dbRouter.post('/users', (req, res) => {
       })
       .catch((err) => {
         console.log(err);
+      });
+  } else {
+    // Not Authorized
+    res.sendStatus(401);
+  }
+});
+
+/*
+* route - adds user photos to google cloud storage bucket
+* use - route uses uploadImage() function to store user image in GCS bucket
+* inputs - loads the image file from request body that users uploads
+*      myFile = req.file;
+* {Param} - deconstructed form request object
+* returns - url to photo in GCS storage bucket
+*/
+dbRouter.post('/uploads', (req, res) => {
+  const myFile = req.file;
+  if (authChecker(req.user)) {
+    uploadImage(myFile)
+      .then((photoUrl) => {
+        res.send({
+          message: 'Upload was successful',
+          photoUrl,
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+        res.sendStatus(500);
       });
   } else {
     // Not Authorized

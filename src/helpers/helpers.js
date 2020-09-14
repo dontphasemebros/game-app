@@ -30,14 +30,10 @@ export const getUserData = (userObj) => new Promise((resolve, reject) => {
 });
 
 // gets top ten scores from db by game id
-export const getTopScores = (gameObj) => new Promise((resolve, reject) => {
-  const { idGame } = gameObj;
+export const getTopScores = () => new Promise((resolve, reject) => {
   axios({
     method: 'get',
     url: '/scores',
-    params: {
-      idGame,
-    },
   })
     .then((response) => {
       resolve(response.data);
@@ -103,17 +99,19 @@ export const getThreadReplies = (idThread) => new Promise((resolve, reject) => {
 // adds a thread to the database from an object containing idChannel, idUser, text
 export const submitThread = (threadObj) => new Promise((resolve, reject) => {
   const {
-    idChannel,
-    idUser,
     text,
+    photoUrl,
+    idUser,
+    idChannel,
   } = threadObj;
   axios({
     method: 'post',
     url: '/threads',
     params: {
-      idChannel,
-      idUser,
       text,
+      photoUrl,
+      idUser,
+      idChannel,
     },
   })
     .then((response) => {
@@ -124,20 +122,51 @@ export const submitThread = (threadObj) => new Promise((resolve, reject) => {
 // adds a reply to the database from an object containing idChannel, idUser, text
 export const submitReply = (replyObj) => new Promise((resolve, reject) => {
   const {
-    idChannel,
-    idUser,
     text,
+    photoUrl,
+    idUser,
+    idThread,
   } = replyObj;
   axios({
     method: 'post',
     url: '/replies',
     params: {
-      idChannel,
-      idUser,
       text,
+      photoUrl,
+      idUser,
+      idThread,
     },
   })
     .then((response) => {
       resolve(response.data);
     }).catch((err) => reject(err));
+});
+
+// gets all scores for one user from db by user id
+export const getScoresByUser = (idUser) => new Promise((resolve, reject) => {
+  axios({
+    method: 'get',
+    url: `/scores/${idUser}`,
+    params: {
+      idUser,
+    },
+  })
+    .then((response) => {
+      resolve(response.data);
+    }).catch((err) => reject(err));
+});
+
+export const uploadPhoto = (data) => new Promise((resolve, reject) => {
+  axios({
+    method: 'post',
+    url: '/uploads',
+    data,
+    headers: { 'Content-Type': 'multipart/form-data' },
+  })
+    .then((response) => {
+      resolve(response.data.photoUrl);
+    })
+    .catch((err) => {
+      reject(err);
+    });
 });

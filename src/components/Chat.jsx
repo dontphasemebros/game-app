@@ -16,7 +16,7 @@ const Chat = withRouter((props) => {
   const [users1, setUsers] = useState('');
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
-  const ENDPOINT = 'localhost:8080';
+  const ENDPOINT = process.env.REACT_APP_DEVELOPMENT_CHAT || process.env.REACT_APP_DEPLOY_CHAT;
 
   useEffect(() => {
     const { name, room } = queryString.parse(props.location.search);
@@ -25,7 +25,7 @@ const Chat = withRouter((props) => {
     setName(name);
     setRoom(room);
 
-    socket.emit('join', { name, room }, () => {
+    socket.emit('join1', { name, room }, () => {
     });
 
     return () => {

@@ -13,17 +13,15 @@ const path = require('path');
 // import express body-parser module
 const bodyParser = require('body-parser');
 
-// import cookie parser from express framework
-// const cookieParser = require('cookie-parser');
-
 // import express-session module
 const session = require('express-session');
 
-// import cookie-session module
-// const cookieSession = require('cookie-session');
-
 // import passport module
 const passport = require('passport');
+
+// import multer module =>
+// multer parses files that were part of request object
+const multer = require('multer');
 
 // import DiscordStrategy authentication strategy
 require('../src/strategies/discordStrategy');
@@ -34,8 +32,17 @@ require('../src/strategies/googleStrategy');
 // create variable set to new express instance
 const app = express();
 
-// utilize cookie-parser middleware from express framework
-// app.use(cookieParser());
+// initialize multer options for GCS upload
+const multerMid = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 5 * 1024 * 1024,
+  },
+});
+
+// set middleware for GCS uploads
+app.disable('x-powered-by');
+app.use(multerMid.single('file'));
 
 // utilize body parser on incoming requests to server
 app.use(bodyParser.json());
@@ -61,11 +68,7 @@ app.use(session({
   name: 'discord.oauth2',
 }));
 
-// Configure Cookie-Session Storage - google related
-// app.use(cookieSession({
-//   name: 'session-name',
-//   keys: ['key1', 'key2'],
-// }));
+//  initialize the express session - google related
 app.use(session({
   secret: 'some random secret',
   cookie: {
@@ -109,9 +112,105 @@ const {
   addUser, removeUser, getUser, getUsersInRoom,
 } = require('./user');
 
+// Server side game assets
+const players = [];
+
+const star = {
+  x: Math.floor(Math.random() * 700) + 50,
+  y: Math.floor(Math.random() * 500) + 50,
+};
+
+const scores = {
+  blue: 0,
+  red: 0,
+};
+
 // establish socket on
 io.on('connection', (socket) => {
-  socket.on('join', ({ name, room }, callback) => {
+  console.log('a user connected');
+  // create a new player and add it to our players object
+  const { roomName } = socket.handshake.query;
+  console.log('roomName', roomName);
+
+  if (socket.handshake.headers.referer.split('?')[0] === 'http://localhost:8080/gametwo') {
+    socket.join(roomName);
+    console.log('Got here');
+  }
+
+  socket.on('join', (room) => {
+    const player = {
+      rotation: 0,
+      x: Math.floor(Math.random() * 700) + 50,
+      y: Math.floor(Math.random() * 500) + 50,
+      id: socket.id,
+      team: (Math.floor(Math.random() * 2) === 0) ? 'red' : 'blue',
+      room,
+    };
+
+    players.push(player);
+
+    const newPlayer = players.find((playee) => playee.id === socket.id);
+
+    console.log(newPlayer);
+
+    const activeRoomPlayers = players.filter((playee) => playee.room === room);
+
+    console.log(activeRoomPlayers);
+
+    // send the players object to the new player
+    socket.emit('currentPlayers', activeRoomPlayers);
+    // send the star object to the new player
+    socket.emit('starLocation', star);
+    // send the current scores
+    socket.emit('scoreUpdate', scores);
+    // update all other players of the new player
+    socket.to(room).emit('newPlayer', newPlayer);
+  });
+
+  // players[socket.id] = {
+  //   rotation: 0,
+  //   x: Math.floor(Math.random() * 700) + 50,
+  //   y: Math.floor(Math.random() * 500) + 50,
+  //   playerId: socket.id,
+  //   team: (Math.floor(Math.random() * 2) === 0) ? 'red' : 'blue',
+  // };
+
+  // send the players object to the new player
+  // socket.emit('currentPlayers', players);
+  // send the star object to the new player
+  // socket.emit('starLocation', star);
+  // send the current scores
+  // socket.emit('scoreUpdate', scores);
+  // update all other players of the new player
+  // socket.to(room).emit('newPlayer', players[socket.id]);
+
+  // socket.emit('currentPlayers', players);
+
+  socket.on('playerMovement', (movementData) => {
+    if (movementData.room === roomName) {
+      const index = players.findIndex((playee) => playee.id === socket.id);
+      players[index].x = movementData.x;
+      players[index].y = movementData.y;
+      players[index].rotation = movementData.rotation;
+      socket.to(roomName).emit('playerMoved', players[index]);
+    }
+  });
+
+  // socket.on('starCollected', () => {
+  //   if (players[socket.id].team === 'red') {
+  //     scores.red += 10;
+  //   } else {
+  //     scores.blue += 10;
+  //   }
+  //   star.x = Math.floor(Math.random() * 700) + 50;
+
+  //   star.y = Math.floor(Math.random() * 500) + 50;
+
+  //   io.to(roomName).emit('starLocation', star);
+  //   io.to(roomName).emit('scoreUpdate', scores);
+  // });
+
+  socket.on('join1', ({ name, room }, callback) => {
     const { error, user } = addUser({ id: socket.id, name, room });
     if (error) return callback(error);
 
@@ -143,5 +242,14 @@ io.on('connection', (socket) => {
       io.to(user.room).emit('message', { user: 'GameTime Bot', text: `${user.name} has left.` });
       io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
     }
+    console.log('user disconnected');
+    // remove this player from our players object
+    if (socket.handshake.headers.referer.split('?')[0] === 'http://localhost:8080/gametwo') {
+      delete players[socket.id];
+      scores.blue = 0;
+      scores.red = 0;
+    }
+    // emit a message to all players to remove this player
+    io.emit('disconnect', socket.id);
   });
 });
