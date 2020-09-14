@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import {
+  MDBCard, MDBCardTitle, MDBCardImage, MDBContainer, MDBCardBody,
+} from 'mdbreact';
 import PhaserBro from '../assets/PhaserBro.gif';
 
 const { getScoresByUser } = require('../helpers/helpers.js');
@@ -20,55 +23,60 @@ const Profile = ({ user }) => {
   }, []);
 
   return (
-    <div>
+    <MDBContainer>
       {user.username ? (
-        <div style={{ marginLeft: '200px' }}>
-          <div style={{ padding: '20px' }}>
-            <div className="card text-white bg-secondary mb-3">
-              <h2 className="card-header" style={{ minWidth: '700px' }}>
-                My Profile
-              </h2>
-            </div>
-          </div>
-          <div className="username" style={{ textAlign: 'right' }}>
-            <h2>{username}</h2>
-            <div>
-              <img src={profilePhotoUrl} height="200px" width="200px" alt="profile" />
-            </div>
-          </div>
-          <div className="user-profile">
-            <div className="user-high-scores scoreList card text-white bg-secondary mb-3" style={{ display: 'inline-block' }}>
-              <h2>
-                {username}
-                &apos;s Scores:
-              </h2>
-              <div className="scoreList card text-white bg-secondary mb-3">
-                <ul>
-                  {userScoresByGame[0].scores.map((score) => ( // *** REFACTOR FOR MULTI-GAME SCORES
-                    <li key={score.idScore}>
-                      {`${score.value} --- ${score.createdAt.split('T')[0]}`}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-            <div className="user-bio bg-light" style={{ maxWidth: '700px' }}>
-              <div style={{ padding: '20px' }}>
-                <div className="card text-white bg-secondary mb-3" />
-              </div>
-              <h4>{`username: ${username}`}</h4>
-            </div>
-          </div>
+        <>
+          {' '}
+          <MDBCard style={{ padding: '20px' }}>
+            <MDBCardTitle>
+              {username}
+              {' '}
+              Profile
+            </MDBCardTitle>
+          </MDBCard>
+          <MDBCard className="username" style={{ textAlign: 'right' }}>
+            <MDBCardTitle>{username}</MDBCardTitle>
+            <MDBCardImage src={profilePhotoUrl} style={{ float: 'right' }} />
+          </MDBCard>
+          <MDBCard
+            className="user-high-scores scoreList card text-white bg-secondary mb-3"
+            style={{ display: 'inline-block' }}
+          >
+            <MDBCardTitle>
+              {username}
+              &apos;s Scores:
+            </MDBCardTitle>
+            <MDBCardBody>
+              <ul>
+                {/* REFACTOR FOR MULTI-GAME SCORES */}
+                {userScoresByGame[0].scores.map((score) => (
+                  <li key={score.idScore}>
+                    {`${score.value} --- ${score.createdAt.split('T')[0]}`}
+                  </li>
+                ))}
+              </ul>
+            </MDBCardBody>
+          </MDBCard>
 
-        </div>
+          <MDBCard className="user-bio bg-light">
+            <MDBCardTitle>
+              {`username: ${username}`}
+            </MDBCardTitle>
+          </MDBCard>
+          {' '}
+        </ >
       ) : (
-        <div style={{ textAlign: 'center' }}>
+        <MDBCard style={{ textAlign: 'center' }}>
           <br />
-          <h1>Please Login With Discord or Google</h1>
-          <img src={PhaserBro} alt="PhaserBro" />
-        </div>
+          <MDBCardTitle>
+            Please Login With Discord or Google
+          </MDBCardTitle>
+          <MDBCardBody>
+            <img src={PhaserBro} alt="PhaserBro" />
+          </MDBCardBody>
+        </MDBCard>
       )}
-    </div>
+    </MDBContainer>
   );
 };
 
