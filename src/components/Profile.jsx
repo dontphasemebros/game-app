@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
-  MDBCard, MDBCardTitle, MDBCardImage, MDBContainer, MDBCardBody,
+  MDBCard, MDBCardTitle, MDBCardImage, MDBContainer, MDBCardBody, MDBRow, MDBCol,
 } from 'mdbreact';
 import PhaserBro from '../assets/PhaserBro.gif';
 
@@ -27,46 +27,53 @@ const Profile = ({ user }) => {
       {user.username ? (
         <>
           {' '}
-          <MDBCard style={{ padding: '20px' }}>
-            <MDBCardTitle>
-              {username}
-              {' '}
-              Profile
-            </MDBCardTitle>
-          </MDBCard>
-          <MDBCard className="username" style={{ textAlign: 'right' }}>
-            <MDBCardTitle>{username}</MDBCardTitle>
-            <MDBCardImage src={profilePhotoUrl} style={{ float: 'right' }} />
-          </MDBCard>
-          <MDBCard
-            className="user-high-scores scoreList card text-white bg-secondary mb-3"
-            style={{ display: 'inline-block' }}
-          >
-            <MDBCardTitle>
-              {username}
-              &apos;s Scores:
-            </MDBCardTitle>
-            <MDBCardBody>
-              <ul>
-                {/* REFACTOR FOR MULTI-GAME SCORES */}
-                {userScoresByGame[0].scores.map((score) => (
-                  <li key={score.idScore}>
-                    {`${score.value} --- ${score.createdAt.split('T')[0]}`}
-                  </li>
-                ))}
-              </ul>
-            </MDBCardBody>
-          </MDBCard>
+          <MDBRow>
+            <MDBCol size="12">
+              <MDBCard className="text-center">
+                <MDBCardTitle className="p-3">
+                  {username}
+                  &apos;s Profile:
+                </MDBCardTitle>
+              </MDBCard>
+            </MDBCol>
+          </MDBRow>
 
-          <MDBCard className="user-bio bg-light">
-            <MDBCardTitle>
-              {`username: ${username}`}
-            </MDBCardTitle>
-          </MDBCard>
+          <MDBRow>
+            <MDBCol size="6">
+              <MDBCard
+                className="text-white text-center bg-secondary mb-3 pt-2"
+              >
+                <MDBCardTitle>
+                  {username}
+                  &apos;s Scores:
+                </MDBCardTitle>
+                <MDBCardBody>
+                  <ul>
+                    {/* REFACTOR FOR MULTI-GAME SCORES */}
+                    {userScoresByGame[0].scores.map((score) => (
+                      <li key={score.idScore}>
+                        {`${score.value} --- ${score.createdAt.split('T')[0]}`}
+                      </li>
+                    ))}
+                  </ul>
+                </MDBCardBody>
+              </MDBCard>
+            </MDBCol>
+
+            <MDBCol size="6">
+              <MDBCard className="align-items-center">
+                <MDBCardTitle className="pt-2">
+                  {username}
+                  &apos;s Picture:
+                </MDBCardTitle>
+                <MDBCardImage src={profilePhotoUrl} alt="" />
+              </MDBCard>
+            </MDBCol>
+          </MDBRow>
           {' '}
         </ >
       ) : (
-        <MDBCard style={{ textAlign: 'center' }}>
+        <MDBCard className="text-white text-center">
           <br />
           <MDBCardTitle>
             Please Login With Discord or Google
