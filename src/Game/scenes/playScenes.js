@@ -5,7 +5,6 @@ import backgroundy from '../assets/img/Space.jpg';
 import shipy from '../assets/img/spaceship.png';
 import asteroidy from '../assets/img/asteroid.png';
 import shooty from '../assets/img/2.png';
-import kaboomy from '../assets/img/explode.png';
 import lasery from '../assets/sounds/laser.wav';
 import boomy from '../assets/sounds/darkShoot.wav';
 import deathy from '../assets/sounds/Death.wav';
@@ -15,6 +14,7 @@ import rockety from '../assets/img/Rocket.png';
 import Alien from './gameObjects/aliens';
 import Rocket from './gameObjects/rockets';
 import missiley from '../assets/sounds/5.wav';
+import kaboom from '../assets/img/explodesheet.png';
 
 export default class PlayScene extends Phaser.Scene {
   constructor() {
@@ -29,7 +29,6 @@ export default class PlayScene extends Phaser.Scene {
     this.load.image('ship', shipy);
     this.load.image('asteroid', asteroidy);
     this.load.image('shoot', shooty);
-    this.load.image('kaboom', kaboomy, 128, 128);
     this.load.image('alien', alieny);
     this.load.image('rocket', rockety);
     this.load.audio('laser', lasery);
@@ -37,6 +36,10 @@ export default class PlayScene extends Phaser.Scene {
     this.load.audio('death', deathy);
     this.load.audio('scoreUp', scoreUpy);
     this.load.audio('missile', missiley);
+    this.load.spritesheet('kaboom', kaboom, {
+      frameWidth: 128,
+      frameHeight: 128,
+    });
   }
 
   create() {
@@ -44,6 +47,17 @@ export default class PlayScene extends Phaser.Scene {
     this.add.image(500, 0, 'background').setOrigin(0, 0).setScale(0.6);
     this.add.image(0, 400, 'background').setOrigin(0, 0).setScale(0.6);
     this.add.image(500, 400, 'background').setOrigin(0, 0).setScale(0.6);
+
+    this.anims.create({
+      key: 'explode',
+      frames: this.anims.generateFrameNumbers('kaboom', {
+        start: 0,
+        end: 15,
+      }),
+      frameRate: 16,
+      repeat: 0,
+      hideOnComplete: true,
+    });
 
     this.ship = this.physics.add.image(400, 300, 'ship').setScale(0.1);
     this.ship.setDrag(0.99);
@@ -86,7 +100,10 @@ export default class PlayScene extends Phaser.Scene {
       loop: true,
     });
 
-    this.explosions = this.add.group();
+    this.explosions = this.add.group({
+      defaultKey: 'kaboom',
+      maxSize: 30,
+    });
 
     this.physics.add.overlap(this.ship, this.asteroidsGroup, this.hitShip, null, this);
 
@@ -228,11 +245,15 @@ export default class PlayScene extends Phaser.Scene {
       loop: false,
       delay: 0,
     });
-    const explosion = this.explosions.create(asteroid.x, asteroid.y, 'kaboom');
+    const explosion = this.explosions.get().setActive(true);
+    explosion.setOrigin(0.5, 0.5);
+    explosion.x = asteroid.x;
+    explosion.y = asteroid.y;
+    explosion.play('explode');
     bullet.destroy();
     asteroid.destroy();
     boom.play();
-    setTimeout(() => { explosion.destroy(); }, 250);
+    // setTimeout(() => { explosion.destroy(); }, 250);
     this.score += 10;
     this.scoreText.setText(`Score: ${this.score}`);
 
