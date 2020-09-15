@@ -5,7 +5,6 @@ import {
 import '@babel/polyfill';
 import NavBar from './Navbar';
 import SplashPage from './SplashPage';
-import GameTimeLogo from './GameTimeLogo';
 import Forum from './Forum';
 import Chat from './Chat';
 import FooterPage from './Footer';
@@ -44,8 +43,8 @@ function App() {
 
   return (
     <BrowserRouter>
-      <GameTimeLogo />
       <NavBar user={user} />
+      <br />
       <div className="container">
         <Switch>
           <Route path="/join">

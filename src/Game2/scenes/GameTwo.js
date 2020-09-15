@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import ship from './assets/spaceShips_001.png';
 import enemy from './assets/enemyBlack5.png';
 import game from './assets/Gem3.gif';
-import background from './assets/background.jpg';
+import synthback from './assets/synthback.jpg';
 
 class GameTwo extends Phaser.Scene {
   constructor() {
@@ -18,13 +18,12 @@ class GameTwo extends Phaser.Scene {
     this.load.image('ship', ship);
     this.load.image('otherPlayer', enemy);
     this.load.image('star', game);
-    this.load.image('background', background);
+    this.load.image('synthback', synthback);
     this.socket = io('http://localhost:8080', { query: `roomName=${this.room}` });
   }
 
   create() {
-    this.add.image(0, 0, 'background').setOrigin(0).setScale(0.6);
-    this.add.image(0, 400, 'background').setOrigin(0).setScale(0.6);
+    this.add.image(0, 0, 'synthback').setOrigin(0).setScale(1.3, 1.7);
     this.otherPlayers = this.physics.add.group();
     this.socket.emit('join', this.room);
     this.socket.on('currentPlayers', (players) => {
@@ -61,17 +60,17 @@ class GameTwo extends Phaser.Scene {
 
     this.blueScoreText = this.add.text(16, 16, '', {
       fontSize: '32px',
-      fill: '#0000FF',
+      fill: '#00ffff',
     });
 
     this.redScoreText = this.add.text(584, 16, '', {
       fontSize: '32px',
-      fill: '#FF0000',
+      fill: '#FFC0CB',
     });
 
     this.socket.on('scoreUpdate', (scores) => {
       this.blueScoreText.setText(`Blue: ${scores.blue}`);
-      this.redScoreText.setText(`Red:${scores.red}`);
+      this.redScoreText.setText(`Pink:${scores.red}`);
     });
 
     this.socket.on('starLocation', (starLocation) => {
@@ -131,9 +130,9 @@ class GameTwo extends Phaser.Scene {
   addPlayer(playerInfo) {
     this.ship = this.physics.add.image(playerInfo.x, playerInfo.y, 'ship').setOrigin(0.5, 0.5).setDisplaySize(53, 40);
     if (playerInfo.team === 'blue') {
-      this.ship.setTint(0x0000ff);
+      this.ship.setTint(0x00ffff);
     } else {
-      this.ship.setTint(0xff0000);
+      this.ship.setTint(0xFFC0CB);
     }
     this.ship.setDrag(100);
     this.ship.setAngularDrag(100);
@@ -143,9 +142,9 @@ class GameTwo extends Phaser.Scene {
   addOtherPlayers(playerInfo) {
     const otherPlayer = this.add.sprite(playerInfo.x, playerInfo.y, 'otherPlayer').setOrigin(0.5, 0.5).setDisplaySize(53, 40);
     if (playerInfo.team === 'blue') {
-      otherPlayer.setTint(0x0000ff);
+      otherPlayer.setTint(0x00ffff);
     } else {
-      otherPlayer.setTint(0xff0000);
+      otherPlayer.setTint(0xFFC0CB);
     }
     otherPlayer.id = playerInfo.id;
     this.otherPlayers.add(otherPlayer);

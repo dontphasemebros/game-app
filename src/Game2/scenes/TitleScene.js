@@ -15,15 +15,16 @@ class TitleScene extends Phaser.Scene {
   }
 
   create() {
-    this.add.image(0, 0, 'background').setOrigin(0).setScale(0.6);
-    this.add.text(120, 350, 'Welcome to Star Hunter!', {
+    this.add.image(0, 0, 'background').setOrigin(0).setScale(0.3);
+    this.add.text(190, 100, 'Welcome to Star Hunter!', {
       fontSize: '32px',
-      fill: '#FF0000',
+      fill: '#FF1493',
       fontStyle: 'bold',
     });
-    this.add.text(225, 400, 'Enter a Room Name First! \nClick Here To Play!', {
+
+    this.add.text(220, 150, 'Click Here to Start!', {
       fontSize: '32px',
-      fill: '#FF0000',
+      fill: '#FF1493',
       fontStyle: 'bold',
     }).setInteractive({ useHandCursor: true }).on('pointerdown', () => {
       this.scene.start('GameTwo', { room: this.room });

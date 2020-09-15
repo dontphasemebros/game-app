@@ -40,18 +40,19 @@ const SplashPage = () => {
           </div>
         </div>
         <br />
-        <div>
-          <h3>
-            GameTime provides users with fun and interactive web games.
-          </h3>
-          <h3>
-            All of our games are developed using Phaser 3!
-          </h3>
-          <h3>
-            Feel free to try out our games and let us know your thoughts in the forums!
-          </h3>
-        </div>
+        <h3>
+          GameTime provides users with fun and interactive web games.
+        </h3>
+        <h3>
+          Feel free to try out our games and let us know your thoughts in the forums!
+        </h3>
+        <h3>
+          Are you a developer? Got a game you&apos;d like to have hosted? Make forum post!
+          <br />
+          Be sure to link your Github repository and provide a description of the game!
+        </h3>
       </div>
+      <br />
     </div>
   );
 };

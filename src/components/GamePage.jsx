@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
-import { ToastContainer, toast } from 'react-toastify';
+import React from 'react';
 import GTL from '../assets/favicon.png';
 import asteroid from '../assets/asteroids.gif';
 import starhunter from '../assets/starhunter.gif';
@@ -9,7 +7,6 @@ import slime from '../assets/slimes.gif';
 import starsollector from '../assets/starcollecter.gif';
 
 const GamePage = () => {
-  const [room, setRoom] = useState('');
   const styles = {
     marginBottom: '3px',
     marginRight: '5px',
@@ -21,18 +18,8 @@ const GamePage = () => {
     borderRadius: '5%',
   };
 
-  const div = {
-    textAlign: 'center',
-  };
-
-  const roomToast = () => toast('Room Selected! Start Your Game!');
-
-  const handleRoom = (e) => {
-    setRoom(e.target.value);
-  };
-
   return (
-    <div style={div}>
+    <div className="d-flex align-items-center flex-column">
       <br />
       <img src={asteroid} alt="asteroid-gameplay" style={gifStyle} />
       <h5>
