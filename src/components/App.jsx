@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  BrowserRouter, Switch, Route,
-} from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import '@babel/polyfill';
 import NavBar from './Navbar';
 import SplashPage from './SplashPage';

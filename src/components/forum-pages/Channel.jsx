@@ -4,12 +4,11 @@ import Threads from './Threads';
 
 const Channel = ({ channel, threadId, user }) => (
   <div>
-    <div style={{ marginTop: '20px', padding: '15px' }}>
-      <div className="card text-white bg-secondary mb-3">
-        <h2 className="card-header">
-          {channel.name}
-        </h2>
-      </div>
+    <br />
+    <div className="card text-white bg-secondary mb-3">
+      <h2 className="card-header">
+        {channel.name}
+      </h2>
     </div>
 
     <Threads user={user} threadId={threadId} channel={channel} />

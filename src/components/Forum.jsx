@@ -1,13 +1,17 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
+import {
+  Link,
+} from 'react-router-dom';
+import { Card } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import PhaserBro from '../assets/PhaserBro.gif';
 
 const Forum = ({ user }) => (
-  <div>
+  <>
     {!Array.isArray(user) ? (
       <div>
-        <div style={{ marginTop: '20px', padding: '15px' }}>
+        <div>
+          <br />
           <div className="card text-white bg-secondary mb-3">
             <h2 className="card-header">
               GameTime Forum
@@ -15,19 +19,28 @@ const Forum = ({ user }) => (
           </div>
         </div>
         <div>
-          <Button href="/general" variant="primary" size="lg">
-            <h6>General</h6>
-          </Button>
-          <Button href="/challenges" variant="primary" size="lg">
-            <h6>Challenges</h6>
-          </Button>
-          <Button href="/suggestions" variant="primary" size="lg">
-            <h6>Suggestions</h6>
-          </Button>
-          <Button href="/gamer-news" variant="primary" size="lg">
-            <h6>Gamer News</h6>
-          </Button>
+          <Card className="card bg-light mb-3">
+            <Link to="/general">
+              <h5 className="card-header">General</h5>
+            </Link>
+          </Card>
+          <Card className="card bg-light mb-3">
+            <Link to="/challenges">
+              <h5 className="card-header">Challenges</h5>
+            </Link>
+          </Card>
+          <Card className="card bg-light mb-3">
+            <Link to="/suggestions">
+              <h5 className="card-header">Suggestions</h5>
+            </Link>
+          </Card>
+          <Card className="card bg-light mb-3">
+            <Link to="/gamer-news">
+              <h5 className="card-header">Gamer News</h5>
+            </Link>
+          </Card>
         </div>
+        <br />
       </div>
     ) : (
       <div style={{ textAlign: 'center' }}>
@@ -35,7 +48,7 @@ const Forum = ({ user }) => (
         <img src={PhaserBro} alt="PhaserBro" />
       </div>
     )}
-  </div>
+  </>
 );
 
 Forum.propTypes = {
