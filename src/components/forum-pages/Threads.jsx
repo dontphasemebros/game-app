@@ -4,7 +4,9 @@ import {
 } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap';
+import {
+  Button, Col, Card, Image,
+} from 'react-bootstrap';
 import PhotoUpload from './PhotoUpload';
 
 const { getThreadsByChannel, submitThread, uploadPhoto } = require('../../helpers/helpers.js');
@@ -44,6 +46,7 @@ const Threads = ({ channel, user }) => {
         };
         const submittedReply = await submitThread(replyObj);
         reset();
+        setFile(null);
         setReload([]);
         return submittedReply;
       } catch (err) {
@@ -84,24 +87,38 @@ const Threads = ({ channel, user }) => {
       {channel && !Array.isArray(user) ? (
         <div>
           {threads.map((thread) => (
-            <div key={thread.idThread} className="panel-primary inline-block" id="GeneralDisussion" style={{ backgroundColor: '#D6DBDF', minWidth: '1100px' }}>
-              <div className="profile-picture panel-body text-left inline-block">
-                <div className="bg-secondary" style={{ display: 'inline-block', minWidth: '360px' }}>
-                  <img className="d-print-inline-block" src={thread.profilePhotoUrl} height="100px" width="100px" alt="" style={{ display: 'inline-block' }} />
-                  <div className="username panel-body text-left inline-block" style={{ display: 'inline-block' }}>
-                    <h5 style={{ marginLeft: '20px', marginRight: '20px', minWidth: '80px' }}>{thread.username}</h5>
-                  </div>
-                  <div className="date panel-body text-left inline-block" style={{ display: 'inline-block' }}>
-                    <span style={{ marginRight: '20px' }}>{thread.createdAt.split('T')[0]}</span>
-                  </div>
+            <Card key={thread.idThread}>
+              <div className="card flex-row flex-wrap">
+                <div className="card-header border-0">
+                  <img src={thread.profilePhotoUrl} height="80px" width="80px" alt="" />
                 </div>
-                <Link to={`/thread${thread.idThread}`} id={thread.idThread} variant="primary" size="lg">
-                  {thread.text}
-                </Link>
-                <br />
-                <img className="d-print-inline-block" src={thread.photoUrl} alt="" style={{ display: 'inline-block' }} />
+                <Col className="m-2">
+                  <div />
+                  <div className="card-footer">
+                    <div />
+                    {!thread.text ? (
+                      null
+                    ) : (
+                      <Link to={`/thread${thread.idThread}`} id={thread.idThread}>
+                        <p className="blockquote mb-0">{thread.text}</p>
+                      </Link>
+                    )}
+                    {!thread.photoUrl ? null : (
+                      <Link to={`/thread${thread.idThread}`} id={thread.idThread}>
+                        <Image className="card-header border-0" src={thread.photoUrl} alt="" fluid />
+                      </Link>
+                    ) }
+                  </div>
+                  <div className="blockquote-footer pull-right" style={{ fontSize: '16px' }}>
+                    <span className="text-muted">
+                      {thread.username}
+                      {' '}
+                      {thread.createdAt.split('T')[0]}
+                    </span>
+                  </div>
+                </Col>
               </div>
-            </div>
+            </Card>
           ))}
 
           <br />
@@ -110,10 +127,10 @@ const Threads = ({ channel, user }) => {
             <form onSubmit={handleSubmit(onSubmit)}>
               <span>Start a thread:</span>
               <input name="textarea" className="form-control" rows="3" ref={register} />
+              <br />
               <PhotoUpload file={file} changeHandler={fileChangeHandler} ref={register} />
-              <Button variant="primary" size="sm" type="submit" ref={register}>
-                <h6>submit</h6>
-              </Button>
+              <br />
+              <Button variant="primary" as="input" value="submit" type="submit" ref={register} size="lg" />
             </form>
           </div>
         </div>

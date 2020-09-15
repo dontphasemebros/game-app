@@ -4,7 +4,9 @@ import {
 } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap';
+import {
+  Button, Card, Col, Image,
+} from 'react-bootstrap';
 import PhotoUpload from './PhotoUpload';
 
 const { getThreadReplies, submitReply, uploadPhoto } = require('../../helpers/helpers.js');
@@ -44,6 +46,7 @@ const Thread = ({ user }) => {
         };
         const submittedReply = await submitReply(replyObj);
         reset();
+        setFile(null);
         setReload([]);
         return submittedReply;
       } catch (err) {
@@ -83,40 +86,66 @@ const Thread = ({ user }) => {
     <div>
       {thread[0] && thread[0].replies && !Array.isArray(user) ? (
         <div>
-          <div key={thread[0].idThread} className="panel-primary inline-block" id="GeneralDisussion" style={{ backgroundColor: '#D6DBDF', minWidth: '1100px', paddingTop: '10px' }}>
-            <div className="profile-picture panel-body text-left inline-block">
-              <div className="bg-secondary" style={{ display: 'inline-block', minWidth: '360px' }}>
-                <img className="d-print-inline-block" src={thread[0].profilePhotoUrl} height="100px" width="100px" alt="" style={{ display: 'inline-block' }} />
-                <div className="username panel-body text-left inline-block" style={{ display: 'inline-block' }}>
-                  <h5 style={{ marginLeft: '20px', marginRight: '20px', minWidth: '80px' }}>{thread[0].username}</h5>
-                </div>
-                <div className="date panel-body text-left inline-block" style={{ display: 'inline-block' }}>
-                  <span style={{ marginRight: '20px' }}>{thread[0].createdAt.split('T')[0]}</span>
-                </div>
+          <Card key={thread[0].idThread}>
+            <div className="card flex-row flex-wrap">
+              <div className="card-header border-0">
+                <img src={thread[0].profilePhotoUrl} height="80px" width="80px" alt="" />
               </div>
-              {thread[0].text}
+              <Col className="m-2">
+                <div />
+                <div className="card-footer">
+                  <div />
+                  {!thread[0].text ? (
+                    null
+                  ) : <p className="blockquote mb-0">{thread[0].text}</p> }
+                  {!thread[0].photoUrl ? null : (
+                    <div>
+                      <Image className="card-header border-0" src={thread[0].photoUrl} alt="" fluid />
+                    </div>
+                  ) }
+                </div>
+                <div className="blockquote-footer pull-right" style={{ fontSize: '16px' }}>
+                  <span className="text-muted">
+                    {thread[0].username}
+                    {' '}
+                    {thread[0].createdAt.split('T')[0]}
+                  </span>
+                </div>
+              </Col>
             </div>
-          </div>
+          </Card>
 
           <br />
 
           {thread[0].replies.map((reply) => (
-            <div key={reply.idThread} className="panel-primary inline-block" id="GeneralDisussion" style={{ backgroundColor: '#D6DBDF', minWidth: '1100px' }}>
-              <div className="profile-picture panel-body text-left inline-block">
-                <div className="bg-secondary" style={{ display: 'inline-block', minWidth: '360px' }}>
-                  <img className="d-print-inline-block" src={reply.profilePhotoUrl} height="100px" width="100px" alt="" style={{ display: 'inline-block' }} />
-                  <div className="username panel-body text-left inline-block" style={{ display: 'inline-block' }}>
-                    <h5 style={{ marginLeft: '20px', marginRight: '20px', minWidth: '80px' }}>{reply.username}</h5>
-                  </div>
-                  <div className="date panel-body text-left inline-block" style={{ display: 'inline-block' }}>
-                    <span style={{ marginRight: '20px' }}>{reply.createdAt.split('T')[0]}</span>
-                  </div>
+            <Card key={reply.idReply}>
+              <div className="card flex-row flex-wrap">
+                <div className="card-header border-0">
+                  <img src={reply.profilePhotoUrl} height="80px" width="80px" alt="" />
                 </div>
-                {reply.text}
-                <br />
-                <img className="d-print-inline-block" src={reply.photoUrl} alt="" style={{ display: 'inline-block' }} />
+                <Col className="m-2">
+                  <div />
+                  <div className="card-footer">
+                    <div />
+                    {!reply.text ? (
+                      null
+                    ) : <p className="blockquote mb-0">{reply.text}</p> }
+                    {!reply.photoUrl ? null : (
+                      <div>
+                        <Image className="card-header border-0" src={reply.photoUrl} alt="" fluid />
+                      </div>
+                    ) }
+                  </div>
+                  <div className="blockquote-footer pull-right" style={{ fontSize: '16px' }}>
+                    <span className="text-muted">
+                      {reply.username}
+                      {' '}
+                      {reply.createdAt.split('T')[0]}
+                    </span>
+                  </div>
+                </Col>
               </div>
-            </div>
+            </Card>
           ))}
 
           <br />
@@ -127,9 +156,8 @@ const Thread = ({ user }) => {
               <input name="textarea" className="form-control" rows="3" ref={register} />
               <br />
               <PhotoUpload file={file} changeHandler={fileChangeHandler} ref={register} />
-              <Button variant="primary" size="sm" type="submit" ref={register}>
-                <h6>submit</h6>
-              </Button>
+              <br />
+              <Button variant="primary" as="input" value="submit" type="submit" ref={register} size="lg" />
             </form>
           </div>
         </div>
