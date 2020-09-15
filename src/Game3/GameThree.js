@@ -152,6 +152,8 @@ class GameThree extends Phaser.Scene {
     player.anims.play('turn');
 
     this.gameOver = true;
+
+    this.scene.start('gameOverScene');
   }
 }
 
