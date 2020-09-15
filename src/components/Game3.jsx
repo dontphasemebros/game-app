@@ -5,6 +5,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button } from 'react-bootstrap';
 import GameThree from '../Game3/GameThree';
+import TitleScene from '../Game3/scenes/TitleScene';
+import GameOverScene from '../Game3/scenes/GameOverScene';
 import PhaserBro from '../assets/PhaserBro.gif';
 
 const { saveScore } = require('../helpers/helpers.js');
@@ -29,8 +31,11 @@ const Game3 = React.memo(({ user }) => {
   };
   if (!Array.isArray(user)) {
     const game = new Phaser.Game(config);
+    game.scene.add('titleScene', TitleScene);
     game.scene.add('GameThree', GameThree);
-    game.scene.start('GameThree');
+    game.scene.add('gameOverScene', GameOverScene);
+    // game.scene.start('GameThree');
+    game.scene.start('titleScene');
   }
 
   const notify = () => toast(`Your Score of ${window.score} Was Submitted!`);
