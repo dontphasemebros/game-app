@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import {
+  MDBCard, MDBCardTitle, MDBCardImage, MDBContainer, MDBCardBody, MDBRow, MDBCol,
+} from 'mdbreact';
 import PhaserBro from '../assets/PhaserBro.gif';
 
 const { getScoresByUser } = require('../helpers/helpers.js');
@@ -20,55 +23,67 @@ const Profile = ({ user }) => {
   }, []);
 
   return (
-    <div>
+    <MDBContainer>
       {user.username ? (
-        <div style={{ marginLeft: '200px' }}>
-          <div style={{ padding: '20px' }}>
-            <div className="card text-white bg-secondary mb-3">
-              <h2 className="card-header" style={{ minWidth: '700px' }}>
-                My Profile
-              </h2>
-            </div>
-          </div>
-          <div className="username" style={{ textAlign: 'right' }}>
-            <h2>{username}</h2>
-            <div>
-              <img src={profilePhotoUrl} height="200px" width="200px" alt="profile" />
-            </div>
-          </div>
-          <div className="user-profile">
-            <div className="user-high-scores scoreList card text-white bg-secondary mb-3" style={{ display: 'inline-block' }}>
-              <h2>
-                {username}
-                &apos;s Scores:
-              </h2>
-              <div className="scoreList card text-white bg-secondary mb-3">
-                <ul>
-                  {userScoresByGame[0].scores.map((score) => ( // *** REFACTOR FOR MULTI-GAME SCORES
-                    <li key={score.idScore}>
-                      {`${score.value} --- ${score.createdAt.split('T')[0]}`}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-            <div className="user-bio bg-light" style={{ maxWidth: '700px' }}>
-              <div style={{ padding: '20px' }}>
-                <div className="card text-white bg-secondary mb-3" />
-              </div>
-              <h4>{`username: ${username}`}</h4>
-            </div>
-          </div>
+        <>
+          {' '}
+          <MDBRow>
+            <MDBCol size="12">
+              <MDBCard className="text-center">
+                <MDBCardTitle className="p-3">
+                  {username}
+                  &apos;s Profile:
+                </MDBCardTitle>
+              </MDBCard>
+            </MDBCol>
+          </MDBRow>
 
-        </div>
+          <MDBRow>
+            <MDBCol size="6">
+              <MDBCard
+                className="text-white text-center bg-secondary mb-3 pt-2"
+              >
+                <MDBCardTitle>
+                  {username}
+                  &apos;s Scores:
+                </MDBCardTitle>
+                <MDBCardBody>
+                  <ul>
+                    {/* REFACTOR FOR MULTI-GAME SCORES */}
+                    {userScoresByGame[0].scores.map((score) => (
+                      <li key={score.idScore}>
+                        {`${score.value} --- ${score.createdAt.split('T')[0]}`}
+                      </li>
+                    ))}
+                  </ul>
+                </MDBCardBody>
+              </MDBCard>
+            </MDBCol>
+
+            <MDBCol size="6">
+              <MDBCard className="align-items-center">
+                <MDBCardTitle className="pt-2">
+                  {username}
+                  &apos;s Picture:
+                </MDBCardTitle>
+                <MDBCardImage src={profilePhotoUrl} alt="" />
+              </MDBCard>
+            </MDBCol>
+          </MDBRow>
+          {' '}
+        </ >
       ) : (
-        <div style={{ textAlign: 'center' }}>
+        <MDBCard className="text-white text-center">
           <br />
-          <h1>Please Login With Discord or Google</h1>
-          <img src={PhaserBro} alt="PhaserBro" />
-        </div>
+          <MDBCardTitle>
+            Please Login With Discord or Google
+          </MDBCardTitle>
+          <MDBCardBody>
+            <img src={PhaserBro} alt="PhaserBro" />
+          </MDBCardBody>
+        </MDBCard>
       )}
-    </div>
+    </MDBContainer>
   );
 };
 
