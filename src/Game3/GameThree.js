@@ -152,6 +152,12 @@ class GameThree extends Phaser.Scene {
     player.anims.play('turn');
 
     this.gameOver = true;
+    setTimeout(() => {
+      const userScore = this.score;
+      this.scene.start('gameOverScene', { score: userScore });
+      this.score = 0;
+      this.gameOver = false;
+    }, 500);
   }
 }
 
