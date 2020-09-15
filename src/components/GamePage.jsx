@@ -100,6 +100,17 @@ const GamePage = () => {
           Germs!
         </a>
       </div>
+      <br />
+      <img src={slime} alt="germs gif" style={gifStyle} />
+      <h5>
+        Flood the box all one color in 25 moves or less!
+      </h5>
+      <div className="d-flex justify-content-center">
+        <a className="btn btn-outline-dark" href="/flood" role="button">
+          <img width="20px" style={styles} alt="germs" src={GTL} />
+          Flood!
+        </a>
+      </div>
     </div>
   );
 };
