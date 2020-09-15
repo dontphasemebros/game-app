@@ -15,6 +15,7 @@ const Profile = ({ user }) => {
   } = user;
 
   useEffect(() => {
+    console.log(idUser);
     getScoresByUser(idUser)
       .then((result) => {
         setUserScoresByGame(result);
@@ -47,33 +48,38 @@ const Profile = ({ user }) => {
                   {username}
                   &apos;s Scores:
                 </MDBCardTitle>
-                <MDBCardBody>
-                  <ul>
-                    {/* REFACTOR FOR MULTI-GAME SCORES */}
-                    {userScoresByGame[0].scores.map((score) => (
-                      <li key={score.idScore}>
-                        {`${score.value} --- ${score.createdAt.split('T')[0]}`}
-                      </li>
-                    ))}
-                  </ul>
+                <MDBCardBody className="text-white align-center bg-secondary mb-3 pt-2 width-auto">
+                  { userScoresByGame.length ? (
+                    // className="ml-30 pl-30"
+                    /* REFACTOR FOR MULTI-GAME SCORES */
+                    <MDBCardBody className="d-flex justify-content-center">
+                      <ul className="align-center mw-auto">
+                        {userScoresByGame[0].scores.map((score) => (
+                          <li key={score.idScore} className="text-left mw-auto">
+                            {`${score.value} --- ${score.createdAt.split('T')[0]}`}
+                          </li>
+                        ))}
+                      </ul>
+                    </MDBCardBody>
+                  ) : '' }
                 </MDBCardBody>
               </MDBCard>
             </MDBCol>
 
-            <MDBCol size="6">
+            <MDBCol size="6" className="text-center">
               <MDBCard className="align-items-center">
                 <MDBCardTitle className="pt-2">
                   {username}
                   &apos;s Picture:
                 </MDBCardTitle>
-                <MDBCardImage src={profilePhotoUrl} alt="" />
+                <MDBCardImage src={profilePhotoUrl} alt="" className="img-fluid" />
               </MDBCard>
             </MDBCol>
           </MDBRow>
           {' '}
         </ >
       ) : (
-        <MDBCard className="text-white text-center">
+        <MDBCard className="text-white text-center bg-secondary mb-3 pt-2">
           <br />
           <MDBCardTitle>
             Please Login With Discord or Google

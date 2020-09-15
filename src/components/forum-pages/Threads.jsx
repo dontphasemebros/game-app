@@ -86,6 +86,19 @@ const Threads = ({ channel, user }) => {
     <div>
       {channel && !Array.isArray(user) ? (
         <div>
+          <Card className="createThread inline-block">
+            <form onSubmit={handleSubmit(onSubmit)} className="m-3">
+              <span>Start a thread:</span>
+              <input name="textarea" className="form-control bg-light blockquote mb-0" rows="3" ref={register} />
+              <br />
+              <PhotoUpload file={file} changeHandler={fileChangeHandler} ref={register} />
+              <br />
+              <Button variant="primary" as="input" value="submit" type="submit" ref={register} size="lg" className="m-0 pull-right" />
+            </form>
+          </Card>
+
+          <br />
+
           {threads.map((thread) => (
             <Card key={thread.idThread}>
               <div className="card flex-row flex-wrap">
@@ -121,18 +134,6 @@ const Threads = ({ channel, user }) => {
             </Card>
           ))}
 
-          <br />
-
-          <div className="createThread">
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <span>Start a thread:</span>
-              <input name="textarea" className="form-control" rows="3" ref={register} />
-              <br />
-              <PhotoUpload file={file} changeHandler={fileChangeHandler} ref={register} />
-              <br />
-              <Button variant="primary" as="input" value="submit" type="submit" ref={register} size="lg" />
-            </form>
-          </div>
         </div>
       ) : (
         <div>

@@ -117,6 +117,19 @@ const Thread = ({ user }) => {
 
           <br />
 
+          <Card className="createReply inline-block">
+            <form onSubmit={handleSubmit(onSubmit)} className="m-3">
+              <span>Reply:</span>
+              <input name="textarea" className="form-control bg-light blockquote mb-0" rows="3" ref={register} />
+              <br />
+              <PhotoUpload file={file} changeHandler={fileChangeHandler} ref={register} />
+              <br />
+              <Button variant="primary" as="input" value="submit" type="submit" ref={register} size="lg" className="m-0 pull-right" />
+            </form>
+          </Card>
+
+          <br />
+
           {thread[0].replies.map((reply) => (
             <Card key={reply.idReply}>
               <div className="card flex-row flex-wrap">
@@ -147,19 +160,6 @@ const Thread = ({ user }) => {
               </div>
             </Card>
           ))}
-
-          <br />
-
-          <div className="createReply">
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <span>Reply:</span>
-              <input name="textarea" className="form-control" rows="3" ref={register} />
-              <br />
-              <PhotoUpload file={file} changeHandler={fileChangeHandler} ref={register} />
-              <br />
-              <Button variant="primary" as="input" value="submit" type="submit" ref={register} size="lg" />
-            </form>
-          </div>
         </div>
       ) : (
         <div>
