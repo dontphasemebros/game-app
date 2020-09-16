@@ -86,6 +86,7 @@ const Thread = ({ user }) => {
     <div>
       {thread[0] && thread[0].replies && !Array.isArray(user) ? (
         <div>
+          <br />
           <Card key={thread[0].idThread}>
             <div className="card flex-row flex-wrap">
               <div className="card-header border-0">
