@@ -71,7 +71,7 @@ class GameTwo extends Phaser.Scene {
     this.socket.on('scoreUpdate', (scores) => {
       this.blueScoreText.setText(`Blue: ${scores.blue}`);
       this.redScoreText.setText(`Pink:${scores.red}`);
-      if (scores.blue === 10 || scores.red === 10) {
+      if (scores.blue === 250 || scores.red === 250) {
         this.scene.start('gameOver', { scores });
       }
     });

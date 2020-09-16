@@ -102,7 +102,6 @@ export default class PlayScene extends Phaser.Scene {
 
     this.explosions = this.add.group({
       defaultKey: 'kaboom',
-      maxSize: 30,
     });
 
     this.physics.add.overlap(this.ship, this.asteroidsGroup, this.hitShip, null, this);

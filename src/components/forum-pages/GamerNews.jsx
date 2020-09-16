@@ -36,7 +36,7 @@ const GamerNews = () => {
                 <Col className="d-flex flex-column m-2">
                   <div />
                   <h4 className="mt-2 mb-2 ml-3 mr-0 font-bold text-left">
-                    <a href={article.site_detail_url}>{article.title}</a>
+                    <a href={article.site_detail_url} target="_blank" rel="noreferrer">{article.title}</a>
                   </h4>
                   <div className="mx-2 card-footer text-left">
                     <div />
