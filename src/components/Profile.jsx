@@ -4,6 +4,7 @@ import {
   MDBCard, MDBCardTitle, MDBCardImage, MDBContainer, MDBCardBody, MDBRow, MDBCol,
 } from 'mdbreact';
 import PhaserBro from '../assets/PhaserBro.gif';
+import Score from './Score';
 
 const { getScoresByUser } = require('../helpers/helpers.js');
 
@@ -30,8 +31,8 @@ const Profile = ({ user }) => {
           {' '}
           <MDBRow>
             <MDBCol size="12">
-              <MDBCard className="text-center">
-                <MDBCardTitle className="p-3">
+              <MDBCard className="text-center bg-secondary">
+                <MDBCardTitle className="p-3 text-white">
                   {username}
                   &apos;s Profile:
                 </MDBCardTitle>
@@ -42,32 +43,25 @@ const Profile = ({ user }) => {
           <MDBRow>
             <MDBCol size="6">
               <MDBCard
-                className="text-white text-center bg-secondary mb-3 pt-2"
+                className="text-center bg-light mb-3 pt-2"
               >
                 <MDBCardTitle>
                   {username}
                   &apos;s Scores:
                 </MDBCardTitle>
-                <MDBCardBody className="text-white align-center bg-secondary mb-3 pt-2 width-auto">
+                <>
                   { userScoresByGame.length ? (
-                    // className="ml-30 pl-30"
-                    /* REFACTOR FOR MULTI-GAME SCORES */
-                    <MDBCardBody className="d-flex justify-content-center">
-                      <ul className="align-center mw-auto">
-                        {userScoresByGame[0].scores.map((score) => (
-                          <li key={score.idScore} className="text-left mw-auto">
-                            {`${score.value} --- ${score.createdAt.split('T')[0]}`}
-                          </li>
-                        ))}
-                      </ul>
-                    </MDBCardBody>
-                  ) : '' }
-                </MDBCardBody>
+                    userScoresByGame.map((game) => (
+                      <Score game={game} key={game.idScore} />
+                    ))
+                  )
+                    : 'no scores to show'}
+                </>
               </MDBCard>
             </MDBCol>
 
             <MDBCol size="6" className="text-center">
-              <MDBCard className="align-items-center">
+              <MDBCard className="align-items-center bg-light">
                 <MDBCardTitle className="pt-2">
                   {username}
                   &apos;s Picture:
