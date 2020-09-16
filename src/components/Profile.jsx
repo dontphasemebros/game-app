@@ -43,7 +43,7 @@ const Profile = ({ user }) => {
           <MDBRow className="no-gutters">
             <MDBCol>
               <MDBCard
-                className="text-center bg-light mb-3 pt-2"
+                className="text-center bg-light mb-3 p-2"
               >
                 <MDBCardTitle>
                   {username}

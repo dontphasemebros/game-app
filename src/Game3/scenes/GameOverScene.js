@@ -15,7 +15,7 @@ class GameOverScene extends Phaser.Scene {
   }
 
   create() {
-    window.idGame = 1;
+    window.idGame = 3;
     window.score = this.score;
     window.submitted = false;
     this.add.image(0, 0, 'sky').setOrigin(0, 0).setScale(1.1);

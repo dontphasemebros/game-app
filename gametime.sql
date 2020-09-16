@@ -97,7 +97,7 @@ INSERT INTO channels (name) VALUES ('Challenges');
 INSERT INTO channels (name) VALUES ('Suggestions');
 INSERT INTO channels (name) VALUES ('Gamer News');
 
-INSERT INTO users (id_discord, username, profile_photo_url) VALUES (110283713677587668925, 'Grant Duplessis', 'https://lh3.googleusercontent.com/a-/AOh14GjHDc8j1O7IynODcB93VQms6H5Mdrcx6OT_VstTiA');
+INSERT INTO users (id_discord, username, profile_photo_url) VALUES ('110283713677587668925', 'Grant Duplessis', 'https://lh3.googleusercontent.com/a-/AOh14GjHDc8j1O7IynODcB93VQms6H5Mdrcx6OT_VstTiA');
 INSERT INTO scores (value, id_user, id_game) VALUES (90, 1, 1);
 INSERT INTO scores (value, id_user, id_game) VALUES (130, 1, 1);
 INSERT INTO scores (value, id_user, id_game) VALUES (100, 1, 1);
