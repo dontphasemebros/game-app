@@ -12,6 +12,7 @@ import slimes from '../assets/slimes.gif';
 const GamePage = () => (
   <MDBContainer>
     <MDBCarousel
+      interval="5000"
       activeItem={1}
       length={5}
       // eslint-disable-next-line react/jsx-boolean-value
@@ -24,7 +25,7 @@ const GamePage = () => (
 
         <MDBCarouselItem itemId="1">
           <MDBView>
-            <img src={asteroids} alt="First slide" className="mx-auto d-block" />
+            <img src={asteroids} alt="First slide" className="mx-auto d-block p-3" />
           </MDBView>
           <MDBCarouselCaption>
             {/* <MDBLink to="/gameone"> Space Blaster </MDBLink> */}
@@ -34,7 +35,7 @@ const GamePage = () => (
 
         <MDBCarouselItem itemId="2">
           <MDBView>
-            <img src={starhunter} alt="Second slide" className="mx-auto d-block" />
+            <img src={starhunter} alt="Second slide" className="mx-auto d-block p-3" />
           </MDBView>
           <MDBCarouselCaption>
             <a href="/multiplayer">Star Hunter</a>
@@ -43,7 +44,7 @@ const GamePage = () => (
 
         <MDBCarouselItem itemId="3">
           <MDBView>
-            <img src={starcollecter} alt="Third slide" className="mx-auto d-block" />
+            <img src={starcollecter} alt="Third slide" className="mx-auto d-block p-3" />
           </MDBView>
           <MDBCarouselCaption>
             <a href="/gamethree">Star Pickup</a>
@@ -52,7 +53,7 @@ const GamePage = () => (
 
         <MDBCarouselItem itemId="4">
           <MDBView>
-            <img src={breakout} alt="Fourth slide" className="mx-auto d-block" />
+            <img src={breakout} alt="Fourth slide" className="mx-auto d-block p-3" />
           </MDBView>
           <MDBCarouselCaption>
             <a href="/breakout">Break Out</a>
@@ -61,10 +62,10 @@ const GamePage = () => (
 
         <MDBCarouselItem itemId="5">
           <MDBView>
-            <img src={slimes} alt="Fifth slide" className="mx-auto d-block" />
+            <img src={slimes} alt="Fifth slide" className="mx-auto d-block p-3" />
           </MDBView>
           <MDBCarouselCaption>
-            <a href="/germs">Star Pickup</a>
+            <a href="/germs"> Germs </a>
           </MDBCarouselCaption>
         </MDBCarouselItem>
       </MDBCarouselInner>
