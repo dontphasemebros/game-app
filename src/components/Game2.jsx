@@ -7,6 +7,7 @@ import { Button } from 'react-bootstrap';
 import GameTwo from '../Game2/scenes/GameTwo';
 import PhaserBro from '../assets/PhaserBro.gif';
 import TitleScene from '../Game2/scenes/TitleScene';
+import GameOver from '../Game2/scenes/GameOver';
 
 const { saveScore } = require('../helpers/helpers.js');
 
@@ -38,6 +39,7 @@ const Game2 = React.memo(({ user }) => {
     const game = new Phaser.Game(config);
     game.scene.add('GameTwo', GameTwo);
     game.scene.add('TitleScene', TitleScene);
+    game.scene.add('gameOver', GameOver);
     game.scene.start('TitleScene', { room });
     setCount(1);
   }

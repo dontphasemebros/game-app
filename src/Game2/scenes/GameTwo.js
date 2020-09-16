@@ -8,6 +8,7 @@ import synthback from './assets/synthback.jpg';
 class GameTwo extends Phaser.Scene {
   constructor() {
     super('GameTwo');
+    this.counter = 0;
   }
 
   init(data) {
@@ -70,6 +71,9 @@ class GameTwo extends Phaser.Scene {
     this.socket.on('scoreUpdate', (scores) => {
       this.blueScoreText.setText(`Blue: ${scores.blue}`);
       this.redScoreText.setText(`Pink:${scores.red}`);
+      if (scores.blue === 10 || scores.red === 10) {
+        this.scene.start('gameOver', { scores });
+      }
     });
 
     this.socket.on('starLocation', (starLocation) => {
@@ -133,7 +137,7 @@ class GameTwo extends Phaser.Scene {
     } else {
       this.ship.setTint(0xFFC0CB);
     }
-    this.ship.setDrag(100);
+    this.ship.setDrag(0.99);
     this.ship.setAngularDrag(100);
     this.ship.setMaxVelocity(200);
   }
