@@ -300,8 +300,8 @@ dbRouter.get('/posts', (req, res) => {
   const { idUser } = req.query;
   if (authChecker(req.user)) {
     getUserPosts(idUser)
-      .then((threads) => {
-        res.send(threads);
+      .then((posts) => {
+        res.send(posts);
       })
       .catch((error) => {
         console.log(error);
