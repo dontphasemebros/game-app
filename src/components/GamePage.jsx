@@ -8,6 +8,7 @@ import starhunter from '../assets/starhunter.gif';
 import starcollecter from '../assets/starcollecter.gif';
 import breakout from '../assets/BREAKOUT.gif';
 import slimes from '../assets/slimes.gif';
+import './CSS/style.css';
 
 const GamePage = () => (
   <MDBContainer>
@@ -15,10 +16,8 @@ const GamePage = () => (
       interval="5000"
       activeItem={1}
       length={5}
-      // eslint-disable-next-line react/jsx-boolean-value
-      showControls={true}
-      // eslint-disable-next-line react/jsx-boolean-value
-      showIndicators={true}
+      showControls
+      showIndicators
       className="z-depth-1"
     >
       <MDBCarouselInner>
@@ -29,7 +28,7 @@ const GamePage = () => (
           </MDBView>
           <MDBCarouselCaption>
             {/* <MDBLink to="/gameone"> Space Blaster </MDBLink> */}
-            <a href="/gameone">Space Blaster</a>
+            <a href="/gameone" style={{ fontSize: '24px' }}>Space Blaster</a>
           </MDBCarouselCaption>
         </MDBCarouselItem>
 
@@ -38,7 +37,7 @@ const GamePage = () => (
             <img src={starhunter} alt="Second slide" className="mx-auto d-block p-3" />
           </MDBView>
           <MDBCarouselCaption>
-            <a href="/multiplayer">Star Hunter</a>
+            <a href="/multiplayer" style={{ fontSize: '24px' }}>Star Hunter</a>
           </MDBCarouselCaption>
         </MDBCarouselItem>
 
@@ -47,7 +46,7 @@ const GamePage = () => (
             <img src={starcollecter} alt="Third slide" className="mx-auto d-block p-3" />
           </MDBView>
           <MDBCarouselCaption>
-            <a href="/gamethree">Star Pickup</a>
+            <a href="/gamethree" style={{ fontSize: '24px' }}>Star Pickup</a>
           </MDBCarouselCaption>
         </MDBCarouselItem>
 
@@ -56,7 +55,7 @@ const GamePage = () => (
             <img src={breakout} alt="Fourth slide" className="mx-auto d-block p-3" />
           </MDBView>
           <MDBCarouselCaption>
-            <a href="/breakout">Break Out</a>
+            <a href="/breakout" style={{ fontSize: '24px' }}>Break Out</a>
           </MDBCarouselCaption>
         </MDBCarouselItem>
 
@@ -65,9 +64,10 @@ const GamePage = () => (
             <img src={slimes} alt="Fifth slide" className="mx-auto d-block p-3" />
           </MDBView>
           <MDBCarouselCaption>
-            <a href="/germs">Germs</a>
+            <a href="/germs" style={{ fontSize: '24px' }}>Germs</a>
           </MDBCarouselCaption>
         </MDBCarouselItem>
+
       </MDBCarouselInner>
     </MDBCarousel>
   </MDBContainer>

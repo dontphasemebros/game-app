@@ -78,6 +78,7 @@ class BreakOut extends Phaser.Scene {
 
   resetLevel() {
     this.resetBall();
+    window.idGame = 3;
     window.score = this.score;
     window.submitted = false;
     this.bricks.children.each((brick) => {
