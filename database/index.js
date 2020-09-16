@@ -301,8 +301,10 @@ async function getScores() {
     SELECT
       games.id AS "idGame",
       games.name,
-      games.description
+      games.description,
+      games.href
     FROM games
+    ORDER BY games.id
   `;
 
   try {
@@ -312,7 +314,7 @@ async function getScores() {
       const { idGame } = game;
       const getScoresCommand = `
         SELECT
-          s.id,
+          s.id AS "idScore",
           s.value,
           s.id_game AS "idGame",
           s.created_at AS "createdAt",
@@ -333,6 +335,7 @@ async function getScores() {
       finishedGame.scores = scores.rows ? scores.rows : [];
       return finishedGame;
     }));
+    console.log('SCORE FORMAT: ', games);
     return games;
   } catch (error) {
     return console.error('COULD NOT GET TOP SCORES FROM DATABASE', error);
@@ -371,8 +374,10 @@ async function getUserScores(idUser) {
     SELECT
       games.id AS "idGame",
       games.name,
-      games.description
+      games.description,
+      games.href
     FROM games
+    ORDER BY games.id
   `;
 
   try {
@@ -382,7 +387,7 @@ async function getUserScores(idUser) {
       const { idGame } = game;
       const getScoresCommand = `
         SELECT
-          s.id,
+          s.id AS "idScore",
           s.value,
           s.id_game AS "idGame",
           s.created_at AS "createdAt",
@@ -403,6 +408,7 @@ async function getUserScores(idUser) {
       finishedGame.scores = scores.rows ? scores.rows : [];
       return finishedGame;
     }));
+    console.log('USER SCORES FORMAT: ', games);
     return games;
   } catch (error) {
     return console.error('COULD NOT GET TOP SCORES FROM DATABASE', error);
