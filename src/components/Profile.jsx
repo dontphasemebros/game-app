@@ -29,6 +29,7 @@ const Profile = ({ user }) => {
   useEffect(() => {
     getPostsByUser(idUser)
       .then((result) => {
+        console.log('****getPostsByUser then block*****', result);
         setPosts(result);
       })
       .catch((err) => console.error('ERROR GETTING POSTS: ', err));
@@ -80,7 +81,7 @@ const Profile = ({ user }) => {
               </MDBCard>
               <div className="w-100" />
               {posts.map((post) => (
-                <Card key={post.idReply}>
+                <Card key={post.idThread}>
                   <div className="card flex-row flex-wrap">
                     <div className="card-header border-0">
                       <img src={post.profilePhotoUrl} height="80px" width="80px" alt="" />
