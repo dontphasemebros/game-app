@@ -65,7 +65,7 @@ const GamePage = () => (
             <img src={slimes} alt="Fifth slide" className="mx-auto d-block p-3" />
           </MDBView>
           <MDBCarouselCaption>
-            <a href="/germs"> Germs </a>
+            <a href="/germs">Germs</a>
           </MDBCarouselCaption>
         </MDBCarouselItem>
       </MDBCarouselInner>
