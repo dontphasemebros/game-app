@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button } from 'react-bootstrap';
-import flood from '../Flood/Flood.js';
+import flood from '../Flood/Flood';
 import PhaserBro from '../assets/PhaserBro.gif';
 
 const { saveScore } = require('../helpers/helpers.js');
@@ -23,8 +23,8 @@ const Flood = React.memo(({ user }) => {
   };
   if (!Array.isArray(user)) {
     const game = new Phaser.Game(config);
-    game.scene.add('Flood', Flood);
-    game.scene.start('Flood');
+    game.scene.add('flood', flood);
+    game.scene.start('flood');
   }
 
   const notify = () => toast(`Your Score of ${window.score} Was Submitted!`);
@@ -72,7 +72,7 @@ const Flood = React.memo(({ user }) => {
         <div style={descriptionStyle}>
           <h4>Flood Fill</h4>
           <p>
-            FLOOD
+            Starting from the top left, flood the box all one color in 25 moves or less!
           </p>
           <br />
           <br />
@@ -105,8 +105,8 @@ const Flood = React.memo(({ user }) => {
   );
 });
 
-export default Flood;
-
 Flood.propTypes = {
   user: PropTypes.objectOf.isRequired,
 };
+
+export default Flood;
