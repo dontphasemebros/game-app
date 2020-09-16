@@ -27,6 +27,7 @@ const Profile = ({ user }) => {
   }, []);
 
   useEffect(() => {
+    console.log('inside the useEffect', user);
     getPostsByUser(idUser)
       .then((result) => {
         console.log('****getPostsByUser then block*****', result);
@@ -80,36 +81,42 @@ const Profile = ({ user }) => {
                 <MDBCardImage src={profilePhotoUrl} alt="" className="img-fluid p-3" />
               </MDBCard>
               <div className="w-100" />
-              {posts.map((post) => (
-                <Card key={post.idThread}>
-                  <div className="card flex-row flex-wrap">
-                    <div className="card-header border-0">
-                      <img src={post.profilePhotoUrl} height="80px" width="80px" alt="" />
-                    </div>
-                    <Col className="m-2">
-                      <div />
-                      <div className="card-footer">
+              <MDBCardTitle className="p-3 text-white">
+                {username}
+                &apos;s Posts:
+              </MDBCardTitle>
+              {!Array.isArray(user) ? (
+                posts.map((post) => (
+                  <Card key={post.idThread}>
+                    <div className="card flex-row flex-wrap">
+                      <div className="card-header border-0">
+                        {post.channel}
+                      </div>
+                      <Col className="m-2">
                         <div />
-                        {!post.text ? (
-                          null
-                        ) : <p className="blockquote mb-0">{post.text}</p> }
-                        {!post.photoUrl ? null : (
-                          <div>
-                            <Image className="card-header border-0" src={post.photoUrl} alt="" fluid />
-                          </div>
-                        ) }
-                      </div>
-                      <div className="blockquote-footer pull-right" style={{ fontSize: '16px' }}>
-                        <span className="text-muted">
-                          {post.username}
-                          {' '}
-                          {post.createdAt.split('T')[0]}
-                        </span>
-                      </div>
-                    </Col>
-                  </div>
-                </Card>
-              ))}
+                        <div className="card-footer">
+                          <div />
+                          {!post.text ? (
+                            null
+                          ) : <p className="blockquote mb-0">{post.text}</p> }
+                          {!post.photoUrl ? null : (
+                            <div>
+                              <Image className="card-header border-0" src={post.photoUrl} alt="" fluid />
+                            </div>
+                          ) }
+                        </div>
+                        <div className="blockquote-footer pull-right" style={{ fontSize: '16px' }}>
+                          <span className="text-muted">
+                            {post.username}
+                            {' '}
+                            {post.createdAt.split('T')[0]}
+                          </span>
+                        </div>
+                      </Col>
+                    </div>
+                  </Card>
+                ))
+              ) : null}
             </MDBCol>
           </MDBRow>
           {' '}
