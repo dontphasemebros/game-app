@@ -73,7 +73,7 @@ const Profile = ({ user }) => {
           {' '}
         </ >
       ) : (
-        <MDBCard className="text-white text-center" style={{ height: '64vh' }}>
+        <MDBCard className="text-black text-center" style={{ height: '64vh' }}>
           <br />
           <MDBCardTitle>
             Please Login With Discord or Google
