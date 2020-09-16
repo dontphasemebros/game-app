@@ -141,7 +141,7 @@ async function getThreads(idChannel) {
         LEFT JOIN users u
         ON r.id_user = u.id
         WHERE id_thread = ${idThread}
-        ORDER BY r.created_at, r.id
+        ORDER BY r.created_at DESC, r.id
       `;
       const replies = await pool.query(getRepliesCommand);
       const finishedThread = thread;
@@ -238,7 +238,7 @@ async function getReplies(idThread) {
     LEFT JOIN users u
     ON r.id_user = u.id
     WHERE id_thread = $1
-    ORDER BY r.created_at, r.id
+    ORDER BY r.created_at DESC, r.id
   `;
 
   try {
@@ -284,7 +284,7 @@ async function addReply(replyObj) {
       LEFT JOIN users u
       ON r.id_user = u.id
       WHERE r.id = ${idReply}
-      ORDER BY r.created_at, r.id
+      ORDER BY r.created_at DESC, r.id
     `;
     let addedReply = await pool.query(getRepliesCommand);
     addedReply = addedReply.rows;

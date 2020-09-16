@@ -86,6 +86,7 @@ const Thread = ({ user }) => {
     <div>
       {thread[0] && thread[0].replies && !Array.isArray(user) ? (
         <div>
+          <br />
           <Card key={thread[0].idThread}>
             <div className="card flex-row flex-wrap">
               <div className="card-header border-0">
@@ -113,6 +114,19 @@ const Thread = ({ user }) => {
                 </div>
               </Col>
             </div>
+          </Card>
+
+          <br />
+
+          <Card className="createReply inline-block">
+            <form onSubmit={handleSubmit(onSubmit)} className="m-3">
+              <span>Reply:</span>
+              <input name="textarea" className="form-control bg-light blockquote mb-0" rows="3" ref={register} />
+              <br />
+              <PhotoUpload file={file} changeHandler={fileChangeHandler} ref={register} />
+              <br />
+              <Button variant="primary" as="input" value="submit" type="submit" ref={register} size="lg" className="m-0 pull-right" />
+            </form>
           </Card>
 
           <br />
@@ -147,19 +161,6 @@ const Thread = ({ user }) => {
               </div>
             </Card>
           ))}
-
-          <br />
-
-          <div className="createReply">
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <span>Reply:</span>
-              <input name="textarea" className="form-control" rows="3" ref={register} />
-              <br />
-              <PhotoUpload file={file} changeHandler={fileChangeHandler} ref={register} />
-              <br />
-              <Button variant="primary" as="input" value="submit" type="submit" ref={register} size="lg" />
-            </form>
-          </div>
         </div>
       ) : (
         <div>
