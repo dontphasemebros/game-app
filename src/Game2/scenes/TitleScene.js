@@ -16,7 +16,7 @@ class TitleScene extends Phaser.Scene {
 
   create() {
     this.add.image(0, 0, 'background').setOrigin(0).setScale(0.3);
-    this.add.text(140, 100, 'Star Hunter: Be the first team to hit 250 points!', {
+    this.add.text(250, 100, 'Star Hunter', {
       fontSize: '32px',
       fill: '#FF1493',
       fontStyle: 'bold',

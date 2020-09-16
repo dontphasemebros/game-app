@@ -8,14 +8,15 @@ import starhunter from '../assets/starhunter.gif';
 import starcollecter from '../assets/starcollecter.gif';
 import breakout from '../assets/BREAKOUT.gif';
 import slimes from '../assets/slimes.gif';
+import flood from '../assets/flood.gif';
 import './CSS/style.css';
 
 const GamePage = () => (
-  <MDBContainer>
+  <MDBContainer style={{ height: '64vh' }}>
     <MDBCarousel
       interval="5000"
       activeItem={1}
-      length={5}
+      length={6}
       showControls
       showIndicators
       className="z-depth-1"
@@ -27,7 +28,6 @@ const GamePage = () => (
             <img src={asteroids} alt="First slide" className="mx-auto d-block p-3" />
           </MDBView>
           <MDBCarouselCaption>
-            {/* <MDBLink to="/gameone"> Space Blaster </MDBLink> */}
             <a href="/gameone" style={{ fontSize: '24px' }}>Space Blaster</a>
           </MDBCarouselCaption>
         </MDBCarouselItem>
@@ -65,6 +65,15 @@ const GamePage = () => (
           </MDBView>
           <MDBCarouselCaption>
             <a href="/germs" style={{ fontSize: '24px' }}>Germs</a>
+          </MDBCarouselCaption>
+        </MDBCarouselItem>
+
+        <MDBCarouselItem itemId="6">
+          <MDBView>
+            <img src={flood} alt="Sixth slide" className="mx-auto d-block p-3" />
+          </MDBView>
+          <MDBCarouselCaption>
+            <a href="/flood" style={{ fontSize: '24px' }}>Flood</a>
           </MDBCarouselCaption>
         </MDBCarouselItem>
 

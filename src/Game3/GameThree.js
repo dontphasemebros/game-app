@@ -5,6 +5,8 @@ import platform from './assets/platform.png';
 import star from './assets/star.png';
 import bomb from './assets/bomb.png';
 import dude from './assets/dude.png';
+import starPickUp from './assets/sounds/starpickup.mp3';
+import gameOver from './assets/sounds/gameover.mp3';
 
 class GameThree extends Phaser.Scene {
   constructor() {
@@ -19,6 +21,8 @@ class GameThree extends Phaser.Scene {
     this.load.image('star', star);
     this.load.image('bomb', bomb);
     this.load.spritesheet('dude', dude, { frameWidth: 32, frameHeight: 48 });
+    this.load.audio('pickup', starPickUp);
+    this.load.audio('gameOver', gameOver);
   }
 
   create() {
@@ -116,14 +120,24 @@ class GameThree extends Phaser.Scene {
       this.player.anims.play('turn');
     }
 
-    if (this.cursors.up.isDown && this.player.body.touching.down) {
+    if ((this.cursors.up.isDown || this.cursors.space.isDown) && this.player.body.touching.down) {
       this.player.setVelocityY(-330);
     }
   }
 
   collectStar(player, stary) {
-    stary.disableBody(true, true);
+    const pickUp = this.sound.add('pickup', {
+      mute: false,
+      volume: 0.2,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: false,
+      delay: 0,
+    });
 
+    stary.disableBody(true, true);
+    pickUp.play();
     //  Add and update the score
     this.score += 10;
     this.scoreText.setText(`Score: ${this.score}`);
@@ -144,8 +158,18 @@ class GameThree extends Phaser.Scene {
   }
 
   hitBomb(player) {
+    const gameover = this.sound.add('gameOver', {
+      mute: false,
+      volume: 0.2,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: false,
+      delay: 0,
+    });
     player.setTint(0xff0000);
     this.gameOver = true;
+    gameover.play();
     setTimeout(() => {
       this.scene.start('gameOverScene', { score: this.score });
       this.score = 0;
