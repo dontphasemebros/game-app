@@ -1,12 +1,13 @@
 import React from 'react';
 import {
-  MDBCarousel, MDBCarouselCaption, MDBCarouselInner, MDBCarouselItem, MDBView, MDBContainer,
+  MDBCarousel, MDBCarouselCaption, MDBCarouselInner,
+  MDBCarouselItem, MDBView, MDBContainer, MDBLink,
 } from 'mdbreact';
-import ben from '../assets/ben.jpg';
-import connor from '../assets/cschratz.jpg';
-import james from '../assets/slim.jpg';
-import gmoney from '../assets/gmoney.png';
-import close from '../assets/closeIcon.png';
+import asteroids from '../assets/asteroids.gif';
+import starhunter from '../assets/starhunter.gif';
+import starcollecter from '../assets/starcollecter.gif';
+import breakout from '../assets/BREAKOUT.gif';
+import slimes from '../assets/slimes.gif';
 
 const GamePage = () => (
   <MDBContainer>
@@ -23,56 +24,46 @@ const GamePage = () => (
 
         <MDBCarouselItem itemId="1">
           <MDBView>
-            <img src={ben} alt="First slide" className=" w-100" />
+            <img src={asteroids} alt="First slide" className="mx-auto d-block" />
           </MDBView>
           <MDBCarouselCaption>
-            <h5 href="/gameone">
-              Space Blaster
-            </h5>
+            <MDBLink to="/gameone"> Space Blaster </MDBLink>
           </MDBCarouselCaption>
         </MDBCarouselItem>
 
         <MDBCarouselItem itemId="2">
           <MDBView>
-            <img src={james} alt="Second slide" className="d-block w-100" />
+            <img src={starhunter} alt="Second slide" className="mx-auto d-block" />
           </MDBView>
           <MDBCarouselCaption>
-            <h3 href="/gametwo">
-              Star Hunter
-            </h3>
+            <MDBLink to="/multiplayer"> Star Hunter </MDBLink>
           </MDBCarouselCaption>
         </MDBCarouselItem>
 
         <MDBCarouselItem itemId="3">
           <MDBView>
-            <img src={connor} alt="Third slide" className="d-block w-100" />
+            <img src={starcollecter} alt="Third slide" className="mx-auto d-block" />
           </MDBView>
           <MDBCarouselCaption>
-            <h5 href="/gamethree">
-              Pickup Stars
-            </h5>
+            <MDBLink to="/gamethree"> Pickup Stars</MDBLink>
           </MDBCarouselCaption>
         </MDBCarouselItem>
 
         <MDBCarouselItem itemId="4">
           <MDBView>
-            <img src={gmoney} alt="Fourth slide" className="d-block w-100" />
+            <img src={breakout} alt="Fourth slide" className="mx-auto d-block" />
           </MDBView>
           <MDBCarouselCaption>
-            <h5 href="/breakout">
-              Break Out
-            </h5>
+            <MDBLink to="/breakout"> Break Out </MDBLink>
           </MDBCarouselCaption>
         </MDBCarouselItem>
 
         <MDBCarouselItem itemId="5">
           <MDBView>
-            <img src={close} alt="Fifth slide" className="d-block w-100" />
+            <img src={slimes} alt="Fifth slide" className="mx-auto d-block" />
           </MDBView>
           <MDBCarouselCaption>
-            <h5 href="/germs">
-              Germs!
-            </h5>
+            <MDBLink to="/germs"> Germs </MDBLink>
           </MDBCarouselCaption>
         </MDBCarouselItem>
       </MDBCarouselInner>
