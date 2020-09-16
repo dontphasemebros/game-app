@@ -328,7 +328,7 @@ async function getScores() {
         ON s.id_user = u.id
         WHERE id_game = ${idGame}
         ORDER BY s.value DESC, s.created_at DESC
-        LIMIT 10
+        LIMIT 5
       `;
       const scores = await pool.query(getScoresCommand);
       const finishedGame = game;
@@ -400,7 +400,7 @@ async function getUserScores(idUser) {
         ON s.id_user = u.id
         WHERE id_game = ${idGame} AND id_user= $1
         ORDER BY s.value DESC, s.created_at DESC
-        LIMIT 10
+        LIMIT 5
       `;
       const scores = await pool.query(getScoresCommand, [idUser]);
       const finishedGame = game;

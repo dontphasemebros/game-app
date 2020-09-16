@@ -11,17 +11,18 @@ const FooterPage = () => (
       <Row>
         <hr className="clearfix w-100 d-md-none" />
         <Col md="6">
-          <h5 className="text-uppercase mb-4 mt-3 font-weight-bold">Our History</h5>
-          <li><a href="/aboutus">About Us</a></li>
+          <h5 className="text-uppercase mb-2 mt-3 font-weight-bold">Our History</h5>
+          <div><a href="/aboutus">About Us</a></div>
         </Col>
         <hr className="clearfix w-100 d-md-none" />
         <Col md="6">
-          <h5 className="text-uppercase mb-4 mt-3 font-weight-bold">Games</h5>
-          <li><a href="/gameone">Space Blaster</a></li>
-          <li><a href="/multiplayer">Star Hunter</a></li>
-          <li><a href="/gamethree">Star Pickup</a></li>
-          <li><a href="/breakout">Breakout</a></li>
-          <li><a href="/germs">Germs</a></li>
+          <h5 className="text-uppercase mb-2 mt-3 font-weight-bold">Games</h5>
+          <div><a href="/gameone">Space Blaster</a></div>
+          <div><a href="/multiplayer">Star Hunter</a></div>
+          <div><a href="/gamethree">Star Pickup</a></div>
+          <div><a href="/breakout">Breakout</a></div>
+          <div><a href="/germs">Germs</a></div>
+          <div><a href="/flood">Flood</a></div>
         </Col>
       </Row>
     </Container>
