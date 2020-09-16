@@ -413,6 +413,38 @@ async function getUserScores(idUser) {
   }
 }
 
+// takes a number representing the channel ID
+// returns array of threads with user info and a nested array of thread replies with user info
+async function getUserPosts(idUser) {
+  const getThreadsCommand = `
+    SELECT
+      t.id AS "idThread",
+      t.text,
+      t.photo_url AS "photoUrl",
+      t.id_channel AS "idChannel",
+      t.updated_at AS "updatedAt",
+      t.created_at AS "createdAt",
+      t.id_user AS "idUser",
+      u.id_discord AS "idDiscord",
+      u.username,
+      u.profile_photo_url AS "profilePhotoUrl",
+      u.location
+    FROM threads t
+    LEFT JOIN users u
+    ON t.id_user = u.id
+    WHERE id_user = $1
+    ORDER BY t.created_at DESC, t.id
+  `;
+
+  try {
+    let threads = await pool.query(getThreadsCommand, [idUser]);
+    threads = threads.rows;
+    return threads;
+  } catch (error) {
+    return console.error('COULD NOT GET THREADS FROM DATABASE', error);
+  }
+}
+
 module.exports = {
   getUser,
   addUser,
@@ -423,4 +455,5 @@ module.exports = {
   getScores,
   addScore,
   getUserScores,
+  getUserPosts,
 };

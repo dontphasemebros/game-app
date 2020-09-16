@@ -15,6 +15,7 @@ const {
   addScore,
   getReplies,
   getUserScores,
+  getUserPosts,
 } = require('../database/index');
 
 // import GCS storage function
@@ -287,6 +288,23 @@ dbRouter.post('/uploads', (req, res) => {
       .catch((error) => {
         console.error(error);
         res.sendStatus(500);
+      });
+  } else {
+    // Not Authorized
+    res.sendStatus(401);
+  }
+});
+
+dbRouter.get('/posts', (req, res) => {
+  // deconstruct "idChannel" number from req.body to pass to get threads form db
+  const { idUser } = req.query;
+  if (authChecker(req.user)) {
+    getUserPosts(idUser)
+      .then((threads) => {
+        res.send(threads);
+      })
+      .catch((error) => {
+        console.log(error);
       });
   } else {
     // Not Authorized
