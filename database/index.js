@@ -301,8 +301,10 @@ async function getScores() {
     SELECT
       games.id AS "idGame",
       games.name,
-      games.description
+      games.description,
+      games.href
     FROM games
+    ORDER BY games.id
   `;
 
   try {
@@ -312,7 +314,7 @@ async function getScores() {
       const { idGame } = game;
       const getScoresCommand = `
         SELECT
-          s.id,
+          s.id AS "idScore",
           s.value,
           s.id_game AS "idGame",
           s.created_at AS "createdAt",
@@ -371,8 +373,10 @@ async function getUserScores(idUser) {
     SELECT
       games.id AS "idGame",
       games.name,
-      games.description
+      games.description,
+      games.href
     FROM games
+    ORDER BY games.id
   `;
 
   try {
@@ -382,7 +386,7 @@ async function getUserScores(idUser) {
       const { idGame } = game;
       const getScoresCommand = `
         SELECT
-          s.id,
+          s.id AS "idScore",
           s.value,
           s.id_game AS "idGame",
           s.created_at AS "createdAt",

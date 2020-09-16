@@ -1,93 +1,75 @@
 import React from 'react';
-import GTL from '../assets/favicon.png';
-import asteroid from '../assets/asteroids.gif';
+import {
+  MDBCarousel, MDBCarouselCaption, MDBCarouselInner,
+  MDBCarouselItem, MDBView, MDBContainer,
+} from 'mdbreact';
+import asteroids from '../assets/asteroids.gif';
 import starhunter from '../assets/starhunter.gif';
+import starcollecter from '../assets/starcollecter.gif';
 import breakout from '../assets/BREAKOUT.gif';
-import slime from '../assets/slimes.gif';
-import starsollector from '../assets/starcollecter.gif';
+import slimes from '../assets/slimes.gif';
 
-const GamePage = () => {
-  const styles = {
-    marginBottom: '3px',
-    marginRight: '5px',
-  };
+const GamePage = () => (
+  <MDBContainer>
+    <MDBCarousel
+      activeItem={1}
+      length={5}
+      // eslint-disable-next-line react/jsx-boolean-value
+      showControls={true}
+      // eslint-disable-next-line react/jsx-boolean-value
+      showIndicators={true}
+      className="z-depth-1"
+    >
+      <MDBCarouselInner>
 
-  const gifStyle = {
-    height: 250,
-    width: 350,
-    borderRadius: '5%',
-  };
+        <MDBCarouselItem itemId="1">
+          <MDBView>
+            <img src={asteroids} alt="First slide" className="mx-auto d-block" />
+          </MDBView>
+          <MDBCarouselCaption>
+            {/* <MDBLink to="/gameone"> Space Blaster </MDBLink> */}
+            <a href="/gameone">Space Blaster</a>
+          </MDBCarouselCaption>
+        </MDBCarouselItem>
 
-  return (
-    <div className="d-flex align-items-center flex-column">
-      <br />
-      <img src={asteroid} alt="asteroid-gameplay" style={gifStyle} />
-      <h5>
-        Destroy asteroids and aliens to increase your score!
-      </h5>
-      <div className="d-flex justify-content-center">
-        <a className="btn btn-outline-dark" href="/gameone" role="button">
-          <img width="20px" style={styles} alt="asteroids" src={GTL} />
-          Space Blaster
-        </a>
-      </div>
-      <br />
-      <img src={starhunter} alt="asteroid-gameplay" style={gifStyle} />
-      <h5>
-        Collect stars with your friends, be the first team to hit 200 to win!
-      </h5>
-      <div className="d-flex justify-content-center">
-        <a className="btn btn-outline-dark" href="/multiplayer" role="button">
-          <img width="20px" style={styles} alt="starhunter" src={GTL} />
-          Star Hunter
-        </a>
-      </div>
-      <br />
-      <img src={starsollector} alt="starcollector-gameplay" style={gifStyle} />
-      <h5>
-        Collect stars from all platforms while avoiding bombs!
-      </h5>
-      <div className="d-flex justify-content-center">
-        <a className="btn btn-outline-dark" href="/gamethree" role="button">
-          <img width="20px" style={styles} alt="pick up stars" src={GTL} />
-          Pickup Stars
-        </a>
-      </div>
-      <br />
-      <img src={breakout} alt="breakout-gameplay" style={gifStyle} />
-      <h5>
-        Destroy all the blocks!
-      </h5>
-      <div className="d-flex justify-content-center">
-        <a className="btn btn-outline-dark" href="/breakout" role="button">
-          <img width="20px" style={styles} alt="breakout" src={GTL} />
-          Break Out
-        </a>
-      </div>
-      <br />
-      <img src={slime} alt="germs gif" style={gifStyle} />
-      <h5>
-        Avoid the germs!
-      </h5>
-      <div className="d-flex justify-content-center">
-        <a className="btn btn-outline-dark" href="/germs" role="button">
-          <img width="20px" style={styles} alt="germs" src={GTL} />
-          Germs!
-        </a>
-      </div>
-      <br />
-      <img src={slime} alt="germs gif" style={gifStyle} />
-      <h5>
-        Flood the box all one color in 25 moves or less!
-      </h5>
-      <div className="d-flex justify-content-center">
-        <a className="btn btn-outline-dark" href="/flood" role="button">
-          <img width="20px" style={styles} alt="germs" src={GTL} />
-          Flood!
-        </a>
-      </div>
-    </div>
-  );
-};
+        <MDBCarouselItem itemId="2">
+          <MDBView>
+            <img src={starhunter} alt="Second slide" className="mx-auto d-block" />
+          </MDBView>
+          <MDBCarouselCaption>
+            <a href="/multiplayer">Star Hunter</a>
+          </MDBCarouselCaption>
+        </MDBCarouselItem>
+
+        <MDBCarouselItem itemId="3">
+          <MDBView>
+            <img src={starcollecter} alt="Third slide" className="mx-auto d-block" />
+          </MDBView>
+          <MDBCarouselCaption>
+            <a href="/gamethree">Star Pickup</a>
+          </MDBCarouselCaption>
+        </MDBCarouselItem>
+
+        <MDBCarouselItem itemId="4">
+          <MDBView>
+            <img src={breakout} alt="Fourth slide" className="mx-auto d-block" />
+          </MDBView>
+          <MDBCarouselCaption>
+            <a href="/breakout">Break Out</a>
+          </MDBCarouselCaption>
+        </MDBCarouselItem>
+
+        <MDBCarouselItem itemId="5">
+          <MDBView>
+            <img src={slimes} alt="Fifth slide" className="mx-auto d-block" />
+          </MDBView>
+          <MDBCarouselCaption>
+            <a href="/germs">Star Pickup</a>
+          </MDBCarouselCaption>
+        </MDBCarouselItem>
+      </MDBCarouselInner>
+    </MDBCarousel>
+  </MDBContainer>
+);
 
 export default GamePage;

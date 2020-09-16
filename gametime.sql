@@ -15,7 +15,8 @@ CREATE TABLE users (
 CREATE TABLE games (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255),
-  description VARCHAR(255)
+  description VARCHAR(255),
+  href VARCHAR(255)
 );
 
 CREATE TABLE scores (
@@ -84,14 +85,28 @@ BEFORE UPDATE ON threads
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_TIMESTAMP();
 
-INSERT INTO games (name, description) VALUES ('Space Blaster', 'Destroy asteroids and aliens to increase your score!');
-INSERT INTO games (name, description) VALUES ('Star Hunter', 'Collect stars with your friends. Be the first team to hit 200 to win!');
-INSERT INTO games (name, description) VALUES ('Pickup Stars', 'Collect stars from all platforms while avoiding bombs!');
-INSERT INTO games (name, description) VALUES ('Break Out', 'Destroy all the blocks!');
-INSERT INTO games (name, description) VALUES ('Germs!', 'Avoid the germs!');
-INSERT INTO games (name, description) VALUES ('Flood!', 'Flood the box all one color in 25 moves or less!');
+INSERT INTO games (name, description, href) VALUES ('Space Blaster', 'Destroy asteroids and aliens to increase your score!', '/gameone');
+INSERT INTO games (name, description, href) VALUES ('Star Hunter', 'Collect stars with your friends. Be the first team to hit 200 to win!', '/multiplayer');
+INSERT INTO games (name, description, href) VALUES ('Pickup Stars', 'Collect stars from all platforms while avoiding bombs!', '/gamethree');
+INSERT INTO games (name, description, href) VALUES ('Break Out', 'Destroy all the blocks!', '/breakout');
+INSERT INTO games (name, description, href) VALUES ('Germs!', 'Avoid the germs!', '/germs');
+INSERT INTO games (name, description, href) VALUES ('Flood!', 'Flood the box all one color in 25 moves or less!', '/flood');
 
 INSERT INTO channels (name) VALUES ('General Discussion');
 INSERT INTO channels (name) VALUES ('Challenges');
 INSERT INTO channels (name) VALUES ('Suggestions');
 INSERT INTO channels (name) VALUES ('Gamer News');
+
+INSERT INTO users (id_discord, username, profile_photo_url) VALUES (110283713677587668925, 'Grant Duplessis', 'https://lh3.googleusercontent.com/a-/AOh14GjHDc8j1O7IynODcB93VQms6H5Mdrcx6OT_VstTiA');
+INSERT INTO scores (value, id_user, id_game) VALUES (90, 1, 1);
+INSERT INTO scores (value, id_user, id_game) VALUES (130, 1, 1);
+INSERT INTO scores (value, id_user, id_game) VALUES (100, 1, 1);
+INSERT INTO scores (value, id_user, id_game) VALUES (70, 1, 2);
+INSERT INTO scores (value, id_user, id_game) VALUES (80, 1, 2);
+INSERT INTO scores (value, id_user, id_game) VALUES (10, 1, 2);
+INSERT INTO scores (value, id_user, id_game) VALUES (30, 1, 3);
+INSERT INTO scores (value, id_user, id_game) VALUES (20, 1, 3);
+INSERT INTO scores (value, id_user, id_game) VALUES (10, 1, 3);
+INSERT INTO scores (value, id_user, id_game) VALUES (10, 1, 5);
+INSERT INTO scores (value, id_user, id_game) VALUES (20, 1, 6);
+INSERT INTO scores (value, id_user, id_game) VALUES (40, 1, 6);

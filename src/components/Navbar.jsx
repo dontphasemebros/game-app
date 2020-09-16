@@ -4,6 +4,7 @@ import {
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import GTL from '../assets/favicon.png';
+import Score from './Score';
 
 const { getTopScores } = require('../helpers/helpers.js');
 
@@ -65,11 +66,15 @@ const NavBar = ({ user }) => {
           <Modal.Title>High Scores!</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <ul>
-            {scoresByGame[0] // *** REFACTOR BELOW FOR SCORES FOR MULTIPLE GAMES
-              ? scoresByGame[0].scores.map((score) => <li key={score.idScore}>{`${score.username}: ${score.value} --- ${score.createdAt.split('T')[0]}`}</li>)
+          <>
+            {scoresByGame.length
+              ? (
+                scoresByGame.map((game) => (
+                  <Score game={game} key={game.idScore} />
+                ))
+              )
               : 'no scores to show'}
-          </ul>
+          </>
         </Modal.Body>
       </Modal>
     </Navbar>
