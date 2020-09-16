@@ -40,8 +40,8 @@ const Profile = ({ user }) => {
             </MDBCol>
           </MDBRow>
 
-          <MDBRow>
-            <MDBCol size="6">
+          <MDBRow className="no-gutters">
+            <MDBCol>
               <MDBCard
                 className="text-center bg-light mb-3 pt-2"
               >
@@ -60,13 +60,13 @@ const Profile = ({ user }) => {
               </MDBCard>
             </MDBCol>
 
-            <MDBCol size="6" className="text-center">
+            <MDBCol className="text-center">
               <MDBCard className="align-items-center bg-light">
                 <MDBCardTitle className="pt-2">
                   {username}
                   &apos;s Picture:
                 </MDBCardTitle>
-                <MDBCardImage src={profilePhotoUrl} alt="" className="img-fluid" />
+                <MDBCardImage src={profilePhotoUrl} alt="" className="img-fluid p-3" />
               </MDBCard>
             </MDBCol>
           </MDBRow>
