@@ -297,7 +297,8 @@ dbRouter.post('/uploads', (req, res) => {
 
 dbRouter.get('/posts', (req, res) => {
   // deconstruct "idChannel" number from req.body to pass to get threads form db
-  const { idUser } = req.query;
+  console.log('in the get posts route', req.user.idUser);
+  const { idUser } = req.user;
   if (authChecker(req.user)) {
     getUserPosts(idUser)
       .then((posts) => {

@@ -429,13 +429,15 @@ async function getUserPosts(idUser) {
     FROM threads t
     LEFT JOIN channels c
     ON t.id_channel = c.id
-    WHERE id_user = 1
+    WHERE id_user = $1
     ORDER BY t.created_at DESC, t.id
   `;
 
   try {
     let posts = await pool.query(getPostsCommand, [idUser]);
+    console.log('ID user', idUser);
     posts = posts.rows;
+    console.log('******POSTS in DB file*******', posts);
     return posts;
   } catch (error) {
     return console.error('COULD NOT GET USER POSTS FROM DATABASE', error);

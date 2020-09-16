@@ -174,14 +174,16 @@ export const uploadPhoto = (data) => new Promise((resolve, reject) => {
 
 // gets all posts made by current user
 export const getPostsByUser = (idUser) => new Promise((resolve, reject) => {
+  console.log('*****idUser helpers file**********', idUser);
   axios({
     method: 'get',
-    url: '/threads',
+    url: '/posts',
     params: {
       idUser,
     },
   })
     .then((response) => {
+      console.log('**** getPosts helpers file then block*********', response);
       resolve(response.data);
     }).catch((err) => reject(err));
 });

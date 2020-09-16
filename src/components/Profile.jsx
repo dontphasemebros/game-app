@@ -3,14 +3,17 @@ import PropTypes from 'prop-types';
 import {
   MDBCard, MDBCardTitle, MDBCardImage, MDBContainer, MDBCardBody, MDBRow, MDBCol,
 } from 'mdbreact';
+import {
+  Card, Col, Image,
+} from 'react-bootstrap';
 import PhaserBro from '../assets/PhaserBro.gif';
 import Score from './Score';
 
-const { getScoresByUser } = require('../helpers/helpers.js');
+const { getScoresByUser, getPostsByUser } = require('../helpers/helpers.js');
 
 const Profile = ({ user }) => {
   const [userScoresByGame, setUserScoresByGame] = useState([]);
-
+  const [posts, setPosts] = useState([]);
   const {
     username, profilePhotoUrl, idUser,
   } = user;
@@ -21,6 +24,16 @@ const Profile = ({ user }) => {
         setUserScoresByGame(result);
       })
       .catch((err) => console.error('ERROR GETTING USER SCORES: ', err));
+  }, []);
+
+  useEffect(() => {
+    console.log('inside the useEffect', user);
+    getPostsByUser(idUser)
+      .then((result) => {
+        console.log('****getPostsByUser then block*****', result);
+        setPosts(result);
+      })
+      .catch((err) => console.error('ERROR GETTING POSTS: ', err));
   }, []);
 
   return (
@@ -67,6 +80,43 @@ const Profile = ({ user }) => {
                 </MDBCardTitle>
                 <MDBCardImage src={profilePhotoUrl} alt="" className="img-fluid p-3" />
               </MDBCard>
+              <div className="w-100" />
+              <MDBCardTitle className="p-3 text-white">
+                {username}
+                &apos;s Posts:
+              </MDBCardTitle>
+              {!Array.isArray(user) ? (
+                posts.map((post) => (
+                  <Card key={post.idThread}>
+                    <div className="card flex-row flex-wrap">
+                      <div className="card-header border-0">
+                        {post.channel}
+                      </div>
+                      <Col className="m-2">
+                        <div />
+                        <div className="card-footer">
+                          <div />
+                          {!post.text ? (
+                            null
+                          ) : <p className="blockquote mb-0">{post.text}</p> }
+                          {!post.photoUrl ? null : (
+                            <div>
+                              <Image className="card-header border-0" src={post.photoUrl} alt="" fluid />
+                            </div>
+                          ) }
+                        </div>
+                        <div className="blockquote-footer pull-right" style={{ fontSize: '16px' }}>
+                          <span className="text-muted">
+                            {post.username}
+                            {' '}
+                            {post.createdAt.split('T')[0]}
+                          </span>
+                        </div>
+                      </Col>
+                    </div>
+                  </Card>
+                ))
+              ) : null}
             </MDBCol>
           </MDBRow>
           {' '}
