@@ -28,7 +28,6 @@ class GameTwo extends Phaser.Scene {
     this.socket.emit('join', this.room);
     this.socket.on('currentPlayers', (players) => {
       players.forEach((player) => {
-        console.log(player);
         if (player.id === this.socket.id) {
           this.addPlayer(player);
         } else {
@@ -85,9 +84,9 @@ class GameTwo extends Phaser.Scene {
   update() {
     if (this.ship) {
       if (this.cursors.left.isDown) {
-        this.ship.setAngularVelocity(-150);
+        this.ship.setAngularVelocity(-300);
       } else if (this.cursors.right.isDown) {
-        this.ship.setAngularVelocity(200);
+        this.ship.setAngularVelocity(300);
       } else {
         this.ship.setAngularVelocity(0);
       }
