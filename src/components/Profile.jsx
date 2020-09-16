@@ -16,7 +16,6 @@ const Profile = ({ user }) => {
   } = user;
 
   useEffect(() => {
-    console.log(idUser);
     getScoresByUser(idUser)
       .then((result) => {
         setUserScoresByGame(result);
