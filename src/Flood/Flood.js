@@ -1,13 +1,12 @@
 import Phaser from 'phaser';
+import blobsJSON from './assets/blobs.json';
+import blobsPNG from './assets/blobs.png';
+// import monstersJSON from './assets/monsters.json';
+// import monsterPNG from './assets/monsters.png';
 
-const Flood = new Phaser.Class({
-
-  Extends: Phaser.Scene,
-
-  initialize:
-
-  function Flood() {
-    Phaser.Scene.call(this, { key: 'flood' });
+export default class Flood extends Phaser.Scene {
+  constructor() {
+    super('flood');
 
     this.allowClick = true;
 
@@ -40,12 +39,14 @@ const Flood = new Phaser.Class({
     this.moves = 25;
 
     this.frames = ['blue', 'green', 'grey', 'purple', 'red', 'yellow'];
-  },
+  }
 
   preload() {
-    this.load.bitmapFont('atari', 'assets/fonts/bitmap/atari-smooth.png', 'assets/fonts/bitmap/atari-smooth.xml');
-    this.load.atlas('flood', 'assets/games/flood/blobs.png', 'assets/games/flood/blobs.json');
-  },
+    // this.load.bitmapFont(
+    //   'atari', 'assets/fonts/bitmap/atari-smooth.png', 'assets/fonts/bitmap/atari-smooth.xml'
+    // );
+    this.load.atlas('flood', blobsPNG, blobsJSON);
+  }
 
   create() {
     this.add.image(400, 300, 'flood', 'background');
@@ -102,14 +103,14 @@ const Flood = new Phaser.Class({
 
     this.createArrow();
 
-    this.text1 = this.add.bitmapText(684, 30, 'atari', 'Moves', 20).setAlpha(0);
-    this.text2 = this.add.bitmapText(694, 60, 'atari', '00', 40).setAlpha(0);
-    this.text3 = this.add.bitmapText(180, 200, 'atari', 'So close!\n\nClick to\ntry again', 48).setAlpha(0);
+    this.text1 = this.add.text(684, 30, 'Moves', { fontSize: '30px' }).setAlpha(0);
+    this.text2 = this.add.text(694, 60, '00', { fontSize: '30px' }).setAlpha(0);
+    this.text3 = this.add.text(180, 200, 'So close!\n\nClick to\ntry again', { fontSize: '40px' }).setAlpha(0);
 
     this.instructions = this.add.image(400, 300, 'flood', 'instructions').setAlpha(0);
 
     this.revealGrid();
-  },
+  }
 
   helpFlood() {
     for (let i = 0; i < 8; i += 1) {
@@ -125,7 +126,7 @@ const Flood = new Phaser.Class({
 
       this.floodFill(oldColor, newColor, x, y);
     }
-  },
+  }
 
   createArrow() {
     this.arrow = this.add.image(109 - 24, 48, 'flood', 'arrow-white').setOrigin(0).setAlpha(0);
@@ -140,7 +141,7 @@ const Flood = new Phaser.Class({
       repeat: -1,
 
     });
-  },
+  }
 
   createIcon(icon, color, x, y) {
     const sx = (x < 400) ? -200 : 1000;
@@ -162,7 +163,7 @@ const Flood = new Phaser.Class({
 
     // eslint-disable-next-line no-param-reassign
     icon.shadow = shadow;
-  },
+  }
 
   revealGrid() {
     this.tweens.add({
@@ -274,7 +275,7 @@ const Flood = new Phaser.Class({
     });
 
     this.time.delayedCall(i, this.startInputEvents, [], this);
-  },
+  }
 
   startInputEvents() {
     this.input.on('gameobjectover', this.onIconOver, this);
@@ -292,13 +293,13 @@ const Flood = new Phaser.Class({
       this.moves -= 1;
       this.text2.setText(Phaser.Utils.String.Pad(this.moves, 2, '0', 1));
     }, this);
-  },
+  }
 
   stopInputEvents() {
     this.input.off('gameobjectover', this.onIconOver);
     this.input.off('gameobjectout', this.onIconOut);
     this.input.off('gameobjectdown', this.onIconDown);
-  },
+  }
 
   onIconOver(pointer, gameObject) {
     const icon = gameObject;
@@ -337,7 +338,7 @@ const Flood = new Phaser.Class({
       duration: 300,
       ease: 'Power2',
     });
-  },
+  }
 
   onIconOut(pointer, gameObject) {
     // console.log(this.monsterTween.targets[0].y);
@@ -355,7 +356,7 @@ const Flood = new Phaser.Class({
     });
 
     this.arrow.setFrame('arrow-white');
-  },
+  }
 
   onIconDown(pointer, gameObject) {
     if (!this.allowClick) {
@@ -395,7 +396,7 @@ const Flood = new Phaser.Class({
         this.startFlow();
       }
     }
-  },
+  }
 
   createEmitter(color) {
     this.emitters[color] = this.particles.createEmitter({
@@ -408,7 +409,7 @@ const Flood = new Phaser.Class({
       blendMode: 'ADD',
       on: false,
     });
-  },
+  }
 
   startFlow() {
     this.matched.sort((a, b) => {
@@ -451,7 +452,7 @@ const Flood = new Phaser.Class({
         this.gameLost();
       }
     }, [], this);
-  },
+  }
 
   checkWon() {
     const topLeft = this.grid[0][0].getData('color');
@@ -465,7 +466,7 @@ const Flood = new Phaser.Class({
     }
 
     return true;
-  },
+  }
 
   clearGrid() {
     //  Hide everything :)
@@ -510,7 +511,7 @@ const Flood = new Phaser.Class({
     }
 
     return i;
-  },
+  }
 
   gameLost() {
     this.stopInputEvents();
@@ -531,7 +532,7 @@ const Flood = new Phaser.Class({
     });
 
     this.input.once('pointerdown', this.resetGame, this);
-  },
+  }
 
   resetGame() {
     this.text1.setText('Moves');
@@ -614,7 +615,7 @@ const Flood = new Phaser.Class({
     this.moves = 25;
 
     this.time.delayedCall(i, this.startInputEvents, [], this);
-  },
+  }
 
   gameWon() {
     this.stopInputEvents();
@@ -640,7 +641,7 @@ const Flood = new Phaser.Class({
     });
 
     this.time.delayedCall(2000, this.boom, [], this);
-  },
+  }
 
   boom() {
     let color = Phaser.Math.RND.pick(this.frames);
@@ -652,7 +653,7 @@ const Flood = new Phaser.Class({
     this.emitters[color].explode(8, Phaser.Math.Between(128, 672), Phaser.Math.Between(28, 572));
 
     this.time.delayedCall(100, this.boom, [], this);
-  },
+  }
 
   floodFill(oldColor, newColor, x, y) {
     if (oldColor === newColor || this.grid[x][y].getData('color') !== oldColor) {
@@ -681,8 +682,5 @@ const Flood = new Phaser.Class({
     if (y < 13) {
       this.floodFill(oldColor, newColor, x, y + 1);
     }
-  },
-
-});
-
-export default Flood;
+  }
+}

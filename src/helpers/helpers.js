@@ -156,6 +156,7 @@ export const getScoresByUser = (idUser) => new Promise((resolve, reject) => {
     }).catch((err) => reject(err));
 });
 
+// saves an uploaded photo to the database
 export const uploadPhoto = (data) => new Promise((resolve, reject) => {
   axios({
     method: 'post',
@@ -169,4 +170,18 @@ export const uploadPhoto = (data) => new Promise((resolve, reject) => {
     .catch((err) => {
       reject(err);
     });
+});
+
+// gets all posts made by current user
+export const getPostsByUser = (idUser) => new Promise((resolve, reject) => {
+  axios({
+    method: 'get',
+    url: '/threads',
+    params: {
+      idUser,
+    },
+  })
+    .then((response) => {
+      resolve(response.data);
+    }).catch((err) => reject(err));
 });

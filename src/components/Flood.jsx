@@ -72,7 +72,9 @@ const Flood = React.memo(({ user }) => {
         <div style={descriptionStyle}>
           <h4>Flood Fill</h4>
           <p>
-            Starting from the top left, flood the box all one color in 25 moves or less!
+            Starting from the top left, flood the
+            <br />
+            box all one color in 25 moves or less!
           </p>
           <br />
           <br />
@@ -95,7 +97,7 @@ const Flood = React.memo(({ user }) => {
           </div>
         </div>
       ) : (
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: 'center', height: '64vh' }}>
           <h1>Please Login With Discord or Google</h1>
           <img src={PhaserBro} alt="PhaserBro" />
         </div>

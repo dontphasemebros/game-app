@@ -28,14 +28,18 @@ class GameOver extends Phaser.Scene {
         fill: '#FF1493',
         fontStyle: 'bold',
       });
+      window.idGame = 2;
       window.score = this.scores.blue;
+      window.submitted = false;
     } else {
       this.add.text(270, 170, 'Read Team Won!', {
         fontSize: '32px',
         fill: '#FF1493',
         fontStyle: 'bold',
       });
+      window.idGame = 2;
       window.score = this.scores.red;
+      window.submitted = false;
     }
   }
 }
