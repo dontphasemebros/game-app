@@ -2,7 +2,7 @@ import React from 'react';
 
 function Login() {
   return (
-    <div clasName="d-flex flex-column">
+    <div className="d-flex flex-column" style={{ height: '64vh' }}>
       <br />
       <h1 className="d-flex justify-content-center">Choose A Login Method!</h1>
       <br />

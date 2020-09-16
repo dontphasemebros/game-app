@@ -335,7 +335,6 @@ async function getScores() {
       finishedGame.scores = scores.rows ? scores.rows : [];
       return finishedGame;
     }));
-    console.log('SCORE FORMAT: ', games);
     return games;
   } catch (error) {
     return console.error('COULD NOT GET TOP SCORES FROM DATABASE', error);
@@ -408,7 +407,6 @@ async function getUserScores(idUser) {
       finishedGame.scores = scores.rows ? scores.rows : [];
       return finishedGame;
     }));
-    console.log('USER SCORES FORMAT: ', games);
     return games;
   } catch (error) {
     return console.error('COULD NOT GET TOP SCORES FROM DATABASE', error);

@@ -143,17 +143,14 @@ class GameThree extends Phaser.Scene {
     }
   }
 
-  // eslint-disable-next-line no-unused-vars
   hitBomb(player) {
-    this.physics.pause();
-
     player.setTint(0xff0000);
-
-    player.anims.play('turn');
-
     this.gameOver = true;
-
-    this.scene.start('gameOverScene');
+    setTimeout(() => {
+      this.scene.start('gameOverScene', { score: this.score });
+      this.score = 0;
+      this.gameOver = false;
+    }, 1000);
   }
 }
 

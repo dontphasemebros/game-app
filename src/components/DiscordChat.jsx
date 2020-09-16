@@ -6,7 +6,7 @@ const DiscordChat = () => {
   };
 
   return (
-    <div>
+    <div style={{ height: '800px' }}>
       <iframe
         title="discord"
         src="https://e.widgetbot.io/channels/747930227992297564/747942380749193247"

@@ -2,7 +2,6 @@ import React from 'react';
 import Connor from '../assets/cschratz.jpg';
 import James from '../assets/slim.jpg';
 import Grant from '../assets/gmoney.png';
-import Ben from '../assets/ben.jpg';
 
 const AboutUs = () => {
   const imgStyle = {
@@ -13,14 +12,7 @@ const AboutUs = () => {
 
   const topDivStyle = {
     textAlign: 'center',
-  };
-
-  const childDivL = {
-    float: 'left',
-  };
-
-  const childDivR = {
-    float: 'right',
+    height: '1200px',
   };
 
   return (
@@ -29,7 +21,7 @@ const AboutUs = () => {
         Our Team
       </h1>
       <br />
-      <div style={childDivL}>
+      <div>
         <div>
           <img src={James} alt="dev" style={imgStyle} />
           <h4>
@@ -58,6 +50,7 @@ const AboutUs = () => {
           </p>
         </div>
         <br />
+        <br />
         <div>
           <img src={Connor} alt="dev" style={imgStyle} />
           <h4>
@@ -82,7 +75,9 @@ const AboutUs = () => {
           </p>
         </div>
       </div>
-      <div style={childDivR}>
+      <br />
+      <br />
+      <div>
         <div>
           <img src={Grant} alt="dev" style={imgStyle} />
           <h4>
@@ -109,25 +104,6 @@ const AboutUs = () => {
           </p>
         </div>
         <br />
-        <div>
-          <img src={Ben} alt="dev" style={imgStyle} />
-          <h4>
-            Ben Yoss -
-            <em>
-              {' '}
-              Software Engineer
-            </em>
-          </h4>
-          <p>
-            Benjamin Yoss is an aspiring software engineer who
-            <br />
-            has been a self-taught digital artist, animator and
-            <br />
-            graphic designer that went from bringing his ideas
-            <br />
-            to life through drawing to building software applications.
-          </p>
-        </div>
       </div>
     </div>
   );

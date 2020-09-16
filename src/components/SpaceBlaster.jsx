@@ -122,7 +122,7 @@ const SpaceBlaster = React.memo(({ user }) => {
           </div>
         </div>
       ) : (
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: 'center', height: '64vh' }}>
           <h1>Please Login With Discord or Google</h1>
           <img src={PhaserBro} alt="PhaserBro" />
         </div>

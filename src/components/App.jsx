@@ -3,7 +3,6 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import '@babel/polyfill';
 import NavBar from './Navbar';
 import SplashPage from './SplashPage';
-import GameTimeLogo from './GameTimeLogo';
 import Forum from './Forum';
 import Chat from './Chat';
 import FooterPage from './Footer';
@@ -23,6 +22,7 @@ import GamePage from './GamePage';
 import BreakOut from './BreakOut';
 import Germs from './Germs';
 import Flood from './Flood';
+import Multiplayer from './Multiplayer';
 
 const { getAuth } = require('../helpers/helpers.js');
 
@@ -41,12 +41,15 @@ function App() {
 
   return (
     <BrowserRouter>
-      <GameTimeLogo />
       <NavBar user={user} />
+      <br />
       <div className="container">
         <Switch>
           <Route path="/join">
             <Join />
+          </Route>
+          <Route path="/multiplayer">
+            <Multiplayer />
           </Route>
           <Route path="/games">
             <GamePage />
