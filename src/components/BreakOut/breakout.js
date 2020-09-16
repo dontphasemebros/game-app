@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
-
 import breakout from './assets/breakout.png';
 import breakoutjson from './assets/breakout.json';
+import bounce from './assets/bounce.mp3';
 
 class BreakOut extends Phaser.Scene {
   constructor() {
@@ -11,6 +11,7 @@ class BreakOut extends Phaser.Scene {
 
   preload() {
     this.load.atlas('assets', breakout, breakoutjson);
+    this.load.audio('bounce', bounce);
   }
 
   create() {
@@ -61,6 +62,16 @@ class BreakOut extends Phaser.Scene {
   }
 
   hitBrick(ball, brick) {
+    const bounced = this.sound.add('bounce', {
+      mute: false,
+      volume: 0.2,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: false,
+      delay: 0,
+    });
+    bounced.play();
     brick.disableBody(true, true);
     this.score += 50;
     this.scoreText.setText(`Score: ${this.score}`);
@@ -88,6 +99,16 @@ class BreakOut extends Phaser.Scene {
 
   // eslint-disable-next-line class-methods-use-this
   hitPaddle(ball, paddle) {
+    const bounced = this.sound.add('bounce', {
+      mute: false,
+      volume: 0.2,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: false,
+      delay: 0,
+    });
+    bounced.play();
     let diff = 0;
 
     if (ball.x < paddle.x) {
