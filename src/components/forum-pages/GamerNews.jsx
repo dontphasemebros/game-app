@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {
+  Link,
+} from 'react-router-dom';
+import {
+  Card, Col, Image, Row,
 } from 'react-bootstrap';
 
 const { getNews } = require('../../helpers/helpers.js');
@@ -26,48 +30,33 @@ const GamerNews = () => {
       </div>
       <div className="Gamer-News-Body" style={{ textAlign: 'center' }}>
         {articles.map((article) => (
-          <div
-            className="panel-primary inline-block"
-            id="GeneralDisussion"
-            style={{
-              backgroundColor: '#D6DBDF', maxWidth: '700px', marginTop: '20px', minHeight: 'max-content',
-            }}
-          >
-            <div className={`article-picture${article.id} panel-body text-left inline-block`} style={{ minHeight: 'max-content' }}>
-              <div
-                className="bgy"
-                style={{
-                  display: 'inline-block', minWidth: '100px', backgroundColor: '#D6DBDF', minHeight: '320px',
-                }}
-              >
-                <img className="d-print-inline-block" src={article.image.square_tiny} heigh="200px" width="200px" alt="" style={{ display: 'inline-block', padding: '20px' }} />
-                <div
-                  className={`username${article.id} panel-body text-left inline-block`}
-                  style={{
-                    display: 'inline-block', position: 'absolute', padding: '20px', maxWidth: '460px',
-                  }}
-                >
-                  <h4 style={{ fontWeight: 'bold' }}>{article.title}</h4>
-                  <h5 style={{ display: 'inline-block', paddingTop: '20px', maxHeight: '200px' }}>{article.lede}</h5>
-                  <a
-                    style={{
-                      display: 'inline-block', paddingTop: '10px', cursor: 'pointer', color: 'blue', marginBottom: '10px',
-                    }}
-                    href={article.site_detail_url}
-                  >
-                    {article.site_detail_url}
-                  </a>
+          <>
+            <Card key={article.id}>
+              <div className="card flex-row flex-wrap">
+                <div className="card-header border-0">
+                  <Image src={article.image.square_small} height="200px" width="200px" alt="" fluid />
                 </div>
-                <div style={{ marginLeft: '20px' }}>
-                  <h6>{`${article.authors}`}</h6>
-                  <h6>{`${article.publish_date.split(' ')[0]}`}</h6>
-                </div>
-                <div className={`date${article.id} panel-body text-left inline-block`} style={{ display: 'inline-block' }}>
-                  <span style={{ marginRight: '20px' }} />
-                </div>
+                <Col className="d-flex flex-column m-2">
+                  <div />
+                  <h4 className="mt-2 mb-2 ml-3 mr-0 font-bold text-left">
+                    <a href={article.site_detail_url}>{article.title}</a>
+                  </h4>
+                  <div className="mx-2 card-footer text-left">
+                    <div />
+                    <p className="blockquote mb-0">{article.lede}</p>
+                  </div>
+                  <div className="mx-2 blockquote-footer text-right my-2" style={{ fontSize: '16px' }}>
+                    <span className="text-muted">
+                      {article.authors}
+                      {' '}
+                      {`${article.publish_date.split(' ')[0]}`}
+                    </span>
+                  </div>
+                </Col>
               </div>
-            </div>
-          </div>
+            </Card>
+            <br />
+          </>
         ))}
       </div>
     </div>
