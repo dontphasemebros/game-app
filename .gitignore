@@ -112,3 +112,6 @@ app.yaml
 # Google user information
 config/dontphasemebros-cloud-storage.json
 config/keys.js
+
+# PSQL FILE
+gametime.sql
