@@ -87,7 +87,7 @@ EXECUTE PROCEDURE trigger_set_TIMESTAMP();
 
 INSERT INTO games (name, description, href) VALUES ('Space Blaster', 'Destroy asteroids and aliens to increase your score!', '/gameone');
 INSERT INTO games (name, description, href) VALUES ('Star Hunter', 'Collect stars with your friends. Be the first team to hit 200 to win!', '/multiplayer');
-INSERT INTO games (name, description, href) VALUES ('Pickup Stars', 'Collect stars from all platforms while avoiding bombs!', '/gamethree');
+INSERT INTO games (name, description, href) VALUES ('Star Pickup', 'Collect stars from all platforms while avoiding bombs!', '/gamethree');
 INSERT INTO games (name, description, href) VALUES ('Break Out', 'Destroy all the blocks!', '/breakout');
 INSERT INTO games (name, description, href) VALUES ('Germs!', 'Avoid the germs!', '/germs');
 INSERT INTO games (name, description, href) VALUES ('Flood!', 'Flood the box all one color in 25 moves or less!', '/flood');
