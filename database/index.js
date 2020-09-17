@@ -429,7 +429,7 @@ async function getUserPosts(idUser) {
     FROM threads t
     LEFT JOIN channels c
     ON t.id_channel = c.id
-    WHERE id_user = 1
+    WHERE id_user = $1
     ORDER BY t.created_at DESC, t.id
   `;
 
@@ -439,6 +439,40 @@ async function getUserPosts(idUser) {
     return posts;
   } catch (error) {
     return console.error('COULD NOT GET USER POSTS FROM DATABASE', error);
+  }
+}
+
+async function deleteThread(idThread) {
+  const deleteRepliesCommand = `
+    DELETE FROM replies
+    WHERE id_thread = $1
+  `;
+
+  const deleteThreadCommand = `
+    DELETE FROM threads
+    WHERE id = $1
+  `;
+
+  try {
+    const deletedReplies = await pool.query(deleteRepliesCommand, [idThread]);
+    const deletedThread = await pool.query(deleteThreadCommand, [idThread]);
+    return ({ deletedReplies, deletedThread });
+  } catch (error) {
+    return console.error('COULD NOT DELETE THREAD FROM DATABASE', error);
+  }
+}
+
+async function deleteReply(idReply) {
+  const deleteReplyCommand = `
+    DELETE FROM replies
+    WHERE id = $1
+  `;
+
+  try {
+    const deletedReply = await pool.query(deleteReplyCommand, [idReply]);
+    return ({ deletedReply });
+  } catch (error) {
+    return console.error('COULD NOT DELETE REPLY FROM DATABASE', error);
   }
 }
 
@@ -453,4 +487,6 @@ module.exports = {
   addScore,
   getUserScores,
   getUserPosts,
+  deleteThread,
+  deleteReply,
 };

@@ -9,14 +9,24 @@ import {
 } from 'react-bootstrap';
 import PhotoUpload from './PhotoUpload';
 
-const { getThreadReplies, submitReply, uploadPhoto } = require('../../helpers/helpers.js');
+const {
+  getThreadReplies, submitReply, uploadPhoto, removeThread, removeReply,
+} = require('../../helpers/helpers.js');
 
-const Thread = ({ user }) => {
+const Thread = ({ user, convertTime }) => {
   const { register, handleSubmit, reset } = useForm();
   const [reload, setReload] = useState([]);
   const { threadId } = useParams();
   const [thread, setThread] = useState([{}]);
   const [file, setFile] = useState(null);
+
+  useEffect(() => {
+    getThreadReplies(threadId)
+      .then((result) => {
+        setThread(result);
+      })
+      .catch((err) => console.error('ERROR GETTING THREADS: ', err));
+  }, [reload]);
 
   const fileChangeHandler = (e) => {
     setFile(null);
@@ -74,13 +84,23 @@ const Thread = ({ user }) => {
     }
   };
 
-  useEffect(() => {
-    getThreadReplies(threadId)
-      .then((result) => {
-        setThread(result);
+  const handleClick = ((idThread) => {
+    removeThread(idThread)
+      .then(() => {
+        reset();
+        setReload([]);
       })
-      .catch((err) => console.error('ERROR GETTING THREADS: ', err));
-  }, [reload]);
+      .catch((err) => console.error('ERROR DELETING THREAD: ', err));
+  });
+
+  const clickHandler = ((idReply) => {
+    removeReply(idReply)
+      .then(() => {
+        reset();
+        setReload([]);
+      })
+      .catch((err) => console.error('ERROR DELETING REPLY: ', err));
+  });
 
   return (
     <div>
@@ -105,13 +125,20 @@ const Thread = ({ user }) => {
                     </div>
                   ) }
                 </div>
-                <div className="blockquote-footer pull-right" style={{ fontSize: '16px' }}>
-                  <span className="text-muted">
-                    {thread[0].username}
-                    {' '}
-                    {thread[0].createdAt.split('T')[0]}
-                  </span>
-                </div>
+                <span>
+                  {thread[0].idUser === user.idUser ? (
+                    <div>
+                      <Button variant="outline-danger mt-2 h-50 m-0 p-0" as="input" type="submit" value="DELETE" size="small" onClick={() => { handleClick(thread[0].idThread); }} className="pull-left border-0 z-depth-0" tabIndex="0" />
+                      <span className="blockquote-footer text-muted pull-right" style={{ fontSize: '16px' }}>
+                        {`you, ${convertTime(thread[0].createdAt)}`}
+                      </span>
+                    </div>
+                  ) : (
+                    <span className="blockquote-footer text-muted pull-right" style={{ fontSize: '16px' }}>
+                      {`${thread[0].username}, ${convertTime(thread[0].createdAt)}`}
+                    </span>
+                  )}
+                </span>
               </Col>
             </div>
           </Card>
@@ -150,13 +177,20 @@ const Thread = ({ user }) => {
                       </div>
                     ) }
                   </div>
-                  <div className="blockquote-footer pull-right" style={{ fontSize: '16px' }}>
-                    <span className="text-muted">
-                      {reply.username}
-                      {' '}
-                      {reply.createdAt.split('T')[0]}
-                    </span>
-                  </div>
+                  <span>
+                    {reply.idUser === user.idUser ? (
+                      <div>
+                        <Button variant="outline-danger mt-2 h-50 m-0 p-0" as="input" type="submit" value="DELETE" size="small" onClick={() => { clickHandler(reply.idReply); }} className="pull-left border-0 z-depth-0" tabIndex="0" />
+                        <span className="blockquote-footer text-muted pull-right" style={{ fontSize: '16px' }}>
+                          {`you, ${convertTime(reply.createdAt)}`}
+                        </span>
+                      </div>
+                    ) : (
+                      <span className="blockquote-footer text-muted pull-right" style={{ fontSize: '16px' }}>
+                        {`${reply.username}, ${convertTime(reply.createdAt)}`}
+                      </span>
+                    )}
+                  </span>
                 </Col>
               </div>
             </Card>
@@ -172,6 +206,7 @@ const Thread = ({ user }) => {
 };
 
 Thread.propTypes = {
+  convertTime: PropTypes.func.isRequired,
   user: PropTypes.objectOf.isRequired,
 };
 

@@ -176,7 +176,7 @@ export const uploadPhoto = (data) => new Promise((resolve, reject) => {
 export const getPostsByUser = (idUser) => new Promise((resolve, reject) => {
   axios({
     method: 'get',
-    url: '/threads',
+    url: `/posts/${idUser}`,
     params: {
       idUser,
     },
@@ -184,4 +184,36 @@ export const getPostsByUser = (idUser) => new Promise((resolve, reject) => {
     .then((response) => {
       resolve(response.data);
     }).catch((err) => reject(err));
+});
+
+export const removeThread = (idThread) => new Promise((resolve, reject) => {
+  axios({
+    method: 'delete',
+    url: `/threads/${idThread}`,
+    params: {
+      idThread,
+    },
+  })
+    .then((response) => {
+      resolve(response.data);
+    })
+    .catch((err) => {
+      reject(err);
+    });
+});
+
+export const removeReply = (idReply) => new Promise((resolve, reject) => {
+  axios({
+    method: 'delete',
+    url: `/replies/${idReply}`,
+    params: {
+      idReply,
+    },
+  })
+    .then((response) => {
+      resolve(response.data);
+    })
+    .catch((err) => {
+      reject(err);
+    });
 });

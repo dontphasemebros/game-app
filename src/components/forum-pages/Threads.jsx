@@ -9,14 +9,24 @@ import {
 } from 'react-bootstrap';
 import PhotoUpload from './PhotoUpload';
 
-const { getThreadsByChannel, submitThread, uploadPhoto } = require('../../helpers/helpers.js');
+const {
+  getThreadsByChannel, submitThread, uploadPhoto, removeThread,
+} = require('../../helpers/helpers.js');
 
-const Threads = ({ channel, user }) => {
+const Threads = ({ channel, user, convertTime }) => {
   const idChannel = channel ? channel.idChannel : 0;
   const [threads, setThreads] = useState([]);
   const { register, handleSubmit, reset } = useForm();
   const [reload, setReload] = useState([]);
   const [file, setFile] = useState(null);
+
+  useEffect(() => {
+    getThreadsByChannel(idChannel)
+      .then((result) => {
+        setThreads(result);
+      })
+      .catch((err) => console.error('ERROR GETTING THREADS: ', err));
+  }, [reload]);
 
   const fileChangeHandler = (e) => {
     setFile(null);
@@ -50,7 +60,7 @@ const Threads = ({ channel, user }) => {
         setReload([]);
         return submittedReply;
       } catch (err) {
-        return console.error('ERROR SUBMITTING PHOTO REPLY: ', err);
+        return console.error('ERROR SUBMITTING PHOTO THREAD: ', err);
       }
     }
     if (file) {
@@ -69,18 +79,19 @@ const Threads = ({ channel, user }) => {
             reset();
             setReload([]);
           })
-          .catch((err) => console.error('ERROR SUBMITTING REPLY: ', err));
+          .catch((err) => console.error('ERROR SUBMITTING THREAD: ', err));
       }
     }
   };
 
-  useEffect(() => {
-    getThreadsByChannel(idChannel)
-      .then((result) => {
-        setThreads(result);
+  const handleClick = ((idThread) => {
+    removeThread(idThread)
+      .then(() => {
+        reset();
+        setReload([]);
       })
-      .catch((err) => console.error('ERROR GETTING THREADS: ', err));
-  }, [reload]);
+      .catch((err) => console.error('ERROR DELETING THREAD: ', err));
+  });
 
   return (
     <div>
@@ -112,7 +123,7 @@ const Threads = ({ channel, user }) => {
                     {!thread.text ? (
                       null
                     ) : (
-                      <Link to={`/thread${thread.idThread}`} id={thread.idThread}>
+                      <Link to={`/thread${thread.idThread}`} id={thread.idThread} style={{ color: 'black' }}>
                         <p className="blockquote mb-0">{thread.text}</p>
                       </Link>
                     )}
@@ -122,13 +133,20 @@ const Threads = ({ channel, user }) => {
                       </Link>
                     ) }
                   </div>
-                  <div className="blockquote-footer pull-right" style={{ fontSize: '16px' }}>
-                    <span className="text-muted">
-                      {thread.username}
-                      {' '}
-                      {thread.createdAt.split('T')[0]}
-                    </span>
-                  </div>
+                  <span>
+                    {thread.idUser === user.idUser ? (
+                      <div>
+                        <Button variant="outline-danger mt-2 h-50 m-0 p-0" as="input" type="submit" value="DELETE" size="small" onClick={() => { handleClick(thread.idThread); }} className="pull-left border-0 z-depth-0" tabIndex="0" />
+                        <span className="blockquote-footer text-muted pull-right" style={{ fontSize: '16px' }}>
+                          {`you, ${convertTime(thread.createdAt)}`}
+                        </span>
+                      </div>
+                    ) : (
+                      <span className="blockquote-footer text-muted pull-right" style={{ fontSize: '16px' }}>
+                        {`${thread.username}, ${convertTime(thread.createdAt)}`}
+                      </span>
+                    )}
+                  </span>
                 </Col>
               </div>
             </Card>
@@ -145,6 +163,7 @@ const Threads = ({ channel, user }) => {
 };
 
 Threads.propTypes = {
+  convertTime: PropTypes.func.isRequired,
   user: PropTypes.objectOf.isRequired,
   channel: PropTypes.shape({
     name: PropTypes.string,

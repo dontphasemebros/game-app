@@ -16,6 +16,25 @@ const GamerNews = () => {
       .catch((err) => console.error('ERROR GETTING ARTICLES: ', err));
   }, []);
 
+  const convertTime = (timestamp) => {
+    const timeConfig = { dateStyle: 'short', timeStyle: 'short' };
+    const convertedTs = new Date(timestamp);
+    const duration = new Date().getTime() - convertedTs;
+    const seconds = Math.floor((duration / 1000) % 60);
+    const minutes = Math.floor((duration / (1000 * 60)) % 60);
+    const hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+    const days = Math.floor((duration / (1000 * 60 * 60 * 24)));
+
+    if (days === 0 && hours === 0 && minutes === 0) {
+      return seconds < 10 ? 'just now' : `${seconds} seconds ago`;
+    } if (days === 0 && hours === 0 && minutes !== 0) {
+      return minutes === 1 ? 'a minute ago' : `${minutes} minutes ago`;
+    } if (days === 0 && hours < 24) {
+      return hours === 1 ? 'an hour ago' : `${hours} hours ago`;
+    }
+    return `${timestamp.toLocaleString(undefined, timeConfig)}`;
+  };
+
   return (
     <div>
       <div style={{ padding: '20px' }}>
@@ -45,8 +64,8 @@ const GamerNews = () => {
                   <div className="mx-2 blockquote-footer text-right my-2" style={{ fontSize: '16px' }}>
                     <span className="text-muted">
                       {article.authors}
-                      {' '}
-                      {`${article.publish_date.split(' ')[0]}`}
+                      {', '}
+                      {`${convertTime(article.publish_date)}`}
                     </span>
                   </div>
                 </Col>

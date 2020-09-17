@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server/server.js",
-    "dev": "NODE_ENV='development' webpack --mode development && nodemon server/server.js",
+    "dev": "NODE_ENV='development' webpack --mode development && nodemon server/server.js --watch",
     "build": "webpack --mode production --watch",
     "test": "mocha test",
     "pretest": "./node_modules/.bin/eslint --ignore-path .gitignore . --fix"
@@ -79,7 +79,6 @@
     "mdbreact": "^4.27.0",
     "mime": "^2.4.6",
     "mocha": "^8.1.3",
-    "moment": "^2.28.0",
     "multer": "^1.4.2",
     "oauth": "^0.9.15",
     "passport": "^0.4.1",

@@ -39,9 +39,28 @@ function App() {
       .catch((err) => console.error('ERROR GETTING SESSION: ', err));
   }, []);
 
+  const convertTime = (timestamp) => {
+    const timeConfig = { dateStyle: 'short', timeStyle: 'short' };
+    const convertedTs = new Date(timestamp);
+    const duration = new Date().getTime() - convertedTs;
+    const seconds = Math.floor((duration / 1000) % 60);
+    const minutes = Math.floor((duration / (1000 * 60)) % 60);
+    const hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+    const days = Math.floor((duration / (1000 * 60 * 60 * 24)));
+
+    if (days === 0 && hours === 0 && minutes === 0) {
+      return seconds < 10 ? 'just now' : `${seconds} seconds ago`;
+    } if (days === 0 && hours === 0 && minutes !== 0) {
+      return minutes === 1 ? 'a minute ago' : `${minutes} minutes ago`;
+    } if (days === 0 && hours < 24) {
+      return hours === 1 ? 'an hour ago' : `${hours} hours ago`;
+    }
+    return `${timestamp.toLocaleString(undefined, timeConfig)}`;
+  };
+
   return (
     <BrowserRouter>
-      <NavBar user={user} />
+      <NavBar user={user} convertTime={convertTime} />
       <br />
       <div className="container">
         <Switch>
@@ -83,28 +102,28 @@ function App() {
           </Route>
           <Route path="/highscore" />
           <Route path="/forum">
-            <Forum user={user} />
+            <Forum user={user} convertTime={convertTime} />
           </Route>
           <Route path="/general">
-            <Channel channel={{ name: 'General', idChannel: 1 }} user={user} />
+            <Channel channel={{ name: 'General', idChannel: 1 }} user={user} convertTime={convertTime} />
           </Route>
           <Route path="/challenges">
-            <Channel channel={{ name: 'Challenges', idChannel: 2 }} user={user} />
+            <Channel channel={{ name: 'Challenges', idChannel: 2 }} user={user} convertTime={convertTime} />
           </Route>
           <Route path="/suggestions">
-            <Channel channel={{ name: 'Suggestions', idChannel: 3 }} user={user} />
+            <Channel channel={{ name: 'Suggestions', idChannel: 3 }} user={user} convertTime={convertTime} />
           </Route>
           <Route path="/thread">
-            <Threads />
+            <Threads user={user} convertTime={convertTime} />
           </Route>
           <Route path="/thread:threadId">
-            <Thread user={user} />
+            <Thread user={user} convertTime={convertTime} />
           </Route>
           <Route path="/gamer-news">
-            <GamerNews />
+            <GamerNews convertTime={convertTime} />
           </Route>
           <Route path="/profile">
-            <Profile user={user} />
+            <Profile user={user} convertTime={convertTime} />
           </Route>
           <Route path="/404">
             Not Found
