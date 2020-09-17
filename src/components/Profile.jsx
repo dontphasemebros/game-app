@@ -4,7 +4,7 @@ import {
   MDBCard, MDBCardTitle, MDBCardImage, MDBContainer, MDBCardBody, MDBRow, MDBCol,
 } from 'mdbreact';
 import {
-  Card, Col, Image,
+  Button, Card, Col, Image,
 } from 'react-bootstrap';
 import {
   Link,
@@ -12,11 +12,12 @@ import {
 import PhaserBro from '../assets/PhaserBro.gif';
 import Score from './Score';
 
-const { getScoresByUser, getPostsByUser } = require('../helpers/helpers.js');
+const { getScoresByUser, getPostsByUser, removeThread } = require('../helpers/helpers.js');
 
 const Profile = ({ user, convertTime }) => {
   const [userScoresByGame, setUserScoresByGame] = useState([]);
   const [posts, setPosts] = useState([]);
+  const [reload, setReload] = useState([]);
 
   useEffect(() => {
     getScoresByUser(user.idUser)
@@ -24,7 +25,7 @@ const Profile = ({ user, convertTime }) => {
         setUserScoresByGame(result);
       })
       .catch((err) => console.error('ERROR GETTING USER SCORES: ', err));
-  }, [user]);
+  }, [user, reload]);
 
   useEffect(() => {
     getPostsByUser(user.idUser)
@@ -32,7 +33,15 @@ const Profile = ({ user, convertTime }) => {
         setPosts(result);
       })
       .catch((err) => console.error('ERROR GETTING POSTS: ', err));
-  }, [user]);
+  }, [user, reload]);
+
+  const handleClick = ((idThread) => {
+    removeThread(idThread)
+      .then(() => {
+        setReload([]);
+      })
+      .catch((err) => console.error('ERROR DELETING THREAD: ', err));
+  });
 
   return (
     <MDBContainer>
@@ -92,9 +101,9 @@ const Profile = ({ user, convertTime }) => {
                           <div className="card-header border-0 text-left">
                             {post.channel}
                           </div>
-                          <Link to={`/thread${post.idThread}`} style={{ color: 'black' }}>
-                            <Col className="mt-2 mx-2 mb-3">
-                              <div />
+                          <Col className="mt-2 mx-2 mb-3">
+                            <div />
+                            <Link to={`/thread${post.idThread}`} style={{ color: 'black' }}>
                               <div className="card-footer">
                                 <div />
                                 {!post.text ? (
@@ -106,15 +115,16 @@ const Profile = ({ user, convertTime }) => {
                                   </div>
                                 ) }
                               </div>
-                              <div className="blockquote-footer pull-right" style={{ fontSize: '16px' }}>
-                                <span className="text-muted">
-                                  you
-                                  {', '}
-                                  {convertTime(post.createdAt)}
+                            </Link>
+                            <span>
+                              <div>
+                                <Button variant="outline-danger mt-2 h-50 m-0 p-0" as="input" type="submit" value="DELETE" size="small" onClick={() => { handleClick(post.idThread); }} className="pull-left border-0 z-depth-0" tabIndex="0" />
+                                <span className="blockquote-footer text-muted pull-right" style={{ fontSize: '16px' }}>
+                                  {`you, ${convertTime(post.createdAt)}`}
                                 </span>
                               </div>
-                            </Col>
-                          </Link>
+                            </span>
+                          </Col>
                           <br />
                           <hr style={{
                             borderColor: 'black', marginTop: '10px', marginRight: '5px', marginLeft: '5px', borderWidth: '0.5',

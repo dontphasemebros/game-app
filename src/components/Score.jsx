@@ -17,9 +17,9 @@ const Score = ({ game }) => {
     if (days === 0 && hours === 0 && minutes === 0) {
       return seconds < 10 ? 'just now' : `${seconds} seconds ago`;
     } if (days === 0 && hours === 0 && minutes !== 0) {
-      return minutes === 1 ? `${minutes} minute ago` : `${minutes} minutes ago`;
+      return minutes === 1 ? 'a minute ago' : `${minutes} minutes ago`;
     } if (days === 0 && hours < 24) {
-      return hours === 1 ? `${hours} hour ago` : `${hours} hours ago`;
+      return hours === 1 ? 'an hour ago' : `${hours} hours ago`;
     }
     return `${timestamp.toLocaleString(undefined, timeConfig)}`;
   };
