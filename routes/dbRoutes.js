@@ -16,6 +16,8 @@ const {
   getReplies,
   getUserScores,
   getUserPosts,
+  deleteThread,
+  deleteReply,
 } = require('../database/index');
 
 // import GCS storage function
@@ -297,6 +299,38 @@ dbRouter.get('/posts/:id', (req, res) => {
     getUserPosts(idUser)
       .then((posts) => {
         res.send(posts);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  } else {
+    // Not Authorized
+    res.sendStatus(401);
+  }
+});
+
+dbRouter.delete('/threads/:id', (req, res) => {
+  const { idThread } = req.query;
+  if (authChecker(req.user)) {
+    deleteThread(idThread)
+      .then((success) => {
+        res.send(success);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  } else {
+    // Not Authorized
+    res.sendStatus(401);
+  }
+});
+
+dbRouter.delete('/replies/:id', (req, res) => {
+  const { idReply } = req.query;
+  if (authChecker(req.user)) {
+    deleteReply(idReply)
+      .then((success) => {
+        res.send(success);
       })
       .catch((error) => {
         console.log(error);
