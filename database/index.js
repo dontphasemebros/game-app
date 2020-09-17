@@ -40,18 +40,6 @@ async function getUser(userObj) {
       location
   `;
 
-  // const getUserScoresCommand = `
-  //   SELECT
-  //     s.id AS "idScore",
-  //     s.value,
-  //     s.id_user AS "idUser",
-  //     s.id_game AS "idGame",
-  //     s.created_at AS "createdAt"
-  //   FROM scores AS s
-  //   WHERE id_user = $1
-  //   ORDER BY s.id_game, s.value DESC
-  // `;
-
   try {
     let user = await pool.query(getUserCommand, [idDiscord]);
     [user] = user.rows;
@@ -59,8 +47,6 @@ async function getUser(userObj) {
       const { idUser } = user;
       user = await pool.query(updateUserCommand, [username, profilePhotoUrl, location, idUser]);
       [user] = user.rows;
-      // const scores = await pool.query(getUserScoresCommand, [idUser]);
-      // if (scores) user.scores = scores.rows;
     }
     return user;
   } catch (error) {
@@ -89,8 +75,8 @@ async function addUser(userObj) {
   try {
     let addedUser = await pool.query(addUserCommand,
       [idDiscord, username, profilePhotoUrl, location]);
-    addedUser = addedUser.rows;
-    addedUser[0].scores = [];
+    [addedUser] = addedUser.rows;
+    addedUser.scores = [];
     return addedUser;
   } catch (error) {
     return console.error('COULD NOT ADD USER TO DATABASE', error);
