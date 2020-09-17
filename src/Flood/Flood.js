@@ -448,6 +448,9 @@ export default class Flood extends Phaser.Scene {
 
       if (this.checkWon()) {
         this.gameWon();
+        window.score = this.moves;
+        window.submitted = false;
+        window.idGame = 6;
       } else if (this.moves === 0) {
         this.gameLost();
       }

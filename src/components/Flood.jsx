@@ -75,12 +75,14 @@ const Flood = React.memo(({ user }) => {
             Starting from the top left, flood the
             <br />
             box all one color in 25 moves or less!
+            <br />
+            The more moves you have left, the higher your score!
           </p>
           <br />
           <br />
           <h4>Controls</h4>
           <p>
-            Use your mouse!
+            Click a monster to fill with its color!
             <br />
           </p>
           <br />
