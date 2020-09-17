@@ -11,7 +11,7 @@ import PhotoUpload from './PhotoUpload';
 
 const { getThreadReplies, submitReply, uploadPhoto } = require('../../helpers/helpers.js');
 
-const Thread = ({ user }) => {
+const Thread = ({ user, convertTime }) => {
   const { register, handleSubmit, reset } = useForm();
   const [reload, setReload] = useState([]);
   const { threadId } = useParams();
@@ -108,8 +108,8 @@ const Thread = ({ user }) => {
                 <div className="blockquote-footer pull-right" style={{ fontSize: '16px' }}>
                   <span className="text-muted">
                     {thread[0].username}
-                    {' '}
-                    {thread[0].createdAt.split('T')[0]}
+                    {', '}
+                    {convertTime(thread[0].createdAt)}
                   </span>
                 </div>
               </Col>
@@ -153,8 +153,8 @@ const Thread = ({ user }) => {
                   <div className="blockquote-footer pull-right" style={{ fontSize: '16px' }}>
                     <span className="text-muted">
                       {reply.username}
-                      {' '}
-                      {reply.createdAt.split('T')[0]}
+                      {', '}
+                      {convertTime(reply.createdAt)}
                     </span>
                   </div>
                 </Col>
@@ -172,6 +172,7 @@ const Thread = ({ user }) => {
 };
 
 Thread.propTypes = {
+  convertTime: PropTypes.func.isRequired,
   user: PropTypes.objectOf.isRequired,
 };
 

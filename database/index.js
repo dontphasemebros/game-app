@@ -435,9 +435,7 @@ async function getUserPosts(idUser) {
 
   try {
     let posts = await pool.query(getPostsCommand, [idUser]);
-    console.log('ID user', idUser);
     posts = posts.rows;
-    console.log('******POSTS in DB file*******', posts);
     return posts;
   } catch (error) {
     return console.error('COULD NOT GET USER POSTS FROM DATABASE', error);

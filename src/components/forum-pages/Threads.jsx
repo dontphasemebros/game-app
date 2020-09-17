@@ -11,7 +11,7 @@ import PhotoUpload from './PhotoUpload';
 
 const { getThreadsByChannel, submitThread, uploadPhoto } = require('../../helpers/helpers.js');
 
-const Threads = ({ channel, user }) => {
+const Threads = ({ channel, user, convertTime }) => {
   const idChannel = channel ? channel.idChannel : 0;
   const [threads, setThreads] = useState([]);
   const { register, handleSubmit, reset } = useForm();
@@ -112,7 +112,7 @@ const Threads = ({ channel, user }) => {
                     {!thread.text ? (
                       null
                     ) : (
-                      <Link to={`/thread${thread.idThread}`} id={thread.idThread}>
+                      <Link to={`/thread${thread.idThread}`} id={thread.idThread} style={{ color: 'black' }}>
                         <p className="blockquote mb-0">{thread.text}</p>
                       </Link>
                     )}
@@ -125,8 +125,8 @@ const Threads = ({ channel, user }) => {
                   <div className="blockquote-footer pull-right" style={{ fontSize: '16px' }}>
                     <span className="text-muted">
                       {thread.username}
-                      {' '}
-                      {thread.createdAt.split('T')[0]}
+                      {', '}
+                      {convertTime(thread.createdAt)}
                     </span>
                   </div>
                 </Col>
@@ -145,6 +145,7 @@ const Threads = ({ channel, user }) => {
 };
 
 Threads.propTypes = {
+  convertTime: PropTypes.func.isRequired,
   user: PropTypes.objectOf.isRequired,
   channel: PropTypes.shape({
     name: PropTypes.string,
