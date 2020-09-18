@@ -34,7 +34,7 @@ const Flood = React.memo(({ user }) => {
   const alreadySubmitted = () => toast(`Score of ${window.score} already submitted!`);
 
   const submitScore = () => {
-    if (window.score) {
+    if (window.score >= 0) {
       const scoreObj = {
         idUser: user.idUser,
         idGame: window.idGame,
@@ -56,7 +56,7 @@ const Flood = React.memo(({ user }) => {
       } else if (window.submitted === true) {
         alreadySubmitted();
       }
-    } else if (!window.score) {
+    } else if (!window.score && window.score !== 0) {
       scoreError();
     }
   };

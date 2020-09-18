@@ -448,9 +448,6 @@ export default class Flood extends Phaser.Scene {
 
       if (this.checkWon()) {
         this.gameWon();
-        window.score = this.moves;
-        window.submitted = false;
-        window.idGame = 6;
       } else if (this.moves === 0) {
         this.gameLost();
       }
@@ -623,7 +620,7 @@ export default class Flood extends Phaser.Scene {
   gameWon() {
     this.stopInputEvents();
 
-    this.text1.setText('Won!!');
+    this.text1.setText('Won!');
     this.text2.setText(':)');
 
     const i = this.clearGrid();
