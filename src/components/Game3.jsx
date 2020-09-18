@@ -67,7 +67,7 @@ const Game3 = React.memo(({ user }) => {
       } else if (window.submitted === true) {
         alreadySubmitted();
       }
-    } else if (!window.score) {
+    } else if (!window.score && window.score !== 0) {
       scoreError();
     }
   };
