@@ -168,10 +168,13 @@ class GameThree extends Phaser.Scene {
       delay: 0,
     });
     player.setTint(0xff0000);
+    window.idGame = 3;
+    window.score = this.score;
+    window.submitted = false;
     this.gameOver = true;
     gameover.play();
+    this.scene.start('gameOverScene', { score: this.score });
     setTimeout(() => {
-      this.scene.start('gameOverScene', { score: this.score });
       this.score = 0;
       this.gameOver = false;
     }, 1000);

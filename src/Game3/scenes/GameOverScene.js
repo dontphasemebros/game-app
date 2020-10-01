@@ -15,9 +15,6 @@ class GameOverScene extends Phaser.Scene {
   }
 
   create() {
-    window.idGame = 3;
-    window.score = this.score;
-    window.submitted = false;
     this.add.image(0, 0, 'sky').setOrigin(0, 0).setScale(1.1);
     this.add.text(250, 300, ` \n Your Score: ${this.score} \n \n Play Again??? \n`, {
       fontSize: '32px',
