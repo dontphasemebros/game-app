@@ -21,7 +21,7 @@ const Score = ({ game }) => {
     } if (days === 0 && hours < 24) {
       return hours === 1 ? 'an hour ago' : `${hours} hours ago`;
     }
-    return `${timestamp.toLocaleString(undefined, timeConfig)}`;
+    return `${convertedTs.toLocaleString(undefined, timeConfig)}`;
   };
 
   return (
